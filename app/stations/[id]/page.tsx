@@ -2,12 +2,22 @@
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import HealthScoreGauge from "@/components/station/HealthScoreGauge";
 import AssetStatusGrid from "@/components/station/AssetStatusGrid";
-import StationCanvas from "@/components/3d/StationCanvas";
 import PredictiveMLPanel from "@/components/station/PredictiveMLPanel";
 import { Zap, Activity, Thermometer, Wind, Eye, ShieldAlert, Cpu, Box, Maximize2, Brain } from "lucide-react";
+
+// R3F / Three.js uses WebGL (browser-only) — must never run on the server
+const StationCanvas = dynamic(() => import("@/components/3d/StationCanvas"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center bg-slate-950 rounded-2xl border border-slate-800">
+      <span className="text-xs text-slate-500 animate-pulse font-mono">Initialising 3D Engine...</span>
+    </div>
+  ),
+});
 
 export default function StationDetailPage() {
   const params = useParams();

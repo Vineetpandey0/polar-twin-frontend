@@ -59,7 +59,7 @@ export default function AlertFeed({ alerts }: AlertFeedProps) {
                       [{alert.station_id.toUpperCase()}] {alert.message}
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono text-slate-400">
+                  <span className="text-[10px] font-mono text-slate-400" suppressHydrationWarning>
                     {new Date(alert.created_at).toLocaleTimeString()}
                   </span>
                 </div>
