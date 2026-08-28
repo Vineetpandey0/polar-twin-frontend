@@ -52,9 +52,7 @@ export function WeatherLayer({ windSpeed = 28.5, active }: WeatherLayerProps) {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={particleCount}
-          array={positions}
-          itemSize={3}
+          args={[positions, 3]}
         />
       </bufferGeometry>
       <pointsMaterial
