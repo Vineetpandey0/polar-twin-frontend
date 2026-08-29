@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
+import { HoverTooltip } from "@/components/3d/ui/HoverTooltip";
 
 export interface Asset3DData {
   id: string;
@@ -124,17 +125,14 @@ export default function StationModel({
 
         {/* Floating Asset Label */}
         {(isSelected || isHovered) && (
-          <Html position={[0, size[1] + 0.8, 0]} center distanceFactor={14}>
-            <div className="bg-slate-950/95 backdrop-blur-md px-3 py-1.5 rounded-lg border border-cyan-500/50 shadow-xl pointer-events-none whitespace-nowrap">
-              <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 rounded-full animate-ping" style={{ backgroundColor: color }} />
-                <span className="text-[11px] font-bold text-slate-100">{asset.name}</span>
-                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-cyan-300">
-                  {Math.round(asset.healthScore * 100)}%
-                </span>
-              </div>
-            </div>
-          </Html>
+          <HoverTooltip
+            position={[0, size[1] + 1.2, 0]}
+            name={asset.name}
+            category={asset.type}
+            operationalStatus={asset.status}
+            healthScore={asset.healthScore}
+            readings={asset.readings}
+          />
         )}
       </group>
     );

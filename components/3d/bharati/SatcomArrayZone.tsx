@@ -4,6 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import { materials, getStatusColor, POLAR_PALETTE } from "@/lib/3d/materials";
 import { DigitalTwinAsset } from "@/lib/3d/assetRegistry";
+import { HoverTooltip } from "@/components/3d/ui/HoverTooltip";
 
 interface SatcomArrayZoneProps {
   assets: Record<string, DigitalTwinAsset>;
@@ -23,7 +24,8 @@ export function BharatiSatcomArrayZone({
   const beacon1Ref = useRef<THREE.Mesh>(null);
   const beacon2Ref = useRef<THREE.Mesh>(null);
 
-  const satcom = assets["COM-BHA-001"];
+  const ageos = assets["COM-BHA-AGEOS"] || assets["COM-BHA-001"];
+  const vsat = assets["COM-BHA-001"];
 
   useFrame(() => {
     if (beacon1Ref.current && beacon2Ref.current) {
@@ -35,59 +37,98 @@ export function BharatiSatcomArrayZone({
 
   return (
     <group name="bharati-satcom-radome-array-zone">
-      {satcom && (
+      {/* 1. ISRO AGEOS DUAL 7.3m TRACKING RADOMES (COM-BHA-AGEOS) */}
+      {ageos && (
         <group
-          position={satcom.position3D}
+          position={ageos.position3D}
           onClick={(e) => {
             e.stopPropagation();
-            onSelect(satcom.assetId);
+            onSelect(ageos.assetId);
           }}
           onPointerOver={(e) => {
             e.stopPropagation();
-            onHover(satcom.assetId);
+            onHover(ageos.assetId);
           }}
           onPointerOut={() => onHover(null)}
         >
-          {/* Dual Ground Station Pedestals */}
-          {[-1.8, 1.8].map((offset, idx) => (
+          {/* Dual Ground Station Concrete & Steel Foundations */}
+          {[-2.2, 2.2].map((offset, idx) => (
             <group key={idx} position={[offset, 0, 0]}>
-              {/* Support Pylon */}
+              {/* Foundation Pylon */}
               <mesh position={[0, -2.2, 0]} material={materials.structuralStilts}>
-                <cylinderGeometry args={[0.8, 1.3, 4.2, 12]} />
+                <cylinderGeometry args={[0.9, 1.4, 4.2, 16]} />
               </mesh>
 
-              {/* Hydrophobic 7.3m Tracking Radome Sphere */}
-              <mesh position={[0, 0.4, 0]} material={materials.radomeCover} castShadow>
-                <sphereGeometry args={[2.0, 32, 24]} />
+              {/* Hydrophobic 7.3m Pressurized Geodesic Radome Sphere */}
+              <mesh position={[0, 0.5, 0]} material={materials.radomeCover} castShadow>
+                <sphereGeometry args={[2.2, 32, 24]} />
               </mesh>
 
-              {/* Aviation Warning Beacon */}
-              <mesh ref={idx === 0 ? beacon1Ref : beacon2Ref} position={[0, 2.5, 0]}>
+              {/* Internal Az-El Steerable Parabolic Tracking Antenna Silhouette */}
+              <group position={[0, 0.5, 0]} rotation={[0.4, idx === 0 ? 0.8 : -0.5, 0]}>
+                <mesh material={materials.fuelTank}>
+                  <cylinderGeometry args={[1.5, 0.3, 0.4, 16]} />
+                </mesh>
+              </group>
+
+              {/* Aviation Warning Beacon Light */}
+              <mesh ref={idx === 0 ? beacon1Ref : beacon2Ref} position={[0, 2.8, 0]}>
                 <sphereGeometry args={[0.14, 12, 12]} />
                 <meshBasicMaterial color="#ef4444" />
               </mesh>
             </group>
           ))}
 
-          {(selectedAssetId === satcom.assetId || hoveredAssetId === satcom.assetId) && (
+          {(selectedAssetId === ageos.assetId || hoveredAssetId === ageos.assetId) && (
             <mesh position={[0, -4.2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-              <ringGeometry args={[3.8, 4.3, 32]} />
+              <ringGeometry args={[4.2, 4.8, 32]} />
               <meshBasicMaterial color={POLAR_PALETTE.statusCyan} side={THREE.DoubleSide} transparent opacity={0.8} />
             </mesh>
           )}
 
-          {hoveredAssetId === satcom.assetId && selectedAssetId !== satcom.assetId && (
-            <Html position={[0, 3.2, 0]} center distanceFactor={14}>
-              <div className="bg-slate-900/95 text-slate-100 border border-cyan-500/60 px-3 py-2 rounded-xl shadow-2xl backdrop-blur-md whitespace-nowrap text-xs pointer-events-none space-y-1">
-                <div className="flex items-center space-x-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                  <span className="font-bold">{satcom.name}</span>
-                </div>
-                <div className="text-[10px] text-slate-400 font-mono">
-                  Mission: {satcom.readings?.satelliteTrack?.value} | Downlink: {satcom.readings?.downlinkRate?.value} Mbps | C/N: {satcom.readings?.signalStrength?.value}%
-                </div>
-              </div>
-            </Html>
+          {hoveredAssetId === ageos.assetId && selectedAssetId !== ageos.assetId && (
+            <HoverTooltip
+              position={[0, 4.0, 0]}
+              name={ageos.name}
+              category={ageos.category}
+              operationalStatus={ageos.operationalStatus}
+              healthScore={ageos.healthScore}
+              readings={ageos.readings}
+              subtitle="Dual 7.3m Az-El Dishes | Cartosat / Resourcesat Polar Orbit Relay"
+            />
+          )}
+        </group>
+      )}
+
+      {/* 2. STATION VSAT C-BAND DISH ON ROOFTOP (COM-BHA-001) */}
+      {vsat && vsat.assetId !== ageos?.assetId && (
+        <group
+          position={vsat.position3D}
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect(vsat.assetId);
+          }}
+          onPointerOver={(e) => {
+            e.stopPropagation();
+            onHover(vsat.assetId);
+          }}
+          onPointerOut={() => onHover(null)}
+        >
+          <mesh position={[0, 0, 0]} material={materials.structuralStilts}>
+            <cylinderGeometry args={[0.08, 0.08, 1.2, 12]} />
+          </mesh>
+          <mesh position={[0, 0.6, 0]} rotation={[Math.PI / 4, 0, 0]} material={materials.fuelTank}>
+            <cylinderGeometry args={[1.2, 0.2, 0.3, 16]} />
+          </mesh>
+          {hoveredAssetId === vsat.assetId && selectedAssetId !== vsat.assetId && (
+            <HoverTooltip
+              position={[0, 2.2, 0]}
+              name={vsat.name}
+              category={vsat.category}
+              operationalStatus={vsat.operationalStatus}
+              healthScore={vsat.healthScore}
+              readings={vsat.readings}
+            />
           )}
         </group>
       )}

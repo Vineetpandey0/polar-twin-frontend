@@ -19,8 +19,8 @@ export function MaitriLakePriyadarshiniZone({
   onSelect,
   onHover,
 }: LakePriyadarshiniZoneProps) {
-  const lakePump = assets["PMP-MAI-LAKE"];
-  const wtrPlant = assets["WTR-MAI-001"];
+  const lakePump = assets["PMP-MAI-LAKE"] || { position3D: [16.0, 0.8, -24.0], name: "Lake Pump House" };
+  const wtrPlant = assets["WTR-MAI-001"] || { position3D: [10.0, 1.2, -14.0], name: "Water Treatment Plant" };
 
   return (
     <group name="maitri-lake-priyadarshini-water-zone">
@@ -49,8 +49,8 @@ export function MaitriLakePriyadarshiniZone({
           </mesh>
 
           {/* Sub-Ice Penetration Intake Tube into Lake Priyadarshini */}
-          <mesh position={[0, -1.2, 0]} material={materials.structuralStilts}>
-            <cylinderGeometry args={[0.15, 0.15, 1.8, 12]} />
+          <mesh position={[2.0, -1.0, -1.5]} rotation={[0, 0, Math.PI / 4]} material={materials.structuralStilts}>
+            <cylinderGeometry args={[0.15, 0.15, 2.4, 12]} />
           </mesh>
 
           {/* Status Indicator */}
@@ -82,9 +82,9 @@ export function MaitriLakePriyadarshiniZone({
         </group>
       )}
 
-      {/* Heated Insulated Water Pipeline from Lake Basin to Station */}
-      <mesh position={[-5.5, 0.4, -11.0]} rotation={[0.4, 0, 0]}>
-        <cylinderGeometry args={[0.07, 0.07, 10.5, 8]} />
+      {/* Heated Insulated Water Pipeline from Lake Pump House to Treatment Plant */}
+      <mesh position={[13.0, 0.4, -19.0]} rotation={[0, -Math.PI / 6, Math.PI / 2]}>
+        <cylinderGeometry args={[0.08, 0.08, 12.0, 8]} />
         <meshStandardMaterial color={POLAR_PALETTE.pipeWaterBlue} roughness={0.3} metalness={0.7} />
       </mesh>
 

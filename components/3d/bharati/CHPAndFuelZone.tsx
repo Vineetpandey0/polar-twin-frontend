@@ -4,6 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import { materials, getStatusColor, POLAR_PALETTE } from "@/lib/3d/materials";
 import { DigitalTwinAsset } from "@/lib/3d/assetRegistry";
+import { HoverTooltip } from "@/components/3d/ui/HoverTooltip";
 
 interface CHPAndFuelZoneProps {
   assets: Record<string, DigitalTwinAsset>;
@@ -102,17 +103,14 @@ export function BharatiCHPAndFuelZone({
 
         {/* Tooltip */}
         {isHovered && !isSelected && (
-          <Html position={[0, 2.4, 0]} center distanceFactor={14}>
-            <div className="bg-slate-900/95 text-slate-100 border border-cyan-500/60 px-3 py-2 rounded-xl shadow-2xl backdrop-blur-md whitespace-nowrap text-xs pointer-events-none space-y-1">
-              <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: statusColor }} />
-                <span className="font-bold">{asset.name}</span>
-              </div>
-              <div className="text-[10px] text-slate-400 font-mono">
-                Power: {asset.readings?.electricalPower?.value} kW | Heat: {asset.readings?.thermalOutput?.value} kW | Coolant: {asset.readings?.coolantTemp?.value}°C
-              </div>
-            </div>
-          </Html>
+          <HoverTooltip
+            position={[0, 2.8, 0]}
+            name={asset.name}
+            category={asset.category}
+            operationalStatus={asset.operationalStatus}
+            healthScore={asset.healthScore}
+            readings={asset.readings}
+          />
         )}
       </group>
     );
@@ -151,6 +149,16 @@ export function BharatiCHPAndFuelZone({
             <boxGeometry args={[0.04, 0.4, 1.8]} />
             <meshBasicMaterial color={POLAR_PALETTE.statusGreen} />
           </mesh>
+          {hoveredAssetId === bess.assetId && selectedAssetId !== bess.assetId && (
+            <HoverTooltip
+              position={[0, 2.8, 0]}
+              name={bess.name}
+              category={bess.category}
+              operationalStatus={bess.operationalStatus}
+              healthScore={bess.healthScore}
+              readings={bess.readings}
+            />
+          )}
         </group>
       )}
 
@@ -171,6 +179,16 @@ export function BharatiCHPAndFuelZone({
           <mesh position={[0, 1.1, 0]} material={materials.structuralStilts} castShadow>
             <boxGeometry args={[1.4, 2.0, 2.2]} />
           </mesh>
+          {hoveredAssetId === swg.assetId && selectedAssetId !== swg.assetId && (
+            <HoverTooltip
+              position={[0, 2.5, 0]}
+              name={swg.name}
+              category={swg.category}
+              operationalStatus={swg.operationalStatus}
+              healthScore={swg.healthScore}
+              readings={swg.readings}
+            />
+          )}
         </group>
       )}
 
@@ -211,6 +229,17 @@ export function BharatiCHPAndFuelZone({
               <ringGeometry args={[3.8, 4.2, 32]} />
               <meshBasicMaterial color={POLAR_PALETTE.statusCyan} side={THREE.DoubleSide} transparent opacity={0.8} />
             </mesh>
+          )}
+
+          {hoveredAssetId === fuel.assetId && selectedAssetId !== fuel.assetId && (
+            <HoverTooltip
+              position={[0, 3.2, 0]}
+              name={fuel.name}
+              category={fuel.category}
+              operationalStatus={fuel.operationalStatus}
+              healthScore={fuel.healthScore}
+              readings={fuel.readings}
+            />
           )}
         </group>
       )}

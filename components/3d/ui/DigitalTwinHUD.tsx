@@ -27,7 +27,7 @@ import {
 import { DigitalTwinAsset } from "@/lib/3d/assetRegistry";
 import { CameraPreset } from "./CameraController";
 
-export type VisualizationLayer = "ALL" | "POWER" | "WATER" | "THERMAL" | "COMMS" | "WEATHER";
+export type VisualizationLayer = "ALL" | "POWER" | "WATER" | "THERMAL" | "COMMS" | "WEATHER" | "NONE";
 
 interface DigitalTwinHUDProps {
   stationId: "maitri" | "bharati";

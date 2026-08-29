@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import React from "react";
 import * as THREE from "three";
 import { Html } from "@react-three/drei";
 import { materials, getStatusColor } from "@/lib/3d/materials";
 import { DigitalTwinAsset } from "@/lib/3d/assetRegistry";
+import { HoverTooltip } from "@/components/3d/ui/HoverTooltip";
 
 interface MainBuildingProps {
   asset: DigitalTwinAsset;
@@ -34,97 +35,140 @@ export function MaitriMainBuilding({
       }}
       onPointerOut={() => onHover(null)}
     >
-      {/* Structural Steel Stilts (Elevation 1.8m above ground) */}
+      {/* 1. Structural Steel Stilts (Elevation above bedrock) */}
       <group position={[0, -1.2, 0]}>
-        {[-4.5, -1.5, 1.5, 4.5].map((x) =>
-          [-3, 0, 3].map((z) => (
-            <group key={`${x}-${z}`} position={[x, 0, z]}>
+        {[-8, -5, -2, 2, 5, 8].map((x) =>
+          [-4, 0, 4].map((z) => (
+            <group key={`stilt-${x}-${z}`} position={[x, 0, z]}>
               <mesh material={materials.structuralStilts} castShadow>
-                <cylinderGeometry args={[0.18, 0.18, 2.0, 12]} />
+                <cylinderGeometry args={[0.15, 0.15, 2.0, 12]} />
               </mesh>
-              {/* Foundation concrete footing pad */}
+              {/* Foundation Footing Pad */}
               <mesh position={[0, -1.0, 0]} material={materials.structuralStilts}>
-                <boxGeometry args={[0.7, 0.2, 0.7]} />
+                <boxGeometry args={[0.6, 0.2, 0.6]} />
               </mesh>
             </group>
           ))
         )}
       </group>
 
-      {/* Main Building Body - 2-Story Modular Cladding (Orange/Yellow) */}
-      <mesh position={[0, 0.5, 0]} material={materials.maitriWallOrange} castShadow receiveShadow>
-        <boxGeometry args={[11, 2.4, 7.5]} />
+      {/* 2. U-SHAPED MAIN BUILDING SUPERSTRUCTURE WITH PROCEDURAL PANEL CLADDING */}
+      {/* Central Corridor (Spine) */}
+      <mesh position={[0, 0.5, 0]} material={materials.maitriWallTan} castShadow receiveShadow>
+        <boxGeometry args={[18, 2.6, 5.0]} />
+      </mesh>
+      <mesh position={[0, 1.85, 0]} material={materials.maitriRoof}>
+        <boxGeometry args={[18.4, 0.15, 5.4]} />
       </mesh>
 
-      {/* Second-Story Section / Command Pod */}
-      <mesh position={[0, 2.1, 0]} material={materials.maitriWallYellow} castShadow>
-        <boxGeometry args={[8.5, 1.2, 6.0]} />
+      {/* Left Wing (West Extension) */}
+      <mesh position={[-7.0, 0.5, 4.5]} material={materials.maitriWallTan} castShadow receiveShadow>
+        <boxGeometry args={[4.5, 2.6, 5.0]} />
+      </mesh>
+      <mesh position={[-7.0, 1.85, 4.5]} material={materials.maitriRoof}>
+        <boxGeometry args={[4.8, 0.15, 5.4]} />
       </mesh>
 
-      {/* Roof Deck & Weatherproofing */}
-      <mesh position={[0, 2.75, 0]} material={materials.maitriRoof}>
-        <boxGeometry args={[8.8, 0.15, 6.3]} />
+      {/* Right Wing (East Extension) */}
+      <mesh position={[7.0, 0.5, 4.5]} material={materials.maitriWallTan} castShadow receiveShadow>
+        <boxGeometry args={[4.5, 2.6, 5.0]} />
+      </mesh>
+      <mesh position={[7.0, 1.85, 4.5]} material={materials.maitriRoof}>
+        <boxGeometry args={[4.8, 0.15, 5.4]} />
       </mesh>
 
-      {/* Insulated Triple-Glazed Polar Windows */}
-      {[-3.5, -1.8, 0, 1.8, 3.5].map((x, i) => (
-        <mesh key={`win-front-${i}`} position={[x, 0.6, 3.78]}>
-          <boxGeometry args={[0.9, 0.7, 0.08]} />
-          <meshStandardMaterial color="#38bdf8" roughness={0.1} metalness={0.9} />
+      {/* 3. Main Entrance Airlock Vestibule (Centered in U-Court) */}
+      <group position={[0, 0.4, 2.8]}>
+        <mesh material={materials.maitriWallTan} castShadow>
+          <boxGeometry args={[3.2, 2.2, 1.8]} />
         </mesh>
-      ))}
-      {[-3.5, -1.8, 0, 1.8, 3.5].map((x, i) => (
-        <mesh key={`win-back-${i}`} position={[x, 0.6, -3.78]}>
-          <boxGeometry args={[0.9, 0.7, 0.08]} />
-          <meshStandardMaterial color="#38bdf8" roughness={0.1} metalness={0.9} />
+        {/* Entrance Door */}
+        <mesh position={[0, -0.1, 0.92]}>
+          <boxGeometry args={[1.2, 1.8, 0.08]} />
+          <meshStandardMaterial color="#1e293b" roughness={0.3} />
         </mesh>
-      ))}
 
-      {/* External Access Staircase & Handrails */}
-      <group position={[5.8, -0.4, 2.0]}>
-        <mesh material={materials.structuralStilts} rotation={[0, 0, -Math.PI / 4]} position={[-0.4, 0, 0]}>
-          <boxGeometry args={[1.8, 0.1, 1.2]} />
-        </mesh>
-        {/* Entrance Vestibule Airlock */}
-        <mesh position={[-0.8, 0.8, 0]} material={materials.maitriWallYellow}>
-          <boxGeometry args={[1.4, 2.0, 1.6]} />
+        {/* --- LARGE INDIAN TRICOLOR (TIRANGA) FLAG MOUNTED ABOVE MAIN ENTRANCE --- */}
+        <group position={[0, 1.7, 0.9]}>
+          {/* Flagpole */}
+          <mesh position={[0, 0.8, 0]} material={materials.structuralStilts}>
+            <cylinderGeometry args={[0.03, 0.03, 1.8, 12]} />
+          </mesh>
+          {/* Flag (Tiranga: Orange, White, Green + Ashoka Chakra dot) */}
+          <group position={[0.6, 1.2, 0]}>
+            {/* Orange Top Band */}
+            <mesh position={[0, 0.25, 0]}>
+              <boxGeometry args={[1.1, 0.25, 0.02]} />
+              <meshBasicMaterial color="#FF9933" />
+            </mesh>
+            {/* White Middle Band */}
+            <mesh position={[0, 0, 0]}>
+              <boxGeometry args={[1.1, 0.25, 0.02]} />
+              <meshBasicMaterial color="#FFFFFF" />
+            </mesh>
+            {/* Blue Ashoka Chakra Dot */}
+            <mesh position={[0, 0, 0.015]} rotation={[Math.PI / 2, 0, 0]}>
+              <cylinderGeometry args={[0.08, 0.08, 0.01, 16]} />
+              <meshBasicMaterial color="#000080" />
+            </mesh>
+            {/* Green Bottom Band */}
+            <mesh position={[0, -0.25, 0]}>
+              <boxGeometry args={[1.1, 0.25, 0.02]} />
+              <meshBasicMaterial color="#138808" />
+            </mesh>
+          </group>
+        </group>
+      </group>
+
+      {/* 4. Entry Ramp & Access Stairs (from rock to stilts level) */}
+      <group position={[0, -0.6, 4.2]}>
+        <mesh rotation={[Math.PI / 8, 0, 0]} material={materials.structuralStilts}>
+          <boxGeometry args={[2.5, 0.12, 2.4]} />
         </mesh>
       </group>
 
-      {/* Rooftop HVAC Ventilation Units & Flues */}
-      <group position={[0, 3.1, 0]}>
-        <mesh position={[-2.5, 0, -1.5]} material={materials.generatorExhaust}>
-          <boxGeometry args={[1.2, 0.6, 1.0]} />
+      {/* 5. Insulated Windows Array */}
+      {[-7, -4, -1, 1, 4, 7].map((x, i) => (
+        <mesh key={`win-f-${i}`} position={[x, 0.8, 2.52]}>
+          <boxGeometry args={[0.8, 0.6, 0.08]} />
+          <meshStandardMaterial color="#38bdf8" roughness={0.1} metalness={0.9} />
         </mesh>
-        <mesh position={[2.5, 0.3, 1.0]} material={materials.generatorExhaust}>
-          <cylinderGeometry args={[0.2, 0.2, 0.9, 12]} />
+      ))}
+
+      {/* 6. Rooftop Satellite Antenna Dish & HVAC Exhaust Flues */}
+      <group position={[-5, 2.2, 0]}>
+        <mesh rotation={[Math.PI / 4, 0, 0]} material={materials.generatorExhaust}>
+          <cylinderGeometry args={[0.8, 0.2, 0.4, 16]} />
         </mesh>
         <mesh position={[0, 0.4, 0]} material={materials.structuralStilts}>
-          <cylinderGeometry args={[0.15, 0.15, 1.1, 12]} />
+          <cylinderGeometry args={[0.08, 0.08, 0.8, 12]} />
+        </mesh>
+      </group>
+      <group position={[5, 2.1, 0]}>
+        <mesh material={materials.generatorExhaust}>
+          <boxGeometry args={[1.5, 0.6, 1.2]} />
         </mesh>
       </group>
 
       {/* Interactive Selection / Status Glow Ring */}
       {(isSelected || isHovered) && (
         <mesh position={[0, -1.15, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[6.8, 7.2, 32]} />
+          <ringGeometry args={[10.5, 11.2, 48]} />
           <meshBasicMaterial color={statusColor} side={THREE.DoubleSide} transparent opacity={0.8} />
         </mesh>
       )}
 
       {/* Hover HTML Tooltip */}
       {isHovered && !isSelected && (
-        <Html position={[0, 3.8, 0]} center distanceFactor={18}>
-          <div className="bg-slate-900/95 text-slate-100 border border-cyan-500/60 px-3 py-2 rounded-xl shadow-2xl backdrop-blur-md whitespace-nowrap text-xs pointer-events-none space-y-1">
-            <div className="flex items-center space-x-2">
-              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: statusColor }} />
-              <span className="font-bold">{asset.name}</span>
-            </div>
-            <div className="text-[10px] text-slate-400 font-mono">
-              Cabin: {asset.readings.cabinTemp?.value}{asset.readings.cabinTemp?.unit} | Load: {asset.readings.powerDemand?.value}{asset.readings.powerDemand?.unit}
-            </div>
-          </div>
-        </Html>
+        <HoverTooltip
+          position={[0, 4.8, 0]}
+          name={asset.name}
+          category={asset.category}
+          operationalStatus={asset.operationalStatus}
+          healthScore={asset.healthScore}
+          readings={asset.readings}
+          subtitle="Commissioned: 26 Jan 1989 | Capacity: 25-65 Crew"
+        />
       )}
     </group>
   );

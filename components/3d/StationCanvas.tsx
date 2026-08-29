@@ -17,20 +17,35 @@ import { MAITRI_ASSET_REGISTRY, BHARATI_ASSET_REGISTRY, DigitalTwinAsset } from 
 
 interface StationCanvasProps {
   stationId: string;
+  selectedAssetId?: string | null;
+  onSelectAsset?: (assetId: string | null) => void;
   onStationSwitch?: (newStationId: string) => void;
+  minimalMode?: boolean;
 }
 
-export default function StationCanvas({ stationId: initialStationId, onStationSwitch }: StationCanvasProps) {
+export default function StationCanvas({
+  stationId: initialStationId,
+  selectedAssetId: externalSelectedAssetId,
+  onSelectAsset: externalOnSelectAsset,
+  onStationSwitch,
+  minimalMode = false,
+}: StationCanvasProps) {
   const [currentStation, setCurrentStation] = useState<"maitri" | "bharati">(
     initialStationId === "bharati" ? "bharati" : "maitri"
   );
 
-  const [activeLayer, setActiveLayer] = useState<VisualizationLayer>("ALL");
+  const [activeLayer, setActiveLayer] = useState<VisualizationLayer>(minimalMode ? "NONE" : "ALL");
   const [cameraPreset, setCameraPreset] = useState<CameraPreset>("ORBIT");
   const [isPolarNight, setIsPolarNight] = useState<boolean>(false);
   const [autoRotate, setAutoRotate] = useState<boolean>(false);
-  const [selectedAssetId, setSelectedAssetId] = useState<string | null>(null);
+  const [internalSelectedAssetId, setInternalSelectedAssetId] = useState<string | null>(null);
   const [hoveredAssetId, setHoveredAssetId] = useState<string | null>(null);
+
+  const selectedAssetId = externalSelectedAssetId !== undefined ? externalSelectedAssetId : internalSelectedAssetId;
+  const setSelectedAssetId = (id: string | null) => {
+    setInternalSelectedAssetId(id);
+    if (externalOnSelectAsset) externalOnSelectAsset(id);
+  };
 
   const isMaitri = currentStation === "maitri";
   const activeRegistry = isMaitri ? MAITRI_ASSET_REGISTRY : BHARATI_ASSET_REGISTRY;
@@ -105,11 +120,15 @@ export default function StationCanvas({ stationId: initialStationId, onStationSw
           )}
 
           {/* Multi-Layer System Visualizations */}
-          <PowerFlowLayer stationId={currentStation} active={activeLayer === "POWER" || activeLayer === "ALL"} />
-          <WaterFlowLayer stationId={currentStation} active={activeLayer === "WATER" || activeLayer === "ALL"} />
-          <ThermalLayer stationId={currentStation} active={activeLayer === "THERMAL"} />
-          <CommunicationsLayer stationId={currentStation} active={activeLayer === "COMMS" || activeLayer === "ALL"} />
-          <WeatherLayer windSpeed={isMaitri ? 28.5 : 34.1} active={activeLayer === "WEATHER" || activeLayer === "ALL"} />
+          {!minimalMode && (
+            <>
+              <PowerFlowLayer stationId={currentStation} active={activeLayer === "POWER" || activeLayer === "ALL"} />
+              <WaterFlowLayer stationId={currentStation} active={activeLayer === "WATER" || activeLayer === "ALL"} />
+              <ThermalLayer stationId={currentStation} active={activeLayer === "THERMAL"} />
+              <CommunicationsLayer stationId={currentStation} active={activeLayer === "COMMS" || activeLayer === "ALL"} />
+              <WeatherLayer windSpeed={isMaitri ? 28.5 : 34.1} active={activeLayer === "WEATHER" || activeLayer === "ALL"} />
+            </>
+          )}
 
           {/* Camera Director */}
           <CameraController
@@ -120,21 +139,23 @@ export default function StationCanvas({ stationId: initialStationId, onStationSw
         </Suspense>
       </Canvas>
 
-      {/* Industrial SCADA Overlay HUD */}
-      <DigitalTwinHUD
-        stationId={currentStation}
-        onStationChange={handleStationChange}
-        activeLayer={activeLayer}
-        onLayerChange={setActiveLayer}
-        cameraPreset={cameraPreset}
-        onCameraChange={setCameraPreset}
-        isPolarNight={isPolarNight}
-        onTogglePolarNight={() => setIsPolarNight(!isPolarNight)}
-        autoRotate={autoRotate}
-        onToggleAutoRotate={() => setAutoRotate(!autoRotate)}
-        selectedAsset={selectedAsset}
-        onCloseAsset={() => setSelectedAssetId(null)}
-      />
+      {/* Industrial SCADA Overlay HUD (Hidden in Minimal Mode) */}
+      {!minimalMode && (
+        <DigitalTwinHUD
+          stationId={currentStation}
+          onStationChange={handleStationChange}
+          activeLayer={activeLayer}
+          onLayerChange={setActiveLayer}
+          cameraPreset={cameraPreset}
+          onCameraChange={setCameraPreset}
+          isPolarNight={isPolarNight}
+          onTogglePolarNight={() => setIsPolarNight(!isPolarNight)}
+          autoRotate={autoRotate}
+          onToggleAutoRotate={() => setAutoRotate(!autoRotate)}
+          selectedAsset={selectedAsset}
+          onCloseAsset={() => setSelectedAssetId(null)}
+        />
+      )}
     </div>
   );
 }

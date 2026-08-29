@@ -6,6 +6,10 @@ import { MaitriFuelFarmZone } from "./FuelFarmZone";
 import { MaitriLakePriyadarshiniZone } from "./LakePriyadarshiniZone";
 import { MaitriCommsAndWeatherZone } from "./CommsAndWeatherZone";
 import { MaitriLogisticsAndHelipadZone } from "./LogisticsAndHelipadZone";
+import { MaitriScienceInstrumentsZone } from "./ScienceInstrumentsZone";
+import { MaitriOutdoorHutsZone } from "./OutdoorHutsZone";
+import { MaitriVehicleFleetZone } from "./VehicleFleetZone";
+import { MaitriEnvironmentLandmarks } from "./EnvironmentLandmarks";
 
 interface MaitriStationProps {
   liveAssets?: Record<string, any>;
@@ -47,8 +51,11 @@ export function MaitriStation({
   const mainBld = mergedAssets["BLD-MAI-MAIN"];
 
   return (
-    <group name="maitri-digital-twin-station-assembly">
-      {/* 1. Main Station Building */}
+    <group name="maitri-digital-twin-full-assembly">
+      {/* Environmental & Geographic Landmarks (Shivlinga Nunatak, Continental Ice Wall, Ice Caves) */}
+      <MaitriEnvironmentLandmarks />
+
+      {/* 1. Main Station Building (U-shaped prefabricated structure on steel stilts) */}
       {mainBld && (
         <MaitriMainBuilding
           asset={mainBld}
@@ -86,7 +93,7 @@ export function MaitriStation({
         onHover={onHoverAsset}
       />
 
-      {/* 5. Comms, Weather & Science */}
+      {/* 5. Comms, Weather & Satellites */}
       <MaitriCommsAndWeatherZone
         assets={mergedAssets}
         selectedAssetId={selectedAssetId}
@@ -97,6 +104,33 @@ export function MaitriStation({
 
       {/* 6. Helipad & Logistics */}
       <MaitriLogisticsAndHelipadZone
+        assets={mergedAssets}
+        selectedAssetId={selectedAssetId}
+        hoveredAssetId={hoveredAssetId}
+        onSelect={onSelectAsset}
+        onHover={onHoverAsset}
+      />
+
+      {/* 7. Comprehensive Scientific Instruments Suite (MARA, CADI, Riometer, GEC, AWS, Sonde, All-Sky) */}
+      <MaitriScienceInstrumentsZone
+        assets={mergedAssets}
+        selectedAssetId={selectedAssetId}
+        hoveredAssetId={hoveredAssetId}
+        onSelect={onSelectAsset}
+        onHover={onHoverAsset}
+      />
+
+      {/* 8. Outdoor Scientific Lab Huts (Nandadevi, Tiruvella, NPL, Dodda Betta, Annapoorna, Gauri Parbat, Girnar) */}
+      <MaitriOutdoorHutsZone
+        assets={mergedAssets}
+        selectedAssetId={selectedAssetId}
+        hoveredAssetId={hoveredAssetId}
+        onSelect={onSelectAsset}
+        onHover={onHoverAsset}
+      />
+
+      {/* 9. Heavy Machinery & Vehicle Transport Fleet (PistenBullies, Toyota Arctic Truck, Bulldozer, Cranes, Banjara Module) */}
+      <MaitriVehicleFleetZone
         assets={mergedAssets}
         selectedAssetId={selectedAssetId}
         hoveredAssetId={hoveredAssetId}

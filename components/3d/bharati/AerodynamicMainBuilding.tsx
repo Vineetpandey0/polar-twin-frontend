@@ -1,8 +1,9 @@
 import React from "react";
 import * as THREE from "three";
 import { Html } from "@react-three/drei";
-import { materials, getStatusColor } from "@/lib/3d/materials";
+import { materials, getStatusColor, POLAR_PALETTE } from "@/lib/3d/materials";
 import { DigitalTwinAsset } from "@/lib/3d/assetRegistry";
+import { HoverTooltip } from "@/components/3d/ui/HoverTooltip";
 
 interface AerodynamicMainBuildingProps {
   asset: DigitalTwinAsset;
@@ -34,94 +35,134 @@ export function BharatiAerodynamicMainBuilding({
       }}
       onPointerOut={() => onHover(null)}
     >
-      {/* Heavy Structural Steel Stilts (Elevation 2.5m above ground to allow Antarctic blizzard airflow) */}
-      <group position={[0, -2.0, 0]}>
-        {[-6.0, -3.0, 0, 3.0, 6.0].map((x) =>
-          [-3.2, 0, 3.2].map((z) => (
-            <group key={`${x}-${z}`} position={[x, 0, z]}>
+      {/* 1. GEWI STEEL PILES & ANGLED V-COLONNADE UNDERCROFT (83 Piles Grid) */}
+      <group position={[0, -1.8, 0]}>
+        {/* Main Grid Piles */}
+        {[-8, -5, -2, 2, 5, 8].map((x) =>
+          [-4, 0, 4].map((z) => (
+            <group key={`pile-${x}-${z}`} position={[x, 0, z]}>
               <mesh material={materials.structuralStilts} castShadow>
-                <cylinderGeometry args={[0.22, 0.22, 3.0, 12]} />
+                <cylinderGeometry args={[0.18, 0.18, 2.8, 12]} />
               </mesh>
-              {/* Massive Concrete Anchor Pier */}
-              <mesh position={[0, -1.5, 0]} material={materials.structuralStilts}>
-                <boxGeometry args={[0.9, 0.3, 0.9]} />
+              {/* Ground Anchor Plate */}
+              <mesh position={[0, -1.35, 0]} material={materials.structuralStilts}>
+                <boxGeometry args={[0.7, 0.2, 0.7]} />
               </mesh>
             </group>
           ))
         )}
+
+        {/* Signature V-Shaped (Y-Shaped) Diagonal Steel Structural Columns (Front Seaward Overhang) */}
+        {[-7, 0, 7].map((x) => (
+          <group key={`v-col-${x}`} position={[x, 0.2, 5.2]}>
+            <mesh rotation={[0, 0, Math.PI / 8]} material={materials.structuralStilts}>
+              <cylinderGeometry args={[0.15, 0.15, 2.8, 12]} />
+            </mesh>
+            <mesh rotation={[0, 0, -Math.PI / 8]} material={materials.structuralStilts}>
+              <cylinderGeometry args={[0.15, 0.15, 2.8, 12]} />
+            </mesh>
+          </group>
+        ))}
       </group>
 
-      {/* Aerodynamic 3-Story Faceted Superstructure Envelope */}
-      {/* Level 1 & 2: Main Faceted Hull (Silver/White Composite Panels) */}
+      {/* 2. AERODYNAMIC STREAMLINED 3-STORY SUPERSTRUCTURE (50m x 30m Footprint) */}
+      {/* Main Streamlined Hull Body (Silver Composite Panels) */}
       <mesh position={[0, 0.6, 0]} material={materials.bharatiPanelSilver} castShadow receiveShadow>
-        <boxGeometry args={[16.0, 3.0, 9.5]} />
+        <boxGeometry args={[18.5, 3.2, 10.5]} />
       </mesh>
 
-      {/* Aerodynamic Tapered Front Bow (Wind deflection geometry) */}
-      <mesh position={[8.8, 0.6, 0]} rotation={[0, 0, -Math.PI / 6]} material={materials.bharatiPanelSilver}>
-        <boxGeometry args={[2.2, 2.6, 9.0]} />
+      {/* Aerodynamic Rounded Windward Ends (Soft curved corner hull profile) */}
+      <mesh position={[9.8, 0.6, 0]} rotation={[0, 0, -Math.PI / 8]} material={materials.bharatiPanelSilver}>
+        <boxGeometry args={[1.8, 2.8, 9.8]} />
       </mesh>
-      <mesh position={[-8.8, 0.6, 0]} rotation={[0, 0, Math.PI / 6]} material={materials.bharatiPanelSilver}>
-        <boxGeometry args={[2.2, 2.6, 9.0]} />
-      </mesh>
-
-      {/* Level 3: Control Room, Observation Deck & Executive Bridge */}
-      <mesh position={[1.5, 2.5, 0]} material={materials.bharatiPanelSilver} castShadow>
-        <boxGeometry args={[11.5, 1.4, 7.5]} />
+      <mesh position={[-9.8, 0.6, 0]} rotation={[0, 0, Math.PI / 8]} material={materials.bharatiPanelSilver}>
+        <boxGeometry args={[1.8, 2.8, 9.8]} />
       </mesh>
 
-      {/* Panoramic Polar Triple-Glazed Observation Ribbon Windows */}
-      <mesh position={[1.5, 2.5, 3.78]} material={materials.bharatiGlass}>
-        <boxGeometry args={[11.2, 0.9, 0.1]} />
-      </mesh>
-      <mesh position={[1.5, 2.5, -3.78]} material={materials.bharatiGlass}>
-        <boxGeometry args={[11.2, 0.9, 0.1]} />
-      </mesh>
-      {/* Front Bow Observation Deck */}
-      <mesh position={[7.3, 2.5, 0]} rotation={[0, Math.PI / 2, 0]} material={materials.bharatiGlass}>
-        <boxGeometry args={[7.2, 0.9, 0.1]} />
+      {/* Level 3: Rooftop HVAC & Command Observatory Deck */}
+      <mesh position={[0, 2.4, 0]} material={materials.bharatiPanelSilver} castShadow>
+        <boxGeometry args={[13.0, 1.4, 8.2]} />
       </mesh>
 
-      {/* Rooftop HVAC Chillers, Air Handlers & Mechanical Plant */}
-      <group position={[0, 3.5, 0]}>
-        <mesh position={[-3.0, 0.4, 0]} material={materials.generatorExhaust}>
-          <boxGeometry args={[2.4, 0.8, 2.8]} />
+      {/* 3. PANORAMIC GLAZED END-WALLS (Dining Room & Lounge Windows) */}
+      {/* East End Glazing */}
+      <mesh position={[9.3, 0.6, 0]} rotation={[0, Math.PI / 2, 0]} material={materials.bharatiGlass}>
+        <boxGeometry args={[9.2, 2.2, 0.1]} />
+      </mesh>
+      {/* West End Glazing */}
+      <mesh position={[-9.3, 0.6, 0]} rotation={[0, Math.PI / 2, 0]} material={materials.bharatiGlass}>
+        <boxGeometry args={[9.2, 2.2, 0.1]} />
+      </mesh>
+      {/* Side Ribbons */}
+      <mesh position={[0, 2.4, 4.15]} material={materials.bharatiGlass}>
+        <boxGeometry args={[12.4, 0.9, 0.08]} />
+      </mesh>
+      <mesh position={[0, 2.4, -4.15]} material={materials.bharatiGlass}>
+        <boxGeometry args={[12.4, 0.9, 0.08]} />
+      </mesh>
+
+      {/* 4. INDIAN TRICOLOR (TIRANGA) FLAG MOUNTED ON FACADE */}
+      <group position={[0, 1.2, 5.35]}>
+        {/* Signage Plate */}
+        <mesh position={[0, 0, 0]}>
+          <boxGeometry args={[6.5, 0.8, 0.06]} />
+          <meshStandardMaterial color="#0284c7" />
         </mesh>
-        <mesh position={[2.0, 0.5, -1.5]} material={materials.generatorExhaust}>
-          <cylinderGeometry args={[0.25, 0.25, 1.0, 12]} />
+        {/* Tricolor Emblem */}
+        <group position={[-2.4, 0, 0.04]}>
+          <mesh position={[0, 0.2, 0]}>
+            <boxGeometry args={[0.9, 0.18, 0.02]} />
+            <meshBasicMaterial color="#FF9933" />
+          </mesh>
+          <mesh position={[0, 0, 0]}>
+            <boxGeometry args={[0.9, 0.18, 0.02]} />
+            <meshBasicMaterial color="#FFFFFF" />
+          </mesh>
+          <mesh position={[0, 0, 0.015]} rotation={[Math.PI / 2, 0, 0]}>
+            <cylinderGeometry args={[0.06, 0.06, 0.01, 16]} />
+            <meshBasicMaterial color="#000080" />
+          </mesh>
+          <mesh position={[0, -0.2, 0]}>
+            <boxGeometry args={[0.9, 0.18, 0.02]} />
+            <meshBasicMaterial color="#138808" />
+          </mesh>
+        </group>
+      </group>
+
+      {/* 5. ROOFTOP OPEN SCIENCE TERRACE & HVAC CHILLERS */}
+      <group position={[0, 3.2, 0]}>
+        {/* Terrace Safety Guard Rail */}
+        <mesh position={[5.0, 0.4, 0]} material={materials.structuralStilts}>
+          <boxGeometry args={[5.2, 0.8, 7.5]} />
         </mesh>
-        <mesh position={[3.5, 0.5, 1.5]} material={materials.generatorExhaust}>
-          <cylinderGeometry args={[0.25, 0.25, 1.0, 12]} />
+        {/* HVAC Air Exchangers */}
+        <mesh position={[-4.5, 0.5, -1.5]} material={materials.generatorExhaust}>
+          <boxGeometry args={[2.5, 0.9, 2.5]} />
+        </mesh>
+        <mesh position={[-4.5, 0.5, 1.5]} material={materials.generatorExhaust}>
+          <cylinderGeometry args={[0.4, 0.4, 1.2, 12]} />
         </mesh>
       </group>
 
-      {/* Indian National Identity & Station Signage Band */}
-      <mesh position={[0, 1.8, 4.78]}>
-        <boxGeometry args={[6.0, 0.4, 0.05]} />
-        <meshStandardMaterial color="#0284c7" />
-      </mesh>
-
-      {/* Selection / Status Glow Ring */}
+      {/* Selection Glow Ring */}
       {(isSelected || isHovered) && (
         <mesh position={[0, -2.1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[9.5, 10.0, 32]} />
+          <ringGeometry args={[11.0, 11.8, 48]} />
           <meshBasicMaterial color={statusColor} side={THREE.DoubleSide} transparent opacity={0.8} />
         </mesh>
       )}
 
       {/* Hover HTML Tooltip */}
       {isHovered && !isSelected && (
-        <Html position={[0, 4.6, 0]} center distanceFactor={18}>
-          <div className="bg-slate-900/95 text-slate-100 border border-cyan-500/60 px-3 py-2 rounded-xl shadow-2xl backdrop-blur-md whitespace-nowrap text-xs pointer-events-none space-y-1">
-            <div className="flex items-center space-x-2">
-              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: statusColor }} />
-              <span className="font-bold">{asset.name}</span>
-            </div>
-            <div className="text-[10px] text-slate-400 font-mono">
-              Temp: {asset.readings.cabinTemp?.value}{asset.readings.cabinTemp?.unit} | Load: {asset.readings.totalBaseLoad?.value}{asset.readings.totalBaseLoad?.unit}
-            </div>
-          </div>
-        </Html>
+        <HoverTooltip
+          position={[0, 5.2, 0]}
+          name={asset.name}
+          category={asset.category}
+          operationalStatus={asset.operationalStatus}
+          healthScore={asset.healthScore}
+          readings={asset.readings}
+          subtitle="134 ISO Containers | 50m x 30m Aerodynamic Hull | 47 Crew"
+        />
       )}
     </group>
   );
