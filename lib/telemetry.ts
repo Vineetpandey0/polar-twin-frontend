@@ -155,7 +155,16 @@ export function initializeTelemetryService() {
       console.error("Telemetry Service Connection Failure:", err);
       globalState.isBackendAlive = false;
       globalState.isConnected = false;
-      globalState.error = `CRITICAL TELEMETRY ERROR: Backend Database / Simulator is unavailable at ${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}. Live data feed interrupted.`;
+      
+      const isProduction = typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1";
+      const targetApi = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+
+      if (isProduction && targetApi.includes("localhost")) {
+        globalState.error = `PRODUCTION DEPLOYMENT NOTICE: Your Vercel frontend is running live, but NEXT_PUBLIC_API_URL is missing. Please add NEXT_PUBLIC_API_URL (e.g. https://your-backend.onrender.com/api/v1) and NEXT_PUBLIC_WS_URL in Vercel Project Settings -> Environment Variables so Vercel can connect to your backend database & simulator.`;
+      } else {
+        globalState.error = `CRITICAL TELEMETRY ERROR: Backend Database / Simulator is unavailable at ${targetApi}. Verify that your backend server process is running and accessible.`;
+      }
+
       notifyListeners();
       
       // Allow retry after 5 seconds if connection failed
