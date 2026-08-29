@@ -7,7 +7,7 @@ import Link from "next/link";
 import HealthScoreGauge from "@/components/station/HealthScoreGauge";
 import AssetStatusGrid from "@/components/station/AssetStatusGrid";
 import PredictiveMLPanel from "@/components/station/PredictiveMLPanel";
-import { Zap, Activity, Thermometer, Wind, Eye, ShieldAlert, Cpu, Box, Maximize2, Brain } from "lucide-react";
+import { Zap, Activity, Thermometer, Wind, Eye, ShieldAlert, Cpu, Box, Maximize2, Brain, Sliders } from "lucide-react";
 
 // R3F / Three.js uses WebGL (browser-only) — must never run on the server
 const StationCanvas = dynamic(() => import("@/components/3d/StationCanvas"), {
@@ -66,7 +66,18 @@ export default function StationDetailPage() {
           </p>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
+          <Link
+            href={`/stations/${stationId}/details`}
+            className={`px-4 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition-all shadow-lg border ${
+              isMaitri
+                ? "bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border-amber-500/40"
+                : "bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 border-cyan-500/40"
+            }`}
+          >
+            <Activity className="w-4 h-4" />
+            <span>{isMaitri ? "Maitri Machinery Hub" : "Bharati Machinery Hub"}</span>
+          </Link>
           <Link
             href={`/stations/${stationId}/3d`}
             className="px-4 py-2.5 rounded-xl bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 border border-cyan-500/40 text-xs font-bold flex items-center space-x-2 transition-all shadow-lg"
@@ -101,6 +112,15 @@ export default function StationDetailPage() {
             </span>
           </button>
         ))}
+        {isMaitri && (
+          <Link
+            href="/stations/maitri/details"
+            className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center space-x-1.5 text-amber-400 hover:bg-amber-500/10 border border-amber-500/30"
+          >
+            <Sliders className="w-3.5 h-3.5" />
+            <span>Maitri Machinery & Science Explorer</span>
+          </Link>
+        )}
       </div>
 
       {/* 3D Spatial Twin Tab */}
