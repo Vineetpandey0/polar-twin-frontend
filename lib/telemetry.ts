@@ -100,8 +100,11 @@ export function updateAssetRegistryWithReading(
   }
 }
 
+let isTelemetryServiceInitialized = false;
+
 export function initializeTelemetryService() {
-  let isInitialized = false;
+  if (isTelemetryServiceInitialized) return;
+  isTelemetryServiceInitialized = true;
 
   async function checkBackendAndConnect() {
     try {
@@ -154,13 +157,15 @@ export function initializeTelemetryService() {
       globalState.isConnected = false;
       globalState.error = `CRITICAL TELEMETRY ERROR: Backend Database / Simulator is unavailable at ${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}. Live data feed interrupted.`;
       notifyListeners();
+      
+      // Allow retry after 5 seconds if connection failed
+      setTimeout(() => {
+        isTelemetryServiceInitialized = false;
+      }, 5000);
     }
   }
 
-  if (!isInitialized) {
-    isInitialized = true;
-    checkBackendAndConnect();
-  }
+  checkBackendAndConnect();
 }
 
 export function useTelemetry(): TelemetryState {
