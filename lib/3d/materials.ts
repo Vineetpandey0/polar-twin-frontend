@@ -8,14 +8,16 @@ export const POLAR_PALETTE = {
   rockDark: "#1a1816",
   lakeIce: "#7eb0d5",
   seaIce: "#5c8a9e",
-  
-  // Maitri architectural colors (established utilitarian, orange/yellow cladding, industrial gray)
+
+  // Maitri architectural colors (tan/beige/brown cladding, industrial steel)
+  maitriTan: "#d4a373",
+  maitriBrown: "#5c4033",
   maitriCladdingOrange: "#d96523",
   maitriCladdingYellow: "#e6a122",
   maitriSteelGray: "#4a5568",
   maitriRoofGray: "#2d3748",
-  
-  // Bharati architectural colors (ultramodern silver/white aerodynamic panels, glass facade)
+
+  // Bharati architectural colors
   bharatiPanelSilver: "#cbd5e1",
   bharatiPanelWhite: "#f1f5f9",
   bharatiAccentBlue: "#0284c7",
@@ -40,6 +42,69 @@ export const POLAR_PALETTE = {
   statusGray: "#64748b",
 };
 
+// Procedural Canvas Texture Generator for Wall Cladding & Panel Seams
+function createCladdingCanvasTexture(colorHex: string, isRoof: boolean = false): THREE.CanvasTexture | null {
+  if (typeof window === "undefined") return null;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 512;
+  canvas.height = 512;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+
+  // Base background fill
+  ctx.fillStyle = colorHex;
+  ctx.fillRect(0, 0, 512, 512);
+
+  if (isRoof) {
+    // Corrugated Roof Ridges (Vertical dark & light stripes)
+    for (let x = 0; x < 512; x += 16) {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+      ctx.fillRect(x, 0, 6, 512);
+      ctx.fillStyle = "rgba(255, 255, 255, 0.12)";
+      ctx.fillRect(x + 6, 0, 6, 512);
+    }
+  } else {
+    // Prefab Composite Panel Grid (128x128 panels)
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.25)";
+    ctx.lineWidth = 4;
+    for (let x = 0; x <= 512; x += 128) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, 512);
+      ctx.stroke();
+    }
+    for (let y = 0; y <= 512; y += 128) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(512, y);
+      ctx.stroke();
+    }
+
+    // Metallic Rivet Dots at panel edges
+    ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+    for (let x = 8; x < 512; x += 128) {
+      for (let y = 8; y < 512; y += 64) {
+        ctx.beginPath();
+        ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x + 112, y, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(4, 4);
+  return texture;
+}
+
+const wallTanTexture = createCladdingCanvasTexture(POLAR_PALETTE.maitriTan, false);
+const roofBrownTexture = createCladdingCanvasTexture(POLAR_PALETTE.maitriBrown, true);
+
 // Reusable Three.js Materials
 export const materials = {
   // Terrain
@@ -49,7 +114,7 @@ export const materials = {
     metalness: 0.05,
     flatShading: true,
   }),
-  
+
   rockMoraine: new THREE.MeshStandardMaterial({
     color: POLAR_PALETTE.rockBrown,
     roughness: 0.95,
@@ -89,21 +154,31 @@ export const materials = {
     metalness: 0.6,
   }),
 
-  // Maitri Facade Materials
+  // Maitri Facade Materials with Procedural Panel Cladding
+  maitriWallTan: new THREE.MeshStandardMaterial({
+    color: POLAR_PALETTE.maitriTan,
+    map: wallTanTexture || undefined,
+    roughness: 0.5,
+    metalness: 0.2,
+  }),
+
   maitriWallOrange: new THREE.MeshStandardMaterial({
     color: POLAR_PALETTE.maitriCladdingOrange,
+    map: wallTanTexture || undefined,
     roughness: 0.5,
     metalness: 0.2,
   }),
 
   maitriWallYellow: new THREE.MeshStandardMaterial({
     color: POLAR_PALETTE.maitriCladdingYellow,
+    map: wallTanTexture || undefined,
     roughness: 0.5,
     metalness: 0.2,
   }),
 
   maitriRoof: new THREE.MeshStandardMaterial({
-    color: POLAR_PALETTE.maitriRoofGray,
+    color: POLAR_PALETTE.maitriBrown,
+    map: roofBrownTexture || undefined,
     roughness: 0.6,
     metalness: 0.3,
   }),
