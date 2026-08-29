@@ -2,23 +2,22 @@ import React from "react";
 import * as THREE from "three";
 import { Html } from "@react-three/drei";
 
+const rockMaterial = new THREE.MeshStandardMaterial({
+  color: "#292524", // Dark Grey/Brown Rock
+  roughness: 0.9,
+  metalness: 0.1,
+});
+
+const iceWallMaterial = new THREE.MeshStandardMaterial({
+  color: "#e0f2fe", // Continental Glacier Ice
+  roughness: 0.2,
+  metalness: 0.1,
+  transparent: true,
+  opacity: 0.85,
+});
+
 export function MaitriEnvironmentLandmarks() {
   const [hoveredLandmark, setHoveredLandmark] = React.useState<string | null>(null);
-
-  // Dark Metamorphic / Igneous Rock Material for Schirmacher Oasis Ground
-  const rockMaterial = new THREE.MeshStandardMaterial({
-    color: "#292524", // Dark Grey/Brown Rock
-    roughness: 0.9,
-    metalness: 0.1,
-  });
-
-  const iceWallMaterial = new THREE.MeshStandardMaterial({
-    color: "#e0f2fe", // Continental Glacier Ice
-    roughness: 0.2,
-    metalness: 0.1,
-    transparent: true,
-    opacity: 0.85,
-  });
 
   return (
     <group name="maitri-environment-landmarks-and-terrain">

@@ -157,28 +157,28 @@ export const materials = {
   // Maitri Facade Materials with Procedural Panel Cladding
   maitriWallTan: new THREE.MeshStandardMaterial({
     color: POLAR_PALETTE.maitriTan,
-    map: wallTanTexture || undefined,
+    ...(wallTanTexture ? { map: wallTanTexture } : {}),
     roughness: 0.5,
     metalness: 0.2,
   }),
 
   maitriWallOrange: new THREE.MeshStandardMaterial({
     color: POLAR_PALETTE.maitriCladdingOrange,
-    map: wallTanTexture || undefined,
+    ...(wallTanTexture ? { map: wallTanTexture } : {}),
     roughness: 0.5,
     metalness: 0.2,
   }),
 
   maitriWallYellow: new THREE.MeshStandardMaterial({
     color: POLAR_PALETTE.maitriCladdingYellow,
-    map: wallTanTexture || undefined,
+    ...(wallTanTexture ? { map: wallTanTexture } : {}),
     roughness: 0.5,
     metalness: 0.2,
   }),
 
   maitriRoof: new THREE.MeshStandardMaterial({
     color: POLAR_PALETTE.maitriBrown,
-    map: roofBrownTexture || undefined,
+    ...(roofBrownTexture ? { map: roofBrownTexture } : {}),
     roughness: 0.6,
     metalness: 0.3,
   }),
