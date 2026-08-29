@@ -3,9 +3,12 @@
 import { useEffect, useState } from "react";
 import StationCard from "@/components/hub/StationCard";
 import AlertFeed from "@/components/hub/AlertFeed";
+import { fetchStations, fetchStationAlerts } from "@/lib/api";
+import { useTelemetry } from "@/lib/telemetry";
 import { Activity, ShieldCheck, Flame, Radio, Cpu, Layers } from "lucide-react";
 
 export default function OperationsHub() {
+  const telemetry = useTelemetry();
   const [stations, setStations] = useState<any[]>([
     {
       stationId: "maitri",
@@ -25,16 +28,37 @@ export default function OperationsHub() {
     },
   ]);
 
-  const [alerts, setAlerts] = useState<any[]>([
-    {
-      id: 1,
-      station_id: "maitri",
-      severity: "WARNING",
-      message: "Generator 1 Temperature High",
-      reason: "Primary generator operating temp at 88.5°C threshold",
-      created_at: new Date().toISOString(),
-    },
-  ]);
+  const [alerts, setAlerts] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function loadLiveData() {
+      try {
+        const liveStations = await fetchStations();
+        if (liveStations && Array.isArray(liveStations)) {
+          setStations(
+            liveStations.map((s: any) => ({
+              stationId: s.station_id,
+              name: s.name,
+              location: s.location || "Antarctica",
+              healthScore: s.health_score ?? 0.95,
+              alertCount: s.active_alert_count ?? 0,
+              connectivity: s.connectivity_status || "LIVE",
+            }))
+          );
+        }
+
+        const maitriAlerts = await fetchStationAlerts("maitri").catch(() => []);
+        const bharatiAlerts = await fetchStationAlerts("bharati").catch(() => []);
+        setAlerts([...(maitriAlerts || []), ...(bharatiAlerts || [])]);
+      } catch (err) {
+        console.error("Failed to load live hub data from API:", err);
+      }
+    }
+
+    loadLiveData();
+    const timer = setInterval(loadLiveData, 4000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">

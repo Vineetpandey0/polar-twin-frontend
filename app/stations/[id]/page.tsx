@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import HealthScoreGauge from "@/components/station/HealthScoreGauge";
 import AssetStatusGrid from "@/components/station/AssetStatusGrid";
 import PredictiveMLPanel from "@/components/station/PredictiveMLPanel";
+import { fetchStationDetail } from "@/lib/api";
+import { useTelemetry } from "@/lib/telemetry";
 import { Zap, Activity, Thermometer, Wind, Eye, ShieldAlert, Cpu, Box, Maximize2, Brain, Sliders } from "lucide-react";
 
 // R3F / Three.js uses WebGL (browser-only) — must never run on the server
@@ -23,10 +25,28 @@ export default function StationDetailPage() {
   const params = useParams();
   const stationId = (params.id as string) || "maitri";
   const isMaitri = stationId === "maitri";
+  const telemetry = useTelemetry();
 
   const [activeTab, setActiveTab] = useState<"3d" | "ml" | "overview" | "energy" | "inventory">("3d");
+  const [stationDetail, setStationDetail] = useState<any>(null);
 
-  const mockAssets: Record<string, any> = isMaitri
+  useEffect(() => {
+    async function loadDetail() {
+      try {
+        const data = await fetchStationDetail(stationId);
+        if (data) {
+          setStationDetail(data);
+        }
+      } catch (err) {
+        console.error(`Error loading live station detail for ${stationId}:`, err);
+      }
+    }
+    loadDetail();
+    const interval = setInterval(loadDetail, 3500);
+    return () => clearInterval(interval);
+  }, [stationId]);
+
+  const defaultMockAssets: Record<string, any> = isMaitri
     ? {
         "GEN-MAI-001": { asset_id: "GEN-MAI-001", name: "Primary Generator 1", asset_type: "GENERATOR", operational_status: "RUNNING", health_score: 0.95 },
         "GEN-MAI-002": { asset_id: "GEN-MAI-002", name: "Primary Generator 2", asset_type: "GENERATOR", operational_status: "RUNNING", health_score: 0.92 },
@@ -40,6 +60,9 @@ export default function StationDetailPage() {
         "BAT-BHA-001": { asset_id: "BAT-BHA-001", name: "Main Storage Bank", asset_type: "BATTERY", operational_status: "RUNNING", health_score: 0.99 },
         "HVC-BHA-001": { asset_id: "HVC-BHA-001", name: "Station Thermal System", asset_type: "HVAC", operational_status: "RUNNING", health_score: 0.93 },
       };
+
+  const assets = stationDetail?.assets || defaultMockAssets;
+  const healthScore = stationDetail?.station_health_score ?? (isMaitri ? 0.94 : 0.98);
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
@@ -85,7 +108,7 @@ export default function StationDetailPage() {
             <Maximize2 className="w-4 h-4" />
             <span>Fullscreen 3D</span>
           </Link>
-          <HealthScoreGauge score={isMaitri ? 0.94 : 0.98} />
+          <HealthScoreGauge score={healthScore} />
         </div>
       </div>
 
@@ -174,7 +197,7 @@ export default function StationDetailPage() {
 
           <div>
             <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wider mb-3">Subsystem Assets Status</h3>
-            <AssetStatusGrid assets={mockAssets} />
+            <AssetStatusGrid assets={assets} />
           </div>
         </div>
       )}

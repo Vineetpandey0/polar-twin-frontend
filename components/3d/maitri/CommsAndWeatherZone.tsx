@@ -85,7 +85,7 @@ export function MaitriCommsAndWeatherZone({
                   <span className="font-bold">{radome.name}</span>
                 </div>
                 <div className="text-[10px] text-slate-400 font-mono">
-                  SNR: {radome.readings?.signalSnr?.value} dB | Uplink: {radome.readings?.uplinkThroughput?.value} Mbps | Latency: {radome.readings?.latency?.value} ms
+                  SNR: {(radome.readings as any)?.signalSnr?.value ?? "--"} dB | Uplink: {(radome.readings as any)?.uplinkThroughput?.value ?? "--"} Mbps | Latency: {(radome.readings as any)?.latency?.value ?? "--"} ms
                 </div>
               </div>
             </Html>

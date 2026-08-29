@@ -11,7 +11,7 @@ export interface DigitalTwinAsset {
   failureProbability: number;
   rulHours: number;
   anomalyScore: number;
-  readings: Record<string, { value: number | string; unit: string; label: string }>;
+    readings: {},
   specifications: Record<string, string>;
   maintenance: { lastService: string; nextDueHours: number; intervalHours: number };
   systemDependencies: string[];
@@ -30,12 +30,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 18500,
     anomalyScore: 0.03,
-    readings: {
-      cabinTemp: { value: 21.8, unit: "°C", label: "Internal Living Temperature" },
-      relativeHumidity: { value: 38.5, unit: "%", label: "Cabin Relative Humidity" },
-      powerDemand: { value: 68.5, unit: "kW", label: "Active Electrical Demand" },
-      co2Level: { value: 480, unit: "ppm", label: "Air Quality CO2" },
-    },
+    readings: {},
     specifications: {
       Structure: "U-shaped Prefabricated Composite Panels on Telescopic Steel Stilts",
       Capacity: "25 Winter-over / 65 Summer Expeditioners",
@@ -59,14 +54,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.03,
     rulHours: 7200,
     anomalyScore: 0.05,
-    readings: {
-      activeLoad: { value: 78.4, unit: "kW", label: "Electrical Output Load" },
-      coolantTemp: { value: 81.6, unit: "°C", label: "Engine Coolant Temp" },
-      rpm: { value: 1500, unit: "RPM", label: "Engine Shaft Speed" },
-      oilPressure: { value: 4.8, unit: "bar", label: "Lube Oil Pressure" },
-      fuelRate: { value: 18.4, unit: "L/h", label: "Fuel Consumption Rate" },
-      vibration: { value: 2.1, unit: "mm/s", label: "Bearing Vibration Level" },
-    },
+    readings: {},
     specifications: {
       Model: "Kirloskar Heavy-Duty Polar Diesel Genset",
       Rating: "125 kVA / 100 kW @ 400V 50Hz",
@@ -88,14 +76,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.05,
     rulHours: 6400,
     anomalyScore: 0.08,
-    readings: {
-      activeLoad: { value: 66.8, unit: "kW", label: "Electrical Output Load" },
-      coolantTemp: { value: 79.2, unit: "°C", label: "Engine Coolant Temp" },
-      rpm: { value: 1500, unit: "RPM", label: "Engine Shaft Speed" },
-      oilPressure: { value: 4.6, unit: "bar", label: "Lube Oil Pressure" },
-      fuelRate: { value: 16.2, unit: "L/h", label: "Fuel Consumption Rate" },
-      vibration: { value: 2.4, unit: "mm/s", label: "Bearing Vibration Level" },
-    },
+    readings: {},
     specifications: {
       Model: "Kirloskar Heavy-Duty Polar Diesel Genset",
       Rating: "125 kVA / 100 kW @ 400V 50Hz",
@@ -117,13 +98,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 12000,
     anomalyScore: 0.01,
-    readings: {
-      activeLoad: { value: 0.0, unit: "kW", label: "Electrical Output Load" },
-      coolantTemp: { value: 24.5, unit: "°C", label: "Pre-Heater Jacket Temp" },
-      rpm: { value: 0, unit: "RPM", label: "Engine Shaft Speed" },
-      starterBattery: { value: 27.8, unit: "V", label: "Starter Battery Voltage" },
-      readiness: { value: "READY", unit: "STATE", label: "Auto-Crank Status" },
-    },
+    readings: {},
     specifications: {
       Model: "Cummins AMF Emergency Unit",
       Rating: "100 kVA @ 400V",
@@ -144,12 +119,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 15400,
     anomalyScore: 0.02,
-    readings: {
-      soc: { value: 88.5, unit: "%", label: "State of Charge" },
-      busVoltage: { value: 402.4, unit: "V", label: "DC Bus Voltage" },
-      internalTemp: { value: 21.2, unit: "°C", label: "Cell Array Temperature" },
-      chargeRate: { value: 4.5, unit: "kW", label: "Float Charge Power" },
-    },
+    readings: {},
     specifications: {
       Technology: "Lithium Iron Phosphate (LiFePO4) Modular Rack",
       Capacity: "150 kWh / 400 VDC",
@@ -170,12 +140,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 24000,
     anomalyScore: 0.01,
-    readings: {
-      frequency: { value: 50.02, unit: "Hz", label: "Grid Synchronized Frequency" },
-      totalGeneration: { value: 145.2, unit: "kW", label: "Total Active Generation" },
-      totalLoad: { value: 110.0, unit: "kW", label: "Total Station Base Load" },
-      powerFactor: { value: 0.94, unit: "PF", label: "System Power Factor" },
-    },
+    readings: {},
     specifications: {
       BusbarRating: "630 A Synchronous Bus",
       ProtectiveRelays: "ABB Microprocessor Digital Protection",
@@ -196,12 +161,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 32000,
     anomalyScore: 0.02,
-    readings: {
-      volumeLiters: { value: 24500, unit: "L", label: "Current Fuel Volume" },
-      fillPercent: { value: 81.6, unit: "%", label: "Tank Fill Level" },
-      fuelTemp: { value: -12.4, unit: "°C", label: "Internal Fuel Temperature" },
-      daysRunway: { value: 65, unit: "Days", label: "Tank Estimated Runway" },
-    },
+    readings: {},
     specifications: {
       Capacity: "30,000 Liters Double-Walled Arctic Steel",
       FuelGrade: "Aviation/Polar Grade Low Pour-Point High-Cetane Diesel",
@@ -222,12 +182,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 34000,
     anomalyScore: 0.01,
-    readings: {
-      volumeLiters: { value: 20500, unit: "L", label: "Current Fuel Volume" },
-      fillPercent: { value: 68.3, unit: "%", label: "Tank Fill Level" },
-      fuelTemp: { value: -13.1, unit: "°C", label: "Internal Fuel Temperature" },
-      daysRunway: { value: 55, unit: "Days", label: "Tank Estimated Runway" },
-    },
+    readings: {},
     specifications: {
       Capacity: "30,000 Liters Insulated Tank",
       FuelGrade: "Polar Diesel ATF-Grade",
@@ -248,11 +203,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.03,
     rulHours: 8400,
     anomalyScore: 0.04,
-    readings: {
-      transferRate: { value: 34.5, unit: "L/min", label: "Active Fuel Flow Rate" },
-      linePressure: { value: 3.2, unit: "bar", label: "Supply Line Pressure" },
-      motorTemp: { value: 38.5, unit: "°C", label: "Pump Motor Temperature" },
-    },
+    readings: {},
     specifications: {
       PumpType: "Positive Displacement Explosion-Proof Gear Pump",
       HeatedTrace: "Electric Trace-Heated Distribution Piping",
@@ -273,12 +224,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.04,
     rulHours: 5800,
     anomalyScore: 0.06,
-    readings: {
-      intakeFlow: { value: 160.0, unit: "L/h", label: "Meltwater Intake Flow" },
-      lakeWaterTemp: { value: 1.4, unit: "°C", label: "Sub-Ice Water Temperature" },
-      pipeTraceTemp: { value: 8.5, unit: "°C", label: "Heated Pipeline Trace Temp" },
-      intakePressure: { value: 4.1, unit: "bar", label: "Intake Line Pressure" },
-    },
+    readings: {},
     specifications: {
       IntakeDepth: "Sub-Ice 4.5m Pier Penetration in Lake Priyadarshini",
       Pipeline: "450m Insulated Electrically Heated Polyethylene Pipe",
@@ -298,12 +244,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.03,
     rulHours: 7800,
     anomalyScore: 0.04,
-    readings: {
-      treatedVolume: { value: 8200, unit: "L", label: "Storage Buffer Volume" },
-      filtrationPressure: { value: 3.8, unit: "bar", label: "Filter Differential Pressure" },
-      turbidity: { value: 0.18, unit: "NTU", label: "Water Purity Turbidity" },
-      dailyConsumption: { value: 1200, unit: "L/day", label: "Station Daily Consumption" },
-    },
+    readings: {},
     specifications: {
       Process: "Dual-Stage Sand Filtration + UV Disinfection + Activated Carbon",
       OutputCapacity: "250 Liters/hour clean potable water",
@@ -324,14 +265,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 22000,
     anomalyScore: 0.01,
-    readings: {
-      ambientTemp: { value: -25.2, unit: "°C", label: "Ambient Air Temperature" },
-      windSpeed: { value: 28.5, unit: "km/h", label: "Sustained Wind Velocity" },
-      windGust: { value: 42.0, unit: "km/h", label: "Peak Gust Speed" },
-      windDirection: { value: "ESE (115°)", unit: "DIR", label: "Wind Azimuth" },
-      barometricPressure: { value: 984.2, unit: "hPa", label: "Barometric Pressure" },
-      solarRadiation: { value: 180, unit: "W/m²", label: "Downwelling Solar Flux" },
-    },
+    readings: {},
     specifications: {
       Sensors: "Ultrasonic Anemometer, RTD Temp Shield, Barometric Transducer",
       Radiosonde: "Helium Balloon Launch Pad for Altitude Profile & Ozone Sonde",
@@ -352,12 +286,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 19800,
     anomalyScore: 0.02,
-    readings: {
-      frequency: { value: 54.5, unit: "MHz", label: "Operating Radar Frequency" },
-      windProfileVelocity: { value: 18.2, unit: "m/s", label: "Tropospheric Wind Speed" },
-      turbulenceIntensity: { value: 0.42, unit: "dBz", label: "Atmospheric Turbulence" },
-      layerHeight: { value: 12.5, unit: "km", label: "Tropopause Boundary Altitude" },
-    },
+    readings: {},
     specifications: {
       Type: "VHF Pulsed Doppler Atmospheric Radar (54.5 MHz)",
       Coverage: "Boundary Layer -> Troposphere -> Stratosphere -> Mesosphere",
@@ -378,12 +307,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.03,
     rulHours: 18200,
     anomalyScore: 0.03,
-    readings: {
-      foF2: { value: 4.85, unit: "MHz", label: "Critical F2 Layer Frequency" },
-      virtualHeight: { value: 245, unit: "km", label: "Ionosphere Reflection Height" },
-      pulsePower: { value: 600, unit: "W", label: "Transmitter Peak Pulse Power" },
-      sweepRange: { value: "1-30", unit: "MHz", label: "RF Sounding Sweep Range" },
-    },
+    readings: {},
     specifications: {
       System: "Digital HF Ionosonde for Polar Ionospheric Sounding",
       Frequency: "1 to 30 MHz High Power Pulsed Transmission",
@@ -404,12 +328,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 24000,
     anomalyScore: 0.01,
-    readings: {
-      tecValue: { value: 14.2, unit: "TECU", label: "Total Electron Content" },
-      s4Index: { value: 0.18, unit: "S4", label: "Amplitude Scintillation Index" },
-      sigmaPhi: { value: 0.08, unit: "rad", label: "Phase Scintillation Index" },
-      snrL1: { value: 46.5, unit: "dB-Hz", label: "GPS L1 Signal-to-Noise Ratio" },
-    },
+    readings: {},
     specifications: {
       Model: "GSV-4004B GISTM Dual-Frequency Receiver",
       Frequency: "GPS L1 (1575.42 MHz) & L2 (1227.60 MHz)",
@@ -430,13 +349,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 30000,
     anomalyScore: 0.01,
-    readings: {
-      magneticBx: { value: 18450, unit: "nT", label: "Magnetic Field X (North)" },
-      magneticBy: { value: -2150, unit: "nT", label: "Magnetic Field Y (East)" },
-      magneticBz: { value: 44200, unit: "nT", label: "Magnetic Field Z (Down)" },
-      totalFieldF: { value: 47920, unit: "nT", label: "Total Magnetic Intensity F" },
-      declinationD: { value: -21.4, unit: "°", label: "Magnetic Declination D" },
-    },
+    readings: {},
     specifications: {
       Location: "70°45′56.21″S, 11°44′10.78″E (Nandadevi Hut)",
       Instruments: "DFM (Digital Fluxgate), PPM (Proton), ICM (Induction), DIM",
@@ -457,11 +370,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 26000,
     anomalyScore: 0.02,
-    readings: {
-      absorption: { value: 0.45, unit: "dB", label: "Cosmic Radio Absorption" },
-      noiseFlux: { value: 1240, unit: "K", label: "Background Cosmic Noise Temp" },
-      frequency: { value: 38.2, unit: "MHz", label: "Passive Monitoring Frequency" },
-    },
+    readings: {},
     specifications: {
       Type: "Imaging Relative Ionospheric Opacity Meter (Riometer)",
       Antenna: "Grid Array of Crossed Dipoles on Ground",
@@ -482,11 +391,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 21000,
     anomalyScore: 0.02,
-    readings: {
-      electricField: { value: 112.5, unit: "V/m", label: "Fair-Weather Electric Field" },
-      airEarthCurrent: { value: 2.15, unit: "pA/m²", label: "Return Current Density" },
-      maxwellCurrent: { value: 1.85, unit: "pA/m²", label: "Maxwell Current Density" },
-    },
+    readings: {},
     specifications: {
       Suite: "Electric Field Mill, Long-Wire Antenna, Air-Earth Current Plate, Maxwell Wire",
       Purpose: "Global Thundercloud Circuit & Polar Electric Field",
@@ -506,11 +411,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 35000,
     anomalyScore: 0.01,
-    readings: {
-      groundVelocity: { value: 1.25, unit: "µm/s", label: "Ground Vibration Velocity" },
-      bandwidth: { value: "0-500", unit: "Hz", label: "Seismic Frequency Range" },
-      seismicEventTrigger: { value: "NORMAL", unit: "STATE", label: "Tectonic Event Monitor" },
-    },
+    readings: {},
     specifications: {
       Location: "70°45′56.21″S, 11°44′10.78″E (Seismometer Vault in Bedrock)",
       Sensor: "Broadband 3-Component Seismometer (0 to 500 Hz)",
@@ -531,12 +432,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.0,
     rulHours: 45000,
     anomalyScore: 0.0,
-    readings: {
-      latitude: { value: "-70.76683367°", unit: "DEC", label: "Precision Latitude" },
-      longitude: { value: "11.73078318°", unit: "DEC", label: "Precision Longitude" },
-      elevation: { value: 117.42, unit: "m", label: "Ellipsoidal Elevation" },
-      crustalDrift: { value: 1.4, unit: "cm/yr", label: "Tectonic Plate Drift" },
-    },
+    readings: {},
     specifications: {
       Location: "70°45′56.21″S, 11°44′10.78″E",
       Frequency: "1176–1575 MHz (GPS L1/L2/L5 Geodetic Receiver)",
@@ -557,11 +453,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.03,
     rulHours: 14000,
     anomalyScore: 0.03,
-    readings: {
-      noConc: { value: 0.65, unit: "ppb", label: "Nitric Oxide (NO)" },
-      no2Conc: { value: 1.12, unit: "ppb", label: "Nitrogen Dioxide (NO2)" },
-      noxTotal: { value: 1.77, unit: "ppb", label: "Total NOx Concentration" },
-    },
+    readings: {},
     specifications: {
       DetectionLimit: "0.4 ppb Sensitivity",
       Method: "Ozone Gas-Phase Chemiluminescence Photometry",
@@ -582,11 +474,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 16500,
     anomalyScore: 0.02,
-    readings: {
-      totalParticleCount: { value: 412, unit: "#/cm³", label: "Total Aerosol Particle Concentration" },
-      pm25: { value: 0.85, unit: "µg/m³", label: "PM2.5 Mass Equivalent" },
-      laserPower: { value: 98.5, unit: "%", label: "Class 3-B Laser Diode Emission" },
-    },
+    readings: {},
     specifications: {
       SizeRange: "0.3 µm to >= 20 µm across 15 Size Bins",
       Source: "Class 3-B Laser Optical Scattering Chamber",
@@ -607,11 +495,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 18000,
     anomalyScore: 0.01,
-    readings: {
-      blackCarbon880: { value: 14.8, unit: "ng/m³", label: "Black Carbon (880nm)" },
-      elementalCarbon: { value: 18.2, unit: "ng/m³", label: "Elemental Carbon Mass" },
-      absorptionCoeff: { value: 0.12, unit: "Mm⁻¹", label: "Aerosol Light Absorption" },
-    },
+    readings: {},
     specifications: {
       Wavelengths: "370, 470, 520, 590, 660, 880, 950 nm",
       Target: "Real-time Black Carbon (BC) & Organic Carbon Aerosol",
@@ -632,11 +516,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 22000,
     anomalyScore: 0.01,
-    readings: {
-      auroraState: { value: "QUIET", unit: "STATE", label: "Aurora Australis Activity" },
-      frameInterval: { value: 60, unit: "sec", label: "Full Sky Exposure Rate" },
-      domeHeating: { value: 18.4, unit: "°C", label: "Fish-Eye Lens De-Ice Temp" },
-    },
+    readings: {},
     specifications: {
       Optics: "180° Fish-Eye Lens under Weatherproof Heated Glass Dome",
       Purpose: "Aurora Australis Dynamics & Airglow Imaging",
@@ -656,11 +536,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 20000,
     anomalyScore: 0.02,
-    readings: {
-      vlfAmplitude: { value: -78.4, unit: "dBm", label: "VLF Carrier Amplitude" },
-      whistlerEvents: { value: 14, unit: "Count/hr", label: "Magnetospheric Whistlers" },
-      frequencyBand: { value: "3-30", unit: "kHz", label: "VLF Operating Range" },
-    },
+    readings: {},
     specifications: {
       Antenna: "Orthogonal Magnetic Loop Antenna on Mast",
       Target: "Whistlers, Lightning Atmospheric Impulse, Magnetosphere Waves",
@@ -681,10 +557,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 32000,
     anomalyScore: 0.01,
-    readings: {
-      insideTemp: { value: 18.5, unit: "°C", label: "Internal Observatory Temp" },
-      status: { value: "ACTIVE", unit: "STATE", label: "Magnetometer Vault Status" },
-    },
+    readings: {},
     specifications: {
       NamedAfter: "Nanda Devi Peak, Uttarakhand",
       UsedBy: "Indian Institute of Geomagnetism (IIG)",
@@ -706,10 +579,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 30000,
     anomalyScore: 0.02,
-    readings: {
-      insideTemp: { value: 19.2, unit: "°C", label: "Geology Lab Temp" },
-      rockCoresCount: { value: 420, unit: "Samples", label: "Stored Antarctic Rock Cores" },
-    },
+    readings: {},
     specifications: {
       NamedAfter: "Thiruvella, Kerala",
       UsedBy: "Geological Survey of India (GSI)",
@@ -730,10 +600,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 28000,
     anomalyScore: 0.02,
-    readings: {
-      insideTemp: { value: 20.1, unit: "°C", label: "Lab Thermal State" },
-      dataUplink: { value: "ONLINE", unit: "LINK", label: "NPL Data Telemetry" },
-    },
+    readings: {},
     specifications: {
       NamedAfter: "National Physical Laboratory (NPL)",
       UsedBy: "NPL Atmospheric Scientists",
@@ -754,10 +621,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 40000,
     anomalyScore: 0.0,
-    readings: {
-      insideTemp: { value: 22.5, unit: "°C", label: "Recreation Lounge Temp" },
-      coffeeMachine: { value: "READY", unit: "STATE", label: "Hot Tea & Coffee Station" },
-    },
+    readings: {},
     specifications: {
       NamedAfter: "Dodda Betta Peak, Nilgiris, Tamil Nadu",
       Purpose: "Expedition Recreation, Rest, Indoor Games, Hot Tea/Coffee",
@@ -778,9 +642,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 35000,
     anomalyScore: 0.01,
-    readings: {
-      insideTemp: { value: 19.8, unit: "°C", label: "Module Temp" },
-    },
+    readings: {},
     specifications: {
       NamedAfter: "Annapurna Peak, Himalayas",
       Purpose: "Multi-purpose expedition support & scientific storage",
@@ -800,9 +662,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 34000,
     anomalyScore: 0.01,
-    readings: {
-      insideTemp: { value: 20.4, unit: "°C", label: "Module Temp" },
-    },
+    readings: {},
     specifications: {
       NamedAfter: "Gauri Parbat Peak, Uttarakhand",
       Purpose: "Multi-purpose polar field support hut",
@@ -822,9 +682,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 36000,
     anomalyScore: 0.01,
-    readings: {
-      insideTemp: { value: 20.0, unit: "°C", label: "Module Temp" },
-    },
+    readings: {},
     specifications: {
       NamedAfter: "Girnar, Gujarat",
       Purpose: "Multi-purpose polar support & logistics module",
@@ -845,12 +703,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.04,
     rulHours: 6200,
     anomalyScore: 0.05,
-    readings: {
-      activeFleetCount: { value: 14, unit: "Units", label: "Stationed PistenBullies" },
-      operationalStatus: { value: "12 ACTIVE / 2 MAINT", unit: "STATE", label: "Fleet Availability" },
-      avgFuelCons: { value: 24.5, unit: "L/hr", label: "Traverse Fuel Burn Rate" },
-      engineTemp: { value: 85.0, unit: "°C", label: "Track Drive Hydraulic Temp" },
-    },
+    readings: {},
     specifications: {
       Model: "PistenBully PB 300 / PB 400 Tracked Crawlers (Kässbohrer, Germany)",
       Role: "Primary Antarctic Logistics & 100km Ice Shelf Convoy Supply Transport",
@@ -871,10 +724,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 4800,
     anomalyScore: 0.02,
-    readings: {
-      scooterCount: { value: 4, unit: "Units", label: "Snowmobiles Count" },
-      fuelTank: { value: 92, unit: "%", label: "Average Fuel Reserve" },
-    },
+    readings: {},
     specifications: {
       Type: "Heavy-duty 4-Stroke Polar Snowmobiles",
       Purpose: "Fast Reconnaissance & Field Quick-Access within 25km Oasis",
@@ -894,10 +744,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 12000,
     anomalyScore: 0.02,
-    readings: {
-      odometer: { value: 14850, unit: "km", label: "Polar Distance Driven" },
-      tirePressure: { value: 0.8, unit: "bar", label: "Tundra Low-Pressure Floatation" },
-    },
+    readings: {},
     specifications: {
       Vehicle: "Modified Toyota Hilux Arctic Truck 44\" Tundra Tires",
       Significance: "Historic South Pole Expedition Vehicle (2010)",
@@ -918,9 +765,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.03,
     rulHours: 9500,
     anomalyScore: 0.03,
-    readings: {
-      status: { value: "OPERATIONAL", unit: "STATE", label: "Truck Readiness" },
-    },
+    readings: {},
     specifications: {
       Make: "Tata Motors Xenon-XT 4x4 Modified Pickup",
       Purpose: "Short-haul equipment and personnel transfer across rock plateau",
@@ -940,10 +785,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.05,
     rulHours: 5400,
     anomalyScore: 0.07,
-    readings: {
-      hydraulicPressure: { value: 185, unit: "bar", label: "Blade Hydraulics Pressure" },
-      engineHours: { value: 3420, unit: "hr", label: "Cumulative Operating Hours" },
-    },
+    readings: {},
     specifications: {
       Model: "BEML BD-50 Heavy Tracked Bulldozer",
       Purpose: "Clearing rock debris, snow drift removal, track/helipad prep",
@@ -963,10 +805,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.03,
     rulHours: 8200,
     anomalyScore: 0.04,
-    readings: {
-      craneCount: { value: 5, unit: "Units", label: "Stationed Cranes" },
-      maxLiftCapacity: { value: 50, unit: "MT", label: "Rated Metric Ton Lift Capacity" },
-    },
+    readings: {},
     specifications: {
       Model: "Mantis 50 MT Tracked Telescopic Boom Cranes",
       Purpose: "Container handling, heavy equipment offloading from convoy",
@@ -986,9 +825,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.04,
     rulHours: 6800,
     anomalyScore: 0.05,
-    readings: {
-      bucketCapacity: { value: 1.2, unit: "m³", label: "Bucket Debris Volume" },
-    },
+    readings: {},
     specifications: {
       Type: "Heavy Tracked Hydraulic Excavator",
       Purpose: "Earthworks, meltwater ditch maintenance, rock clearing",
@@ -1008,11 +845,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 15000,
     anomalyScore: 0.01,
-    readings: {
-      mobileFuelCapacity: { value: 5000, unit: "L", label: "5 KL Convoy Fuel Trailer" },
-      livingCabinTemp: { value: 21.0, unit: "°C", label: "Banjara Living Quarters Temp" },
-      jeevanJyotiKw: { value: 15.0, unit: "kW", label: "Jeevan Jyoti Mobile Power" },
-    },
+    readings: {},
     specifications: {
       Module1: "'Banjara' Heated Living Module with Kitchen & Dry Toilet for Convoy Crew",
       Module2: "'Jeevan Jyoti' Portable Emergency Diesel Generator Skid",
@@ -1033,11 +866,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 11000,
     anomalyScore: 0.02,
-    readings: {
-      chamberTemp: { value: 850, unit: "°C", label: "Incinerator Burn Chamber Temp" },
-      ashOutput: { value: 1.2, unit: "kg/day", label: "Sterile Ash Waste" },
-      liquidDischarge: { value: 0, unit: "L", label: "Zero Environmental Liquid Discharge" },
-    },
+    readings: {},
     specifications: {
       Toilets: "Electric Incinerator Toilet Network throughout Main Building",
       Compliance: "Strict Antarctic Treaty Protocol on Environmental Protection",
@@ -1061,13 +890,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 28000,
     anomalyScore: 0.01,
-    readings: {
-      cabinTemp: { value: 22.4, unit: "°C", label: "Internal Living Quarters Temp" },
-      relativeHumidity: { value: 42.0, unit: "%", label: "Indoor Relative Humidity" },
-      totalBaseLoad: { value: 135.0, unit: "kW", label: "Station Electrical Load" },
-      buildingPressure: { value: "+12", unit: "Pa", label: "Positive Air Ingress Pressure" },
-      windLoad: { value: 2.6, unit: "kPa", label: "Facade Dynamic Wind Pressure" },
-    },
+    readings: {},
     specifications: {
       Architecture: "3-Story Aerodynamic Faceted Envelope on 83 GEWI Steel Stilts",
       Containers: "134 Interconnected 20-ft ISO Shipping Container Modules",
@@ -1092,13 +915,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 9200,
     anomalyScore: 0.03,
-    readings: {
-      electricalPower: { value: 92.4, unit: "kW", label: "Active Electrical Generation" },
-      thermalOutput: { value: 112.0, unit: "kW", label: "Captured Hydronic Heat Output" },
-      coolantTemp: { value: 80.4, unit: "°C", label: "CHP Jacket Coolant Temp" },
-      exhaustTemp: { value: 340.0, unit: "°C", label: "Exhaust Heat Exchanger Inlet" },
-      fuelFlowRate: { value: 21.2, unit: "L/h", label: "Fuel Consumption Rate" },
-    },
+    readings: {},
     specifications: {
       Genset: "MAN High-Efficiency Industrial CHP Diesel Unit",
       ThermalEfficiency: "Overall Combined Fuel Efficiency > 82%",
@@ -1120,12 +937,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.03,
     rulHours: 8600,
     anomalyScore: 0.05,
-    readings: {
-      electricalPower: { value: 88.1, unit: "kW", label: "Active Electrical Generation" },
-      thermalOutput: { value: 105.5, unit: "kW", label: "Captured Hydronic Heat Output" },
-      coolantTemp: { value: 81.2, unit: "°C", label: "CHP Jacket Coolant Temp" },
-      fuelFlowRate: { value: 20.4, unit: "L/h", label: "Fuel Consumption Rate" },
-    },
+    readings: {},
     specifications: {
       Genset: "MAN High-Efficiency Industrial CHP Diesel Unit",
       ThermalEfficiency: "Overall Combined Fuel Efficiency > 82%",
@@ -1146,11 +958,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 14000,
     anomalyScore: 0.01,
-    readings: {
-      electricalPower: { value: 0.0, unit: "kW", label: "Active Electrical Generation" },
-      thermalOutput: { value: 0.0, unit: "kW", label: "Captured Hydronic Heat Output" },
-      coolantTemp: { value: 24.0, unit: "°C", label: "Standby Jacket Heater Temp" },
-    },
+    readings: {},
     specifications: {
       Redundancy: "N+1 / N+2 Automatic Auto-Start Backup Genset",
       Output: "140 kVA @ 400V 50Hz",
@@ -1170,12 +978,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 18000,
     anomalyScore: 0.01,
-    readings: {
-      soc: { value: 94.2, unit: "%", label: "State of Charge" },
-      dcBusVoltage: { value: 408.0, unit: "V", label: "BESS DC Bus Voltage" },
-      temperature: { value: 23.0, unit: "°C", label: "Battery Enclosure Temp" },
-      healthCapacity: { value: 99.1, unit: "%", label: "Retained SOH Capacity" },
-    },
+    readings: {},
     specifications: {
       Type: "Industrial LiFePO4 Containerized BESS",
       Capacity: "250 kWh / 400 VDC",
@@ -1195,12 +998,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 35000,
     anomalyScore: 0.01,
-    readings: {
-      totalGenerationKw: { value: 180.5, unit: "kW", label: "Total Active Power" },
-      totalDemandKw: { value: 135.0, unit: "kW", label: "Total Station Consumption" },
-      gridHz: { value: 50.01, unit: "Hz", label: "System Frequency" },
-      reserveMarginKw: { value: 45.5, unit: "kW", label: "Spinning Reserve Margin" },
-    },
+    readings: {},
     specifications: {
       Automation: "Schneider PLC Microgrid Load Shedder & Frequency Synchronizer",
     },
@@ -1220,12 +1018,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 8900,
     anomalyScore: 0.03,
-    readings: {
-      seawaterFlow: { value: 420.0, unit: "L/h", label: "Raw Seawater Intake Flow" },
-      seawaterTemp: { value: -1.6, unit: "°C", label: "Prydz Bay Seawater Temp" },
-      intakePressure: { value: 5.2, unit: "bar", label: "High-Pressure Delivery" },
-      salinityTDS: { value: 34500, unit: "ppm", label: "Seawater Salinity TDS" },
-    },
+    readings: {},
     specifications: {
       Intake: "Submerged Coastal Intake Crib in Prydz Bay (~50m from station)",
       SubseaPiping: "Dual Electric Heat-Traced Titanium-Reinforced Lines",
@@ -1246,12 +1039,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 9400,
     anomalyScore: 0.02,
-    readings: {
-      permeateFlow: { value: 185.0, unit: "L/h", label: "Freshwater Production Rate" },
-      storageVolume: { value: 12500, unit: "L", label: "Potable Water Reservoir Volume" },
-      membranePressure: { value: 58.4, unit: "bar", label: "RO High-Pressure Membrane" },
-      productTds: { value: 85, unit: "ppm", label: "Potable Mineralization Purity" },
-    },
+    readings: {},
     specifications: {
       Process: "Energy Recovery Seawater Reverse Osmosis (SWRO) with Multi-Stage Pre-Filtration + UV",
       DailyOutput: "4,500 Liters/day pure potable drinking water",
@@ -1272,11 +1060,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 11200,
     anomalyScore: 0.02,
-    readings: {
-      treatmentFlow: { value: 140.0, unit: "L/h", label: "Active Wastewater Flow" },
-      effluentTurbidity: { value: 0.12, unit: "NTU", label: "Effluent Purity Index" },
-      stage3BioFilter: { value: 98.4, unit: "%", label: "Biological Digestion Efficiency" },
-    },
+    readings: {},
     specifications: {
       Compliance: "Antarctic Treaty Madrid Protocol (Annex III) Strict Zero-Pollution Standard",
       Process: "3-Stage Filtration + Aerobic Bio-Reactor + UV Sterilization Outfall",
@@ -1296,12 +1080,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 22000,
     anomalyScore: 0.01,
-    readings: {
-      supplyAirTemp: { value: 21.5, unit: "°C", label: "Conditioned Supply Air Temp" },
-      returnAirTemp: { value: 19.8, unit: "°C", label: "Return Duct Air Temp" },
-      outsideAirTemp: { value: -22.4, unit: "°C", label: "Outside Ambient Air" },
-      heatExchangerDuty: { value: 185.0, unit: "kW", label: "Recovered Hydronic Thermal Heat" },
-    },
+    readings: {},
     specifications: {
       Location: "Third / Rooftop Level Sealed Mechanical Enclosure",
       HeatingSource: "100% Hydronic Heat Recovery from MAN CHP Generator Jackets & Exhaust",
@@ -1322,12 +1101,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 38000,
     anomalyScore: 0.01,
-    readings: {
-      volumeLiters: { value: 60000, unit: "L", label: "Total Diesel Storage" },
-      fillPercentage: { value: 75.0, unit: "%", label: "Tank Array Fill Level" },
-      fuelTemp: { value: -8.5, unit: "°C", label: "Bulk Fuel Temperature" },
-      daysRunway: { value: 180, unit: "Days", label: "Calculated Operations Runway" },
-    },
+    readings: {},
     specifications: {
       Capacity: "80,000 Liters in Insulated Modular Steel Cylinders",
       FuelType: "Arctic-Grade Diesel (Jet-A1 Kerosene Cut for -50°C Flow)",
@@ -1349,14 +1123,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.0,
     rulHours: 25000,
     anomalyScore: 0.0,
-    readings: {
-      satelliteTrack: { value: "Cartosat-3 PASS", unit: "TARGET", label: "Active Tracking Mission" },
-      downlinkRate: { value: 105.0, unit: "Mbps", label: "High-Speed X/S Band Downlink" },
-      antennaAzimuth: { value: "214.5°", unit: "AZ", label: "Dish Azimuth" },
-      antennaElevation: { value: "48.2°", unit: "EL", label: "Dish Elevation" },
-      signalStrength: { value: 100, unit: "%", label: "Carrier-to-Noise C/N" },
-      dailyPasses: { value: 10, unit: "Passes/day", label: "Polar Satellite Passes Relayed" },
-    },
+    readings: {},
     specifications: {
       Name: "Antarctica Ground Station for Earth Observation Satellites (AGEOS)",
       Operator: "ISRO / National Remote Sensing Centre (NRSC), Commissioned Aug 2013",
@@ -1378,11 +1145,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 30000,
     anomalyScore: 0.01,
-    readings: {
-      linkStatus: { value: "ONLINE", unit: "STATE", label: "NCPOR Goa Direct VSAT Link" },
-      snrDb: { value: 16.8, unit: "dB", label: "C-Band Signal-to-Noise Ratio" },
-      bandwidthMbps: { value: 12.5, unit: "Mbps", label: "Dedicated IP Data Link Rate" },
-    },
+    readings: {},
     specifications: {
       Dish: "2.4m High-Wind Reinforced Parabolic Reflector",
       Function: "Voice, Data, Video Conferencing, Telemedicine, EPABX Link to NCPOR Headquarters",
@@ -1403,13 +1166,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 24000,
     anomalyScore: 0.01,
-    readings: {
-      ambientTemp: { value: -22.4, unit: "°C", label: "Ambient Air Temperature" },
-      windSpeed: { value: 34.1, unit: "km/h", label: "Sustained Wind Velocity" },
-      peakGust: { value: 58.0, unit: "km/h", label: "Peak Wind Gust Speed" },
-      windDirection: { value: "E (92°)", unit: "DIR", label: "Wind Azimuth" },
-      barometricPressure: { value: 988.4, unit: "hPa", label: "Atmospheric Barometric Pressure" },
-    },
+    readings: {},
     specifications: {
       Operator: "India Meteorological Department (IMD), Commissioned 2015",
       Sensors: "Ultrasonic Anemometer, RTD Temperature Shield, Barometric Transducer",
@@ -1430,10 +1187,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 35000,
     anomalyScore: 0.01,
-    readings: {
-      uvRadiation: { value: 4.2, unit: "UV-Index", label: "Downwelling UV Radiation" },
-      aerosolOpticalDepth: { value: 0.04, unit: "AOD", label: "Atmospheric Air Optical Clarity" },
-    },
+    readings: {},
     specifications: {
       Deck: "Third Level Outdoor Platform for Atmospheric Physics & Radiation Sensors",
       Instruments: "Aethelometer, Pyranometer, Spectroradiometer",
@@ -1454,11 +1208,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.0,
     rulHours: 50000,
     anomalyScore: 0.0,
-    readings: {
-      windsockVector: { value: "34.1 km/h (E)", unit: "WIND", label: "Deck Surface Wind Vector" },
-      deckStatus: { value: "CLEAR", unit: "STATE", label: "Operational Deck Condition" },
-      floodlights: { value: "STANDBY", unit: "LUX", label: "High-Intensity Approach Beacons" },
-    },
+    readings: {},
     specifications: {
       Deck: "Elevated Structural Steel Helideck with Safety Netting and Tiedowns",
       Rating: "12 Metric Tons Maximum Takeoff Weight (Mil Mi-8 / Ka-32 / Bell 212 / AS350)",
@@ -1479,11 +1229,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.02,
     rulHours: 8400,
     anomalyScore: 0.02,
-    readings: {
-      engineHours: { value: 3420, unit: "Hours", label: "Cumulative Operating Hours" },
-      fuelTank: { value: 88, unit: "%", label: "Diesel Tank Level" },
-      hydraulicPressure: { value: 240, unit: "bar", label: "Blade & Tiller Hydraulics" },
-    },
+    readings: {},
     specifications: {
       Fleet: "3 Tracked PistenBully 300/400 Heavy Crawler Snowcats",
       Blade: "12-Way Front Hydraulic Dozer Blade & Rear Snow Tiller",
@@ -1504,10 +1250,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 12000,
     anomalyScore: 0.01,
-    readings: {
-      odometer: { value: 14200, unit: "km", label: "Ice Sheet Odometer Distance" },
-      tirePressurePsi: { value: 4.5, unit: "PSI", label: "Ultra-Low Inflation Snow Pressure" },
-    },
+    readings: {},
     specifications: {
       Vehicle: "44-Inch Ultra-Wide Low-Pressure Balloon Tires on Modified 4x4 Chassis",
       Engine: "V8 Auxiliary Engine Block Pre-Heater",
@@ -1527,10 +1270,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 6500,
     anomalyScore: 0.01,
-    readings: {
-      scooterStatus: { value: "READY", unit: "STATE", label: "Short-Range Recon Fleet" },
-      count: { value: 6, unit: "Units", label: "Active Snow Scooter Inventory" },
-    },
+    readings: {},
     specifications: {
       Type: "Rotax 900 ACE Engine Heavy-Duty Utility Snowmobiles",
       Use: "Short-Range Fieldwork & Fast Personnel Transport across Larsemann Hills",
@@ -1550,10 +1290,7 @@ export const BHARATI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     failureProbability: 0.01,
     rulHours: 15000,
     anomalyScore: 0.01,
-    readings: {
-      capacity: { value: 25, unit: "Crew", label: "Summer Expedition Peak Capacity" },
-      tentTemp: { value: 16.5, unit: "°C", label: "Heated Polar Tent Internal Temp" },
-    },
+    readings: {},
     specifications: {
       Tents: "Heavy Weatherhaven Polar Pyramid Tents + Unclad Container Storage",
       Season: "Deployed Dec–Feb to Expand Station Capacity to 72 Expeditioners",

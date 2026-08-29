@@ -256,7 +256,7 @@ export function DigitalTwinHUD({
                 Live Operating Telemetry
               </span>
               <div className="space-y-1 max-h-36 overflow-y-auto pr-1">
-                {Object.entries(selectedAsset.readings || {}).map(([key, item]) => (
+                {Object.entries(selectedAsset.readings || {}).map(([key, item]: [string, any]) => (
                   <div
                     key={key}
                     className="flex items-center justify-between text-xs p-1.5 bg-slate-900/60 rounded-lg border border-slate-800/60"

@@ -74,7 +74,7 @@ export function MaitriLakePriyadarshiniZone({
                   <span className="font-bold">{lakePump.name}</span>
                 </div>
                 <div className="text-[10px] text-slate-400 font-mono">
-                  Flow: {lakePump.readings?.intakeFlow?.value} L/h | Trace Temp: {lakePump.readings?.pipeTraceTemp?.value}°C
+                  Flow: {(lakePump.readings as any)?.intakeFlow?.value ?? (lakePump.readings as any)?.intake_flow?.value ?? "--"} L/h | Trace Temp: {(lakePump.readings as any)?.pipeTraceTemp?.value ?? "--"}°C
                 </div>
               </div>
             </Html>

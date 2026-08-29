@@ -120,7 +120,7 @@ export function MaitriPowerPlantZone({
                 <span className="font-bold">{asset.name}</span>
               </div>
               <div className="text-[10px] text-slate-400 font-mono">
-                Load: {asset.readings.activeLoad?.value} kW | Temp: {asset.readings.coolantTemp?.value}°C | RPM: {asset.readings.rpm?.value}
+                Load: {(asset.readings as any)?.activeLoad?.value ?? (asset.readings as any)?.electricalPower?.value ?? "--"} kW | Temp: {(asset.readings as any)?.coolantTemp?.value ?? (asset.readings as any)?.temp?.value ?? "--"}°C | RPM: {(asset.readings as any)?.rpm?.value ?? "--"}
               </div>
             </div>
           </Html>

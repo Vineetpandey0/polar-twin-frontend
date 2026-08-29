@@ -28,7 +28,7 @@ export function MaitriFuelFarmZone({
     const isSelected = selectedAssetId === asset.assetId;
     const isHovered = hoveredAssetId === asset.assetId;
     const statusColor = getStatusColor(asset.operationalStatus, asset.healthScore);
-    const fillPercent = Number(asset.readings?.fillPercent?.value || 80);
+    const fillPercent = Number((asset.readings as any)?.fillPercent?.value || (asset.readings as any)?.fuel_level?.value || 78.5);
 
     return (
       <group
@@ -99,7 +99,7 @@ export function MaitriFuelFarmZone({
                 <span className="font-bold">{asset.name}</span>
               </div>
               <div className="text-[10px] text-slate-400 font-mono">
-                Level: {fillPercent}% ({asset.readings?.volumeLiters?.value} L) | Runway: {asset.readings?.daysRunway?.value}
+                Level: {fillPercent}% ({(asset.readings as any)?.volumeLiters?.value ?? "--"} L) | Runway: {(asset.readings as any)?.daysRunway?.value ?? "--"}
               </div>
             </div>
           </Html>

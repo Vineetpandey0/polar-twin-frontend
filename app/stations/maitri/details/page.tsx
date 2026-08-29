@@ -320,7 +320,7 @@ export default function MaitriDetailsPage() {
 
                   {/* Sensor Readings Preview Grid */}
                   <div className="grid grid-cols-2 gap-2 mt-2.5 pt-2 border-t border-slate-800/80 text-[11px]">
-                    {Object.entries(asset.readings || {}).slice(0, 4).map(([key, val]) => (
+                    {Object.entries(asset.readings || {}).slice(0, 4).map(([key, val]: [string, any]) => (
                       <div key={key} className="bg-slate-950/60 p-1.5 rounded-lg border border-slate-800/60">
                         <span className="text-[9px] text-slate-400 block truncate">{val.label || key}</span>
                         <span className="font-mono font-bold text-slate-200">
@@ -567,7 +567,7 @@ export default function MaitriDetailsPage() {
                     </td>
                     <td className="p-3">
                       <div className="space-y-0.5 text-[11px] font-mono">
-                        {Object.entries(asset.readings || {}).slice(0, 2).map(([k, v]) => (
+                        {Object.entries(asset.readings || {}).slice(0, 2).map(([k, v]: [string, any]) => (
                           <div key={k} className="text-slate-300">
                             <span className="text-slate-500">{v.label || k}: </span>
                             <span className="text-slate-100 font-bold">{v.value} {v.unit}</span>
