@@ -1,6 +1,6 @@
 "use client";
 
-import { ShieldAlert, AlertTriangle, Info, CheckCircle2 } from "lucide-react";
+import { ShieldAlert, AlertTriangle, Info, CheckSquare } from "lucide-react";
 
 interface AlertItem {
   id: number;
@@ -19,22 +19,25 @@ interface AlertFeedProps {
 
 export default function AlertFeed({ alerts }: AlertFeedProps) {
   return (
-    <div className="glass-card rounded-2xl p-6 border border-slate-800">
-      <div className="flex items-center justify-between mb-4">
+    <div className="bg-[#0F1722] rounded-sm p-4 border border-[#1E2C3D]">
+      <div className="flex items-center justify-between mb-3 border-b border-[#1E2C3D] pb-2">
         <div className="flex items-center space-x-2">
-          <ShieldAlert className="w-5 h-5 text-amber-400" />
-          <h3 className="font-bold text-slate-100">Live Station Alert Feed</h3>
+          <ShieldAlert className="w-4 h-4 text-[#FBBF24]" />
+          <h2 className="font-semibold text-[17px] text-[#E2EAF4] uppercase tracking-wider leading-snug">
+            SCADA Incident & Advisory Log
+          </h2>
         </div>
-        <span className="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono">
-          {alerts.length} Active
+        <span className="text-[11px] font-mono text-[#8CA1B6] tnum">
+          [LOGGED EVENTS: {alerts.length}]
         </span>
       </div>
 
-      <div className="space-y-3 max-h-[340px] overflow-y-auto pr-1">
+      <div className="space-y-2 max-h-[340px] overflow-y-auto pr-1">
         {alerts.length === 0 ? (
-          <div className="text-center py-8 text-slate-500 text-xs flex flex-col items-center space-y-2">
-            <CheckCircle2 className="w-8 h-8 text-emerald-400/60" />
-            <span>No active critical or warning alerts across stations</span>
+          <div className="text-center py-10 text-[#8CA1B6] font-mono flex flex-col items-center space-y-2 border border-dashed border-[#1E2C3D] rounded-sm">
+            <CheckSquare className="w-6 h-6 text-[#34D399]" />
+            <span className="text-[#E2EAF4] font-semibold text-sm uppercase tracking-wide">TELEMETRY NOMINAL</span>
+            <span className="text-sm text-[#8CA1B6]">Zero active warning or critical excursions detected across Antarctic stations.</span>
           </div>
         ) : (
           alerts.map((alert) => {
@@ -42,28 +45,35 @@ export default function AlertFeed({ alerts }: AlertFeedProps) {
             return (
               <div
                 key={alert.id}
-                className={`p-3.5 rounded-xl border transition-all ${
+                className={`p-3.5 rounded-sm border transition-colors ${
                   isCrit
-                    ? "bg-rose-500/10 border-rose-500/30 text-rose-200"
-                    : "bg-amber-500/10 border-amber-500/30 text-amber-200"
+                    ? "bg-[#180D11] border-[#F87171] text-[#E2EAF4]"
+                    : "bg-[#19150E] border-[#FBBF24] text-[#E2EAF4]"
                 }`}
               >
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center space-x-2">
                     {isCrit ? (
-                      <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
+                      <span className="px-1.5 py-0.5 bg-[#2D1217] border border-[#F87171] text-[#F87171] font-bold text-[10px] font-mono rounded-sm">
+                        [CRIT]
+                      </span>
                     ) : (
-                      <Info className="w-4 h-4 text-amber-400 shrink-0" />
+                      <span className="px-1.5 py-0.5 bg-[#292010] border border-[#FBBF24] text-[#FBBF24] font-bold text-[10px] font-mono rounded-sm">
+                        [WARN]
+                      </span>
                     )}
-                    <span className="font-bold text-xs uppercase tracking-wide">
-                      [{alert.station_id.toUpperCase()}] {alert.message}
-                    </span>
+                    <h3 className="font-semibold text-[14.5px] text-[#E2EAF4] tracking-wide leading-snug">
+                      <span className="font-mono text-xs text-[#38BDF8] mr-1.5">[{alert.station_id.toUpperCase()}]</span>
+                      {alert.message}
+                    </h3>
                   </div>
-                  <span className="text-[10px] font-mono text-slate-400" suppressHydrationWarning>
+                  <span className="text-[11px] font-mono text-[#8CA1B6] shrink-0 tnum" suppressHydrationWarning>
                     {new Date(alert.created_at).toLocaleTimeString()}
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 mt-1.5 pl-6">{alert.reason}</p>
+                <p className="text-sm text-[#8CA1B6] mt-1.5 max-w-prose leading-relaxed">
+                  {alert.reason}
+                </p>
               </div>
             );
           })
@@ -72,3 +82,4 @@ export default function AlertFeed({ alerts }: AlertFeedProps) {
     </div>
   );
 }
+

@@ -62,72 +62,89 @@ export default function OperationsHub() {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
-      <div className="flex justify-between items-center bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-950 p-6 rounded-2xl border border-slate-800 shadow-xl">
-        <div>
-          <div className="flex items-center space-x-2 text-xs font-semibold text-cyan-400 uppercase tracking-widest mb-1">
-            <Activity className="w-4 h-4" />
-            <span>National Centre for Polar and Ocean Research (NCPOR)</span>
+      <div className="bg-[#0F1722] p-4 lg:p-5 rounded-sm border border-[#1E2C3D] flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="space-y-1.5">
+          <div className="flex items-center space-x-2 text-xs font-mono">
+            <span className="text-[#38BDF8] font-bold">[NCPOR-OPS-01]</span>
+            <span className="text-[#8CA1B6]">MINISTRY OF EARTH SCIENCES :: GOVT. OF INDIA</span>
           </div>
-          <h1 className="text-2xl font-black text-slate-100 tracking-tight">
-            Antarctic Operations Command Hub
+          <h1 className="text-2xl lg:text-[28px] font-bold text-[#E2EAF4] tracking-wide uppercase leading-tight">
+            Antarctic Mission Operations Command Hub
           </h1>
-          <p className="text-xs text-slate-400 mt-1 max-w-2xl">
-            Real-time Digital Twin telemetry, life-support monitoring & AI predictive maintenance for Maitri & Bharati research stations.
+          <p className="text-sm text-[#8CA1B6] max-w-3xl leading-relaxed">
+            Real-time Digital Twin telemetry, life-support microgrid surveillance & predictive maintenance engine for Maitri and Bharati research stations (SIH PS 26060).
           </p>
         </div>
 
-        <div className="flex items-center space-x-3">
-          <div className="bg-slate-800/80 px-4 py-2 rounded-xl border border-slate-700/50 text-right">
-            <span className="text-[10px] text-slate-400 uppercase block font-semibold">Active Twins</span>
-            <span className="text-base font-extrabold text-cyan-400">2 Stations</span>
+        <div className="flex items-center space-x-2 shrink-0 font-mono">
+          <div className="bg-[#131D2B] px-3.5 py-2.5 rounded-sm border border-[#1E2C3D] text-left">
+            <span className="text-[11px] text-[#8CA1B6] block uppercase tracking-wider font-mono">Active Twins</span>
+            <span className="text-[20px] font-bold text-[#E2EAF4] font-mono tnum leading-tight">2 STATIONS</span>
           </div>
-          <div className="bg-slate-800/80 px-4 py-2 rounded-xl border border-slate-700/50 text-right">
-            <span className="text-[10px] text-slate-400 uppercase block font-semibold">Monitored Assets</span>
-            <span className="text-base font-extrabold text-amber-400">16 Systems</span>
+          <div className="bg-[#131D2B] px-3.5 py-2.5 rounded-sm border border-[#1E2C3D] text-left">
+            <span className="text-[11px] text-[#8CA1B6] block uppercase tracking-wider font-mono">Monitored Assets</span>
+            <span className="text-[20px] font-bold text-[#34D399] font-mono tnum leading-tight">16 UNITS</span>
+          </div>
+          <div className="bg-[#131D2B] px-3.5 py-2.5 rounded-sm border border-[#1E2C3D] text-left">
+            <span className="text-[11px] text-[#8CA1B6] block uppercase tracking-wider font-mono">Total Power Gen</span>
+            <span className="text-[20px] font-bold text-[#38BDF8] font-mono tnum leading-tight">325.7 kW</span>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {stations.map((s) => (
           <StationCard key={s.stationId} {...s} />
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2">
           <AlertFeed alerts={alerts} />
         </div>
 
-        <div className="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
-          <div className="flex items-center space-x-2">
-            <Layers className="w-5 h-5 text-cyan-400" />
-            <h3 className="font-bold text-slate-100">Telemetry Engine Overview</h3>
+        <div className="bg-[#0F1722] rounded-sm p-4 border border-[#1E2C3D] space-y-3">
+          <div className="flex items-center justify-between border-b border-[#1E2C3D] pb-2">
+            <div className="flex items-center space-x-2">
+              <Layers className="w-4 h-4 text-[#38BDF8]" />
+              <h2 className="font-semibold text-[17px] text-[#E2EAF4] uppercase tracking-wider leading-snug">
+                SCADA Telemetry Engine
+              </h2>
+            </div>
+            <span className="text-[11px] font-mono text-[#34D399]">[LIVE SYNC]</span>
           </div>
 
-          <div className="space-y-3 text-xs">
-            <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex items-center justify-between">
+          <div className="space-y-2 font-mono">
+            <div className="p-2.5 bg-[#131D2B] rounded-sm border border-[#1E2C3D] flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <Radio className="w-4 h-4 text-amber-400" />
-                <span className="text-slate-300 font-medium">MQTT Ingestion Rate</span>
+                <Radio className="w-3.5 h-3.5 text-[#8CA1B6]" />
+                <span className="text-sm text-[#8CA1B6]">MQTT Ingestion Rate</span>
               </div>
-              <span className="font-mono text-cyan-400 font-bold">12 msgs/sec</span>
+              <span className="text-sm text-[#E2EAF4] font-bold font-mono tnum">12 MSGS/SEC</span>
             </div>
 
-            <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex items-center justify-between">
+            <div className="p-2.5 bg-[#131D2B] rounded-sm border border-[#1E2C3D] flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <Cpu className="w-4 h-4 text-emerald-400" />
-                <span className="text-slate-300 font-medium">State Synchronization</span>
-                </div>
-              <span className="font-mono text-emerald-400 font-bold">&lt; 50ms</span>
+                <Cpu className="w-3.5 h-3.5 text-[#8CA1B6]" />
+                <span className="text-sm text-[#8CA1B6]">State Synchronization</span>
+              </div>
+              <span className="text-sm text-[#34D399] font-bold font-mono tnum">&lt; 50ms</span>
             </div>
 
-            <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex items-center justify-between">
+            <div className="p-2.5 bg-[#131D2B] rounded-sm border border-[#1E2C3D] flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <Flame className="w-4 h-4 text-rose-400" />
-                <span className="text-slate-300 font-medium">Predictive Risk Level</span>
+                <Flame className="w-3.5 h-3.5 text-[#8CA1B6]" />
+                <span className="text-sm text-[#8CA1B6]">Predictive Failure Risk</span>
               </div>
-              <span className="font-mono text-amber-400 font-bold">LOW (0.04)</span>
+              <span className="text-sm text-[#34D399] font-bold font-mono tnum">NOMINAL (0.04)</span>
+            </div>
+
+            <div className="p-2.5 bg-[#131D2B] rounded-sm border border-[#1E2C3D] flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Activity className="w-3.5 h-3.5 text-[#8CA1B6]" />
+                <span className="text-sm text-[#8CA1B6]">Telemetry Bus Latency</span>
+              </div>
+              <span className="text-sm text-[#38BDF8] font-bold font-mono tnum">14ms [GROUND-LINK]</span>
             </div>
           </div>
         </div>

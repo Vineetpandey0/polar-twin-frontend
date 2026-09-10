@@ -243,6 +243,14 @@ export function BharatiCHPAndFuelZone({
           )}
         </group>
       )}
+
+      {/* Arctic Fuel Supply Pipeline from Fuel Battery [16, 1.8, 6] to CHP Plant [-12, 1.6, 2.5] */}
+      <group position={[2.0, 0.25, 4.25]} rotation={[0, -0.124, Math.PI / 2]}>
+        <mesh>
+          <cylinderGeometry args={[0.07, 0.07, 28.5, 8]} />
+          <meshStandardMaterial color={POLAR_PALETTE.pipeFuelAmber} roughness={0.3} metalness={0.8} />
+        </mesh>
+      </group>
     </group>
   );
 }

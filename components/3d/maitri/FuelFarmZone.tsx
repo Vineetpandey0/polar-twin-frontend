@@ -157,9 +157,9 @@ export function MaitriFuelFarmZone({
         </group>
       )}
 
-      {/* Connecting Heated Pipeline to Power House */}
-      <mesh position={[0, 0.15, 4.0]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.06, 0.06, 24, 8]} />
+      {/* Connecting Heated Pipeline to Power House [-14.5, 1.2, 0.5] from Fuel Farm [14.0, 0.8, 6.5] */}
+      <mesh position={[-0.25, 0.25, 3.5]} rotation={[0, -0.207, Math.PI / 2]}>
+        <cylinderGeometry args={[0.06, 0.06, 29.2, 8]} />
         <meshStandardMaterial color={POLAR_PALETTE.pipeFuelAmber} roughness={0.3} metalness={0.8} />
       </mesh>
     </group>

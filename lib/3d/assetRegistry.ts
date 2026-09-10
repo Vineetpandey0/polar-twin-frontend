@@ -218,7 +218,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     stationId: "maitri",
     name: "Lake Priyadarshini Pump House",
     category: "WATER",
-    position3D: [-6.0, 0.8, -16.0],
+    position3D: [16.0, 0.8, -24.0],
     operationalStatus: "RUNNING",
     healthScore: 0.93,
     failureProbability: 0.04,
@@ -238,7 +238,7 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
     stationId: "maitri",
     name: "Priyadarshini Water Treatment Plant",
     category: "WATER",
-    position3D: [-5.0, 1.2, -6.0],
+    position3D: [10.0, 1.2, -14.0],
     operationalStatus: "RUNNING",
     healthScore: 0.94,
     failureProbability: 0.03,
@@ -254,6 +254,26 @@ export const MAITRI_ASSET_REGISTRY: Record<string, DigitalTwinAsset> = {
   },
 
   // Scientific, AWS & Comms
+  "COM-MAI-001": {
+    assetId: "COM-MAI-001",
+    stationId: "maitri",
+    name: "Ku-Band Satellite Ground Station Radome",
+    category: "COMMS",
+    position3D: [12.0, 3.5, -7.0],
+    operationalStatus: "RUNNING",
+    healthScore: 0.99,
+    failureProbability: 0.01,
+    rulHours: 28000,
+    anomalyScore: 0.01,
+    readings: {},
+    specifications: {
+      Dish: "3.0m Ku-Band Steerable Satellite Reflector under Hydrophobic Radome",
+      Function: "Real-time Telemetry, Voice, Data Link to NCPOR Goa HQ",
+    },
+    maintenance: { lastService: "2026-01-15", nextDueHours: 5200, intervalHours: 8760 },
+    systemDependencies: ["SWG-MAI-001"],
+  },
+
   "AWS-MAI-001": {
     assetId: "AWS-MAI-001",
     stationId: "maitri",

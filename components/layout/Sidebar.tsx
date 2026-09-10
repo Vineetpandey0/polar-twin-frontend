@@ -4,31 +4,76 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Activity,
-  ShieldAlert,
-  Cpu,
-  Box,
-  Bot,
+  Gauge,
   Radio,
+  Wrench,
   Compass,
-  Boxes,
-  Sliders,
+  Building2,
+  Zap,
+  Box,
+  GitBranch,
+  ShieldAlert,
+  Package,
+  Terminal,
   ChevronLeft,
   ChevronRight,
+  Crosshair,
+  Globe,
 } from "lucide-react";
 
-const navItems = [
-  { name: "Operations Hub", href: "/", icon: Activity },
-  { name: "Maitri Station", href: "/stations/maitri", icon: Radio },
-  { name: "Maitri Machinery Hub", href: "/stations/maitri/details", icon: Sliders },
-  { name: "Bharati Station", href: "/stations/bharati", icon: Cpu },
-  { name: "Bharati Machinery Hub", href: "/stations/bharati/details", icon: Sliders },
-  { name: "Maitri 3D Twin", href: "/stations/maitri/3d", icon: Compass },
-  { name: "Bharati 3D Twin", href: "/stations/bharati/3d", icon: Box },
-  { name: "Scenario Simulator", href: "/stations/maitri/scenarios", icon: Sliders },
-  { name: "Alert Center", href: "/alerts", icon: ShieldAlert },
-  { name: "Inventory & Stocks", href: "/inventory", icon: Boxes },
-  { name: "AI Assistant", href: "/ai", icon: Bot },
+interface NavItem {
+  name: string;
+  href: string;
+  code: string;
+  icon: any;
+}
+
+interface NavSection {
+  title: string;
+  accentColor: string;
+  stationIndicator?: string;
+  items: NavItem[];
+}
+
+const navSections: NavSection[] = [
+  {
+    title: "OVERVIEW",
+    accentColor: "#38BDF8",
+    items: [
+      { name: "Operations Hub", href: "/", code: "HUB", icon: Gauge },
+      { name: "Live Operations Map", href: "/map", code: "MAP", icon: Globe },
+    ],
+  },
+  {
+    title: "MAITRI STATION",
+    accentColor: "#FBBF24",
+    stationIndicator: "#FBBF24",
+    items: [
+      { name: "Station Overview", href: "/stations/maitri", code: "MAI", icon: Radio },
+      { name: "Machinery Hub", href: "/stations/maitri/details", code: "M-MC", icon: Wrench },
+      { name: "3D Digital Twin", href: "/stations/maitri/3d", code: "3D-M", icon: Compass },
+    ],
+  },
+  {
+    title: "BHARATI STATION",
+    accentColor: "#38BDF8",
+    stationIndicator: "#38BDF8",
+    items: [
+      { name: "Station Overview", href: "/stations/bharati", code: "BHA", icon: Building2 },
+      { name: "Machinery Hub", href: "/stations/bharati/details", code: "B-MC", icon: Zap },
+      { name: "3D Digital Twin", href: "/stations/bharati/3d", code: "3D-B", icon: Box },
+    ],
+  },
+  {
+    title: "OPERATIONS & TOOLS",
+    accentColor: "#38BDF8",
+    items: [
+      { name: "Scenario Simulator", href: "/stations/maitri/scenarios", code: "SIM", icon: GitBranch },
+      { name: "Alert Center", href: "/alerts", code: "ALR", icon: ShieldAlert },
+      { name: "Inventory & Stocks", href: "/inventory", code: "LOG", icon: Package },
+      { name: "AI Diagnostics CLI", href: "/ai", code: "DIA", icon: Terminal },
+    ],
+  },
 ];
 
 export default function Sidebar() {
@@ -37,20 +82,25 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`glass-panel flex flex-col min-h-screen p-3 border-r border-slate-800 shrink-0 transition-all duration-300 relative ${
-        isCollapsed ? "w-16" : "w-64"
+      className={`bg-[#0F1722] flex flex-col min-h-screen p-2 border-r border-[#1E293B] shrink-0 transition-all duration-150 select-none z-30 ${
+        isCollapsed ? "w-14" : "w-60"
       }`}
     >
       {/* Header Logo & Collapse Toggle */}
-      <div className="flex items-center justify-between px-1 py-3 mb-4">
-        <div className="flex items-center space-x-3 overflow-hidden">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center font-bold text-white shadow-lg glow-blue shrink-0">
-            PT
+      <div className="flex items-center justify-between px-1 py-2 mb-2 border-b border-[#1E293B] pb-2.5">
+        <div className="flex items-center space-x-2.5 overflow-hidden">
+          {/* Mission Console Station Monogram */}
+          <div className="w-7 h-7 rounded-sm bg-[#090D14] border border-[#1E293B] flex items-center justify-center font-mono font-bold text-[11px] text-[#8CA1B6] shrink-0">
+            <Crosshair className="w-4 h-4 text-[#38BDF8]" />
           </div>
           {!isCollapsed && (
-            <div className="transition-opacity duration-300">
-              <h1 className="font-bold text-base text-slate-100 tracking-wide leading-none">PolarTwin</h1>
-              <p className="text-[10px] text-cyan-400 font-medium mt-0.5">Antarctic Twin</p>
+            <div className="leading-tight min-w-0">
+              <h1 className="font-bold text-sm text-[#E2EAF4] tracking-wider uppercase truncate">
+                PolarTwin
+              </h1>
+              <span className="text-[9px] font-mono text-[#5B7086] block tracking-tight">
+                ANTARCTIC DIGITAL TWIN
+              </span>
             </div>
           )}
         </div>
@@ -58,47 +108,97 @@ export default function Sidebar() {
         {/* Collapse Toggle Button */}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="w-7 h-7 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center border border-slate-700 transition-all shrink-0"
-          title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          className="w-6 h-6 rounded-sm bg-[#090D14] hover:bg-[#131D2B] text-[#8CA1B6] hover:text-[#E2EAF4] flex items-center justify-center border border-[#1E293B] transition-colors shrink-0"
+          title={isCollapsed ? "Expand Console" : "Collapse Console"}
         >
-          {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+          {isCollapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronLeft className="w-3.5 h-3.5" />}
         </button>
       </div>
 
-      {/* Navigation Items */}
-      <nav className="space-y-1 flex-1">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+      {/* Grouped Navigation Sections */}
+      <nav className="flex-1 space-y-3 overflow-y-auto pr-0.5">
+        {navSections.map((section, sectionIdx) => (
+          <div key={section.title} className="space-y-0.5">
+            {/* Section Header */}
+            {isCollapsed ? (
+              sectionIdx > 0 && <div className="border-t border-[#1E293B] my-2" />
+            ) : (
+              <div className="flex items-center space-x-1.5 px-2 pt-1 pb-1">
+                {section.stationIndicator && (
+                  <span
+                    className="w-1.5 h-1.5 rounded-full shrink-0"
+                    style={{ backgroundColor: section.stationIndicator }}
+                  />
+                )}
+                <span className="text-[10px] font-mono tracking-wider text-[#5B7086] font-semibold uppercase">
+                  {section.title}
+                </span>
+              </div>
+            )}
 
-          return (
-            <Link
-              key={item.name}
-              href={item.href}
-              title={isCollapsed ? item.name : undefined}
-              className={`flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all ${
-                isActive
-                  ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 shadow-md"
-                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
-              } ${isCollapsed ? "justify-center px-0" : ""}`}
-            >
-              <Icon className="w-4 h-4 shrink-0" />
-              {!isCollapsed && <span className="truncate">{item.name}</span>}
-            </Link>
-          );
-        })}
+            {/* Section Items */}
+            <div className="space-y-0.5">
+              {section.items.map((item) => {
+                const Icon = item.icon;
+                const isActive = pathname === item.href;
+
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    title={isCollapsed ? `${section.title}: ${item.name}` : undefined}
+                    style={{
+                      borderLeftColor: isActive ? section.accentColor : "transparent",
+                    }}
+                    className={`flex items-center space-x-2 px-2 py-1.5 rounded-sm text-xs font-medium tracking-wide transition-colors ${
+                      isActive
+                        ? "bg-[#131D2B] text-[#E2EAF4] border-l-[3px] border-y border-r border-[#1E293B]"
+                        : "text-[#8CA1B6] hover:text-[#E2EAF4] hover:bg-[#131D2B]/50 border border-transparent border-l-[3px]"
+                    } ${isCollapsed ? "justify-center px-0" : ""}`}
+                  >
+                    <Icon
+                      className={`w-3.5 h-3.5 shrink-0 transition-colors ${
+                        isActive ? "text-[#E2EAF4]" : "text-[#8CA1B6]"
+                      }`}
+                    />
+                    {!isCollapsed && (
+                      <div className="flex items-center justify-between w-full min-w-0">
+                        <span className="truncate">{item.name}</span>
+                        <span className="text-[9px] font-mono text-[#5B7086] ml-1.5">
+                          {item.code}
+                        </span>
+                      </div>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
-      {/* Telemetry Status Footer */}
-      <div className={`p-2.5 glass-card rounded-xl border border-slate-700/50 mt-auto ${isCollapsed ? "text-center" : "space-y-1"}`}>
-        <div className={`flex items-center text-xs text-slate-300 ${isCollapsed ? "justify-center" : "space-x-2"}`}>
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-          {!isCollapsed && <span className="font-semibold text-[11px]">Telemetry Engine</span>}
+      {/* SCADA Telemetry Bus Footer */}
+      <div
+        className={`p-2 bg-[#090D14] rounded-sm border border-[#1E293B] mt-auto ${
+          isCollapsed ? "text-center" : "space-y-1"
+        }`}
+      >
+        <div
+          className={`flex items-center text-xs text-[#E2EAF4] ${
+            isCollapsed ? "justify-center" : "space-x-1.5"
+          }`}
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-[#34D399] shrink-0 animate-pulse" />
+          {!isCollapsed && (
+            <span className="font-mono text-[9px] uppercase tracking-wider text-[#8CA1B6]">
+              SCADA BUS ACTIVE
+            </span>
+          )}
         </div>
         {!isCollapsed && (
-          <div className="text-[10px] text-slate-400 flex items-center justify-between pt-0.5">
-            <span>Simulation</span>
-            <span className="font-mono text-cyan-400 font-bold">5s TICK</span>
+          <div className="text-[9px] font-mono text-[#5B7086] flex items-center justify-between pt-1 border-t border-[#1E293B]">
+            <span>ENGINE SYNC</span>
+            <span className="text-[#34D399] font-medium">5000ms</span>
           </div>
         )}
       </div>

@@ -63,93 +63,93 @@ export function DigitalTwinHUD({
   const [cameraOpen, setCameraOpen] = useState(true);
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-10 flex flex-col justify-between p-4 font-sans">
+    <div className="absolute inset-0 pointer-events-none z-10 flex flex-col justify-between p-3 font-mono">
       {/* Top Header Bar */}
       <div className="flex items-center justify-between pointer-events-auto">
         {/* Station Identity & Switcher */}
-        <div className="glass-panel p-2.5 rounded-2xl border border-cyan-500/30 flex items-center space-x-3 bg-slate-950/80 backdrop-blur-xl shadow-2xl">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center font-bold text-white shadow-lg glow-blue text-xs">
+        <div className="bg-[#0F1722] p-2 rounded-sm border border-[#1E2C3D] flex items-center space-x-3">
+          <div className="w-8 h-8 rounded-sm bg-[#131D2B] border border-[#38BDF8] flex items-center justify-center font-bold text-[#38BDF8] text-xs">
             {isMaitri ? "MAI" : "BHA"}
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h2 className="font-extrabold text-slate-100 text-sm">
-                {isMaitri ? "Maitri Station Twin" : "Bharati Station Twin"}
+              <h2 className="font-bold text-[#E2EAF4] text-xs uppercase tracking-wide">
+                {isMaitri ? "Maitri 3D Digital Twin" : "Bharati 3D Digital Twin"}
               </h2>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30 animate-pulse">
-                LIVE 3D SCADA
+              <span className="text-[9px] px-1.5 py-0.5 rounded-sm bg-[#10291D] text-[#34D399] font-bold border border-[#34D399]">
+                [LIVE 3D SCADA]
               </span>
             </div>
-            <p className="text-[10px] text-slate-400">
+            <p className="text-[10px] text-[#8CA1B6]">
               {isMaitri ? "Schirmacher Oasis (-70.76°S, 11.73°E)" : "Larsemann Hills (-69.40°S, 76.18°E)"}
             </p>
           </div>
 
-          <div className="flex items-center space-x-1 pl-2 border-l border-slate-800">
+          <div className="flex items-center space-x-1 pl-2 border-l border-[#1E2C3D]">
             <button
               onClick={() => onStationChange("maitri")}
-              className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                isMaitri ? "bg-amber-500/20 text-amber-300 border border-amber-500/40" : "text-slate-400 hover:text-slate-200"
+              className={`px-2 py-1 rounded-sm text-xs font-semibold uppercase transition-colors ${
+                isMaitri ? "bg-[#131D2B] text-[#FBBF24] border border-[#FBBF24]" : "text-[#8CA1B6] hover:text-[#E2EAF4]"
               }`}
             >
-              Maitri
+              MAITRI
             </button>
             <button
               onClick={() => onStationChange("bharati")}
-              className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                !isMaitri ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40" : "text-slate-400 hover:text-slate-200"
+              className={`px-2 py-1 rounded-sm text-xs font-semibold uppercase transition-colors ${
+                !isMaitri ? "bg-[#131D2B] text-[#38BDF8] border border-[#38BDF8]" : "text-[#8CA1B6] hover:text-[#E2EAF4]"
               }`}
             >
-              Bharati
+              BHARATI
             </button>
           </div>
         </div>
 
         {/* Global Controls: Polar Lighting & Auto Tour */}
-        <div className="glass-panel p-2 rounded-2xl border border-slate-800 flex items-center space-x-2 bg-slate-950/80 backdrop-blur-xl">
+        <div className="bg-[#0F1722] p-1.5 rounded-sm border border-[#1E2C3D] flex items-center space-x-1.5">
           <button
             onClick={onTogglePolarNight}
-            className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-cyan-400 text-xs font-bold flex items-center space-x-1.5 transition-all"
+            className="px-2.5 py-1 rounded-sm bg-[#131D2B] hover:bg-[#1E2C3D] border border-[#1E2C3D] text-[#E2EAF4] text-xs font-semibold flex items-center space-x-1.5 transition-colors"
             title="Toggle Polar Day / Polar Night"
           >
-            {isPolarNight ? <Moon className="w-4 h-4 text-purple-400" /> : <Sun className="w-4 h-4 text-amber-400" />}
-            <span className="text-[11px]">{isPolarNight ? "Polar Night" : "Polar Day"}</span>
+            {isPolarNight ? <Moon className="w-3.5 h-3.5 text-[#38BDF8]" /> : <Sun className="w-3.5 h-3.5 text-[#FBBF24]" />}
+            <span className="text-[11px] uppercase">{isPolarNight ? "POLAR NIGHT" : "POLAR DAY"}</span>
           </button>
 
           <button
             onClick={onToggleAutoRotate}
-            className={`p-2 rounded-xl border text-xs font-bold flex items-center space-x-1.5 transition-all ${
+            className={`px-2.5 py-1 rounded-sm border text-xs font-semibold flex items-center space-x-1.5 transition-colors ${
               autoRotate
-                ? "bg-cyan-500/20 text-cyan-300 border-cyan-500/40"
-                : "bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200"
+                ? "bg-[#131D2B] text-[#38BDF8] border-[#38BDF8]"
+                : "bg-[#131D2B] border-[#1E2C3D] text-[#8CA1B6] hover:text-[#E2EAF4]"
             }`}
           >
-            <RotateCw className={`w-4 h-4 ${autoRotate ? "animate-spin" : ""}`} />
-            <span className="text-[11px]">Tour Mode</span>
+            <RotateCw className="w-3.5 h-3.5" />
+            <span className="text-[11px] uppercase">TOUR MODE</span>
           </button>
         </div>
       </div>
 
       {/* Middle Row: Left Layer Controls & Right Selected Asset Telemetry Drawer */}
-      <div className="flex items-start justify-between flex-1 my-4 pointer-events-none">
+      <div className="flex items-start justify-between flex-1 my-3 pointer-events-none">
         {/* Left Side: System Visualization Layers */}
-        <div className="pointer-events-auto space-y-2 max-w-[210px]">
-          <div className="glass-card p-3 rounded-2xl border border-slate-800/90 bg-slate-950/90 backdrop-blur-xl space-y-2 shadow-2xl">
-            <div className="flex items-center justify-between pb-1 border-b border-slate-800 text-xs font-bold text-slate-300">
+        <div className="pointer-events-auto space-y-2 max-w-[200px]">
+          <div className="bg-[#0F1722] p-2.5 rounded-sm border border-[#1E2C3D] space-y-1.5">
+            <div className="flex items-center justify-between pb-1 border-b border-[#1E2C3D] text-xs font-bold text-[#E2EAF4]">
               <div className="flex items-center space-x-1.5">
-                <Layers className="w-3.5 h-3.5 text-cyan-400" />
-                <span>System Layers</span>
+                <Layers className="w-3.5 h-3.5 text-[#38BDF8]" />
+                <span className="uppercase text-[11px]">SCADA Layers</span>
               </div>
             </div>
 
-            <div className="space-y-1 text-xs">
+            <div className="space-y-0.5 text-xs">
               {[
-                { id: "ALL", label: "Overview Layer", icon: Eye, color: "text-slate-300" },
-                { id: "POWER", label: "Power Grid Flow", icon: Zap, color: "text-amber-400" },
-                { id: "WATER", label: "Water & Intake Loop", icon: Droplets, color: "text-cyan-400" },
-                { id: "THERMAL", label: "Thermal Heatmap", icon: Flame, color: "text-rose-400" },
-                { id: "COMMS", label: "Satcom RF Links", icon: Radio, color: "text-sky-400" },
-                { id: "WEATHER", label: "Wind & Particles", icon: Wind, color: "text-emerald-400" },
+                { id: "ALL", label: "Overview Layer", icon: Eye, color: "text-[#E2EAF4]" },
+                { id: "POWER", label: "Power Grid Flow", icon: Zap, color: "text-[#FBBF24]" },
+                { id: "WATER", label: "Water & Intake Loop", icon: Droplets, color: "text-[#38BDF8]" },
+                { id: "THERMAL", label: "Thermal Heatmap", icon: Flame, color: "text-[#F87171]" },
+                { id: "COMMS", label: "Satcom RF Links", icon: Radio, color: "text-[#38BDF8]" },
+                { id: "WEATHER", label: "Wind & Particles", icon: Wind, color: "text-[#34D399]" },
               ].map((layer) => {
                 const Icon = layer.icon;
                 const isActive = activeLayer === layer.id;
@@ -158,14 +158,14 @@ export function DigitalTwinHUD({
                   <button
                     key={layer.id}
                     onClick={() => onLayerChange(layer.id as VisualizationLayer)}
-                    className={`w-full flex items-center space-x-2 px-2.5 py-1.5 rounded-lg font-semibold text-[11px] transition-all ${
+                    className={`w-full flex items-center space-x-2 px-2 py-1 rounded-sm text-[11px] transition-colors ${
                       isActive
-                        ? "bg-cyan-500/25 text-cyan-300 border border-cyan-500/40 shadow-sm"
-                        : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/60"
+                        ? "bg-[#131D2B] text-[#E2EAF4] border border-[#38BDF8] font-bold"
+                        : "text-[#8CA1B6] hover:text-[#E2EAF4] hover:bg-[#131D2B]/60"
                     }`}
                   >
                     <Icon className={`w-3.5 h-3.5 ${layer.color}`} />
-                    <span>{layer.label}</span>
+                    <span className="truncate">{layer.label}</span>
                   </button>
                 );
               })}
@@ -173,11 +173,11 @@ export function DigitalTwinHUD({
           </div>
 
           {/* Camera Perspectives */}
-          <div className="glass-card p-3 rounded-2xl border border-slate-800/90 bg-slate-950/90 backdrop-blur-xl space-y-2 shadow-2xl">
-            <div className="flex items-center justify-between pb-1 border-b border-slate-800 text-xs font-bold text-slate-300">
+          <div className="bg-[#0F1722] p-2.5 rounded-sm border border-[#1E2C3D] space-y-1.5">
+            <div className="flex items-center justify-between pb-1 border-b border-[#1E2C3D] text-xs font-bold text-[#E2EAF4]">
               <div className="flex items-center space-x-1.5">
-                <Camera className="w-3.5 h-3.5 text-purple-400" />
-                <span>Camera Views</span>
+                <Camera className="w-3.5 h-3.5 text-[#38BDF8]" />
+                <span className="uppercase text-[11px]">Camera Presets</span>
               </div>
             </div>
 
@@ -195,10 +195,10 @@ export function DigitalTwinHUD({
                 <button
                   key={cam.id}
                   onClick={() => onCameraChange(cam.id as CameraPreset)}
-                  className={`px-2 py-1 rounded-md text-left font-mono truncate transition-all ${
+                  className={`px-1.5 py-1 rounded-sm text-left truncate transition-colors ${
                     cameraPreset === cam.id
-                      ? "bg-purple-500/25 text-purple-300 border border-purple-500/40"
-                      : "text-slate-400 hover:text-slate-200 bg-slate-900/50"
+                      ? "bg-[#131D2B] text-[#E2EAF4] border border-[#38BDF8] font-bold"
+                      : "text-[#8CA1B6] hover:text-[#E2EAF4] bg-[#131D2B]/50"
                   }`}
                 >
                   {cam.label}
@@ -210,59 +210,59 @@ export function DigitalTwinHUD({
 
         {/* Right Side: Selected Asset Inspector Drawer */}
         {selectedAsset && (
-          <div className="pointer-events-auto glass-panel p-4 rounded-2xl border border-cyan-500/40 bg-slate-950/95 backdrop-blur-2xl shadow-2xl max-w-sm w-full space-y-3.5 animate-fadeIn">
+          <div className="pointer-events-auto bg-[#0F1722] p-3.5 rounded-sm border border-[#1E2C3D] max-w-sm w-full space-y-3">
             {/* Header */}
-            <div className="flex items-start justify-between pb-2 border-b border-slate-800">
+            <div className="flex items-start justify-between pb-2 border-b border-[#1E2C3D]">
               <div>
-                <span className="text-[9px] font-mono uppercase px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-                  {selectedAsset.category} ASSET
+                <span className="text-[9px] uppercase px-1.5 py-0.5 rounded-sm bg-[#131D2B] text-[#38BDF8] border border-[#1E2C3D]">
+                  [{selectedAsset.category} ASSET]
                 </span>
-                <h3 className="font-extrabold text-slate-100 text-sm mt-1">{selectedAsset.name}</h3>
-                <div className="text-[10px] text-slate-500 font-mono">{selectedAsset.assetId}</div>
+                <h3 className="font-bold text-[#E2EAF4] text-xs mt-1 uppercase tracking-wide">{selectedAsset.name}</h3>
+                <div className="text-[10px] text-[#8CA1B6]">[{selectedAsset.assetId}]</div>
               </div>
               <button
                 onClick={onCloseAsset}
-                className="p-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-100"
+                className="p-1 rounded-sm bg-[#131D2B] border border-[#1E2C3D] text-[#8CA1B6] hover:text-[#E2EAF4]"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             </div>
 
             {/* Health & Prognostics Card */}
-            <div className="grid grid-cols-3 gap-2 bg-slate-900/80 p-2.5 rounded-xl border border-slate-800/80 text-center">
+            <div className="grid grid-cols-3 gap-1.5 bg-[#131D2B] p-2 rounded-sm border border-[#1E2C3D] text-center">
               <div>
-                <span className="text-[9px] text-slate-400 block uppercase">Health Score</span>
-                <span className="text-sm font-black text-emerald-400 font-mono">
+                <span className="text-[9px] text-[#8CA1B6] block uppercase">HEALTH</span>
+                <span className="text-xs font-bold text-[#34D399] tnum">
                   {Math.round(selectedAsset.healthScore * 100)}%
                 </span>
               </div>
               <div>
-                <span className="text-[9px] text-slate-400 block uppercase">Failure Risk</span>
-                <span className="text-sm font-black text-slate-200 font-mono">
+                <span className="text-[9px] text-[#8CA1B6] block uppercase">FAIL RISK</span>
+                <span className="text-xs font-bold text-[#E2EAF4] tnum">
                   {(selectedAsset.failureProbability * 100).toFixed(1)}%
                 </span>
               </div>
               <div>
-                <span className="text-[9px] text-slate-400 block uppercase">Est. RUL</span>
-                <span className="text-sm font-black text-cyan-300 font-mono">
+                <span className="text-[9px] text-[#8CA1B6] block uppercase">EST. RUL</span>
+                <span className="text-xs font-bold text-[#38BDF8] tnum">
                   {selectedAsset.rulHours}h
                 </span>
               </div>
             </div>
 
             {/* Real-Time Telemetry Grid */}
-            <div className="space-y-1.5">
-              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
-                Live Operating Telemetry
+            <div className="space-y-1">
+              <span className="text-[10px] text-[#8CA1B6] font-bold uppercase tracking-wider block">
+                LIVE TELEMETRY VALUES
               </span>
               <div className="space-y-1 max-h-36 overflow-y-auto pr-1">
                 {Object.entries(selectedAsset.readings || {}).map(([key, item]: [string, any]) => (
                   <div
                     key={key}
-                    className="flex items-center justify-between text-xs p-1.5 bg-slate-900/60 rounded-lg border border-slate-800/60"
+                    className="flex items-center justify-between text-xs p-1.5 bg-[#131D2B] rounded-sm border border-[#1E2C3D]"
                   >
-                    <span className="text-slate-400 text-[11px]">{item.label || key}</span>
-                    <span className="font-mono font-bold text-slate-100 text-[11px]">
+                    <span className="text-[#8CA1B6] text-[11px]">{item.label || key}</span>
+                    <span className="font-bold text-[#E2EAF4] text-[11px] tnum">
                       {item.value} {item.unit}
                     </span>
                   </div>
@@ -271,14 +271,14 @@ export function DigitalTwinHUD({
             </div>
 
             {/* Specifications & Maintenance */}
-            <div className="pt-2 border-t border-slate-800/80 text-[10px] space-y-1 text-slate-400">
+            <div className="pt-2 border-t border-[#1E2C3D] text-[10px] space-y-1 text-[#8CA1B6]">
               <div className="flex justify-between">
-                <span>Next Service Window:</span>
-                <span className="font-mono text-slate-200">{selectedAsset.maintenance?.nextDueHours} operating hours</span>
+                <span>NEXT SERVICE:</span>
+                <span className="text-[#E2EAF4]">{selectedAsset.maintenance?.nextDueHours} HRS</span>
               </div>
               <div className="flex justify-between">
-                <span>Last Overhaul:</span>
-                <span className="font-mono text-slate-300">{selectedAsset.maintenance?.lastService}</span>
+                <span>LAST OVERHAUL:</span>
+                <span className="text-[#E2EAF4]">{selectedAsset.maintenance?.lastService}</span>
               </div>
             </div>
           </div>
@@ -287,18 +287,19 @@ export function DigitalTwinHUD({
 
       {/* Bottom Floating Bar */}
       <div className="flex items-center justify-between pointer-events-auto">
-        <div className="glass-panel px-3 py-1.5 rounded-xl border border-slate-800 text-[11px] text-slate-400 flex items-center space-x-2 bg-slate-950/80">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-          <span>Interactive 3D Viewport — Click any asset or tower to inspect telemetry</span>
+        <div className="bg-[#0F1722] px-3 py-1.5 rounded-sm border border-[#1E2C3D] text-[11px] text-[#8CA1B6] flex items-center space-x-2">
+          <span className="w-1.5 h-1.5 rounded-sm bg-[#34D399]" />
+          <span>INTERACTIVE 3D VIEWPORT // CLICK ANY ASSET OR TOWER TO PROBE SCADA TELEMETRY</span>
         </div>
 
         <Link
           href={`/stations/${stationId}`}
-          className="glass-panel px-3.5 py-2 rounded-xl border border-cyan-500/40 text-xs font-bold text-cyan-300 bg-slate-950/90 hover:bg-cyan-500/20 transition-all shadow-lg flex items-center space-x-1.5"
+          className="bg-[#0F1722] hover:bg-[#131D2B] px-3 py-1.5 rounded-sm border border-[#1E2C3D] hover:border-[#38BDF8] text-xs font-semibold text-[#E2EAF4] transition-colors"
         >
-          <span>Open Full 2D Telemetry Dashboard</span>
+          OPEN 2D TELEMETRY CONSOLE
         </Link>
       </div>
     </div>
   );
 }
+

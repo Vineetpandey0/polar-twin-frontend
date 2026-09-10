@@ -65,91 +65,85 @@ export default function StationDetailPage() {
   const healthScore = stationDetail?.station_health_score ?? (isMaitri ? 0.94 : 0.98);
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 rounded-2xl border border-slate-800">
+    <div className="space-y-4 max-w-7xl mx-auto">
+      {/* Station Command Console Header */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between bg-[#0F1722] p-4 rounded-sm border border-[#1E2C3D] gap-4">
         <div>
-          <div className="flex items-center space-x-2">
-            <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
-              isMaitri ? "bg-amber-500/20 text-amber-400" : "bg-cyan-500/20 text-cyan-400"
-            }`}>
-              Digital Twin Model
+          <div className="flex items-center space-x-2 font-mono text-xs mb-1">
+            <span className={`font-bold ${isMaitri ? "text-[#FBBF24]" : "text-[#38BDF8]"}`}>
+              [{isMaitri ? "STATION: MAITRI // 70.76°S 11.73°E" : "STATION: BHARATI // 69.41°S 76.19°E"}]
             </span>
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">
-              3D Interactive
-            </span>
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300">
-              ML Prognostics Active
-            </span>
+            <span className="text-[#8CA1B6]">[3D SPATIAL DIGITAL TWIN]</span>
           </div>
-          <h1 className="text-2xl font-black text-slate-100 mt-1">
-            {isMaitri ? "Maitri Station Twin" : "Bharati Station Twin"}
+          <h1 className="text-2xl lg:text-[28px] font-bold text-[#E2EAF4] tracking-wide uppercase leading-tight">
+            {isMaitri ? "Maitri Station Operations Console" : "Bharati Station Operations Console"}
           </h1>
-          <p className="text-xs text-slate-400">
-            {isMaitri ? "Schirmacher Oasis (-70.7667° S, 11.7333° E)" : "Larsemann Hills (-69.4072° S, 76.1872° E)"}
+          <p className="text-sm font-mono text-[#8CA1B6] mt-1">
+            {isMaitri ? "Schirmacher Oasis, Queen Maud Land (Established 1989)" : "Larsemann Hills, Ingrid Christensen Coast (Established 2012)"}
           </p>
         </div>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2.5">
           <Link
             href={`/stations/${stationId}/details`}
-            className={`px-4 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition-all shadow-lg border ${
-              isMaitri
-                ? "bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border-amber-500/40"
-                : "bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 border-cyan-500/40"
-            }`}
+            className="px-3 py-1.5 rounded-sm text-xs font-mono font-semibold flex items-center space-x-1.5 bg-[#131D2B] hover:bg-[#1E2C3D] text-[#E2EAF4] border border-[#1E2C3D] hover:border-[#38BDF8] transition-colors"
           >
-            <Activity className="w-4 h-4" />
-            <span>{isMaitri ? "Maitri Machinery Hub" : "Bharati Machinery Hub"}</span>
+            <Activity className="w-3.5 h-3.5 text-[#38BDF8]" />
+            <span>MACHINERY HUB</span>
           </Link>
           <Link
             href={`/stations/${stationId}/3d`}
-            className="px-4 py-2.5 rounded-xl bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 border border-cyan-500/40 text-xs font-bold flex items-center space-x-2 transition-all shadow-lg"
+            className="px-3 py-1.5 rounded-sm bg-[#131D2B] hover:bg-[#1E2C3D] text-[#38BDF8] border border-[#1E2C3D] hover:border-[#38BDF8] text-xs font-mono font-semibold flex items-center space-x-1.5 transition-colors"
           >
-            <Maximize2 className="w-4 h-4" />
-            <span>Fullscreen 3D</span>
+            <Maximize2 className="w-3.5 h-3.5" />
+            <span>FULLSCREEN 3D</span>
           </Link>
           <HealthScoreGauge score={healthScore} />
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex space-x-2 border-b border-slate-800 pb-2">
+      <div className="flex space-x-1 border-b border-[#1E2C3D] pb-1 font-mono text-xs">
         {(["3d", "ml", "overview", "energy", "inventory"] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center space-x-1.5 ${
+            className={`px-3 py-1.5 rounded-sm font-semibold uppercase tracking-wider transition-colors flex items-center space-x-1.5 ${
               activeTab === tab
-                ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#131D2B] text-[#E2EAF4] border border-[#1E2C3D] border-b-2 border-b-[#38BDF8]"
+                : "text-[#8CA1B6] hover:text-[#E2EAF4] hover:bg-[#131D2B]/50"
             }`}
           >
             {tab === "3d" && <Box className="w-3.5 h-3.5" />}
-            {tab === "ml" && <Brain className="w-3.5 h-3.5 text-cyan-400" />}
+            {tab === "ml" && <Brain className="w-3.5 h-3.5 text-[#38BDF8]" />}
             <span>
               {tab === "3d"
                 ? "3D Spatial Twin"
                 : tab === "ml"
-                ? "ML & Prognostics"
-                : tab}
+                ? "ML Prognostics"
+                : tab === "overview"
+                ? "Sensors & Assets"
+                : tab === "energy"
+                ? "Energy Grid"
+                : "Station Logistics"}
             </span>
           </button>
         ))}
         {isMaitri && (
           <Link
             href="/stations/maitri/details"
-            className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center space-x-1.5 text-amber-400 hover:bg-amber-500/10 border border-amber-500/30"
+            className="px-3 py-1.5 rounded-sm font-semibold uppercase tracking-wider transition-colors flex items-center space-x-1.5 text-[#FBBF24] hover:bg-[#131D2B] border border-transparent hover:border-[#1E2C3D]"
           >
             <Sliders className="w-3.5 h-3.5" />
-            <span>Maitri Machinery & Science Explorer</span>
+            <span>Machinery Explorer</span>
           </Link>
         )}
       </div>
 
       {/* 3D Spatial Twin Tab */}
       {activeTab === "3d" && (
-        <div className="space-y-4">
-          <div className="h-[600px] w-full">
+        <div className="space-y-2">
+          <div className="h-[600px] w-full rounded-sm border border-[#1E2C3D] overflow-hidden bg-[#090D14]">
             <StationCanvas stationId={stationId} />
           </div>
         </div>
@@ -160,43 +154,45 @@ export default function StationDetailPage() {
 
       {/* Overview Tab */}
       {activeTab === "overview" && (
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="glass-card p-4 rounded-xl border border-slate-800 flex items-center space-x-3">
-              <Thermometer className="w-6 h-6 text-amber-400" />
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono">
+            <div className="bg-[#0F1722] p-3 rounded-sm border border-[#1E2C3D] flex items-center space-x-3">
+              <Thermometer className="w-5 h-5 text-[#38BDF8]" />
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-semibold block">Ambient Temp</span>
-                <span className="text-lg font-bold text-slate-100">{isMaitri ? "-25.2°C" : "-18.4°C"}</span>
+                <span className="text-[11px] text-[#8CA1B6] uppercase tracking-wider block font-mono">Ambient Temp</span>
+                <span className="text-[22px] font-bold font-mono text-[#E2EAF4] tnum leading-tight">{isMaitri ? "-25.2°C" : "-18.4°C"}</span>
               </div>
             </div>
 
-            <div className="glass-card p-4 rounded-xl border border-slate-800 flex items-center space-x-3">
-              <Wind className="w-6 h-6 text-cyan-400" />
+            <div className="bg-[#0F1722] p-3 rounded-sm border border-[#1E2C3D] flex items-center space-x-3">
+              <Wind className="w-5 h-5 text-[#38BDF8]" />
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-semibold block">Wind Speed</span>
-                <span className="text-lg font-bold text-slate-100">{isMaitri ? "28.5 km/h" : "34.1 km/h"}</span>
+                <span className="text-[11px] text-[#8CA1B6] uppercase tracking-wider block font-mono">Wind Velocity</span>
+                <span className="text-[22px] font-bold font-mono text-[#E2EAF4] tnum leading-tight">{isMaitri ? "28.5 km/h" : "34.1 km/h"}</span>
               </div>
             </div>
 
-            <div className="glass-card p-4 rounded-xl border border-slate-800 flex items-center space-x-3">
-              <Eye className="w-6 h-6 text-emerald-400" />
+            <div className="bg-[#0F1722] p-3 rounded-sm border border-[#1E2C3D] flex items-center space-x-3">
+              <Eye className="w-5 h-5 text-[#34D399]" />
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-semibold block">Visibility</span>
-                <span className="text-lg font-bold text-slate-100">10.0 km</span>
+                <span className="text-[11px] text-[#8CA1B6] uppercase tracking-wider block font-mono">Surface Visibility</span>
+                <span className="text-[22px] font-bold font-mono text-[#E2EAF4] tnum leading-tight">10.0 km</span>
               </div>
             </div>
 
-            <div className="glass-card p-4 rounded-xl border border-slate-800 flex items-center space-x-3">
-              <Activity className="w-6 h-6 text-purple-400" />
+            <div className="bg-[#0F1722] p-3 rounded-sm border border-[#1E2C3D] flex items-center space-x-3">
+              <Activity className="w-5 h-5 text-[#38BDF8]" />
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-semibold block">Pressure</span>
-                <span className="text-lg font-bold text-slate-100">984.2 hPa</span>
+                <span className="text-[11px] text-[#8CA1B6] uppercase tracking-wider block font-mono">Barometric Press</span>
+                <span className="text-[22px] font-bold font-mono text-[#E2EAF4] tnum leading-tight">984.2 hPa</span>
               </div>
             </div>
           </div>
 
-          <div>
-            <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wider mb-3">Subsystem Assets Status</h3>
+          <div className="bg-[#0F1722] p-4 rounded-sm border border-[#1E2C3D]">
+            <h2 className="text-[17px] font-semibold text-[#E2EAF4] uppercase tracking-wider mb-3 leading-snug">
+              Station Telemetry Matrix :: Monitored Subsystems
+            </h2>
             <AssetStatusGrid assets={assets} />
           </div>
         </div>
@@ -204,20 +200,22 @@ export default function StationDetailPage() {
 
       {/* Energy Tab */}
       {activeTab === "energy" && (
-        <div className="glass-card p-6 rounded-2xl border border-slate-800 space-y-4">
-          <h3 className="font-bold text-slate-100">Energy Generation & Load Flow</h3>
-          <div className="grid grid-cols-3 gap-4 text-xs">
-            <div className="p-4 bg-slate-900/60 rounded-xl border border-slate-800">
-              <span className="text-slate-400 block mb-1">Active Power Generation</span>
-              <span className="text-xl font-bold text-amber-400">{isMaitri ? "145.2 kW" : "180.5 kW"}</span>
+        <div className="bg-[#0F1722] p-4 rounded-sm border border-[#1E2C3D] space-y-3 font-mono">
+          <h2 className="font-semibold text-[17px] text-[#E2EAF4] uppercase tracking-wider border-b border-[#1E2C3D] pb-2 leading-snug">
+            Energy Generation & Microgrid Load Distribution
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="p-3 bg-[#131D2B] rounded-sm border border-[#1E2C3D]">
+              <span className="text-[11px] text-[#8CA1B6] uppercase tracking-wider block mb-1">ACTIVE GENERATION</span>
+              <span className="text-[24px] font-bold font-mono text-[#E2EAF4] tnum leading-none">{isMaitri ? "145.2 kW" : "180.5 kW"}</span>
             </div>
-            <div className="p-4 bg-slate-900/60 rounded-xl border border-slate-800">
-              <span className="text-slate-400 block mb-1">Station Base Load</span>
-              <span className="text-xl font-bold text-cyan-400">{isMaitri ? "110.0 kW" : "135.0 kW"}</span>
+            <div className="p-3 bg-[#131D2B] rounded-sm border border-[#1E2C3D]">
+              <span className="text-[11px] text-[#8CA1B6] uppercase tracking-wider block mb-1">STATION BASE LOAD</span>
+              <span className="text-[24px] font-bold font-mono text-[#38BDF8] tnum leading-none">{isMaitri ? "110.0 kW" : "135.0 kW"}</span>
             </div>
-            <div className="p-4 bg-slate-900/60 rounded-xl border border-slate-800">
-              <span className="text-slate-400 block mb-1">Battery Storage State</span>
-              <span className="text-xl font-bold text-emerald-400">{isMaitri ? "88% SOC" : "94% SOC"}</span>
+            <div className="p-3 bg-[#131D2B] rounded-sm border border-[#1E2C3D]">
+              <span className="text-[11px] text-[#8CA1B6] uppercase tracking-wider block mb-1">BATTERY STORAGE SOC</span>
+              <span className="text-[24px] font-bold font-mono text-[#34D399] tnum leading-none">{isMaitri ? "88.0%" : "94.2%"}</span>
             </div>
           </div>
         </div>
@@ -225,20 +223,22 @@ export default function StationDetailPage() {
 
       {/* Inventory Tab */}
       {activeTab === "inventory" && (
-        <div className="glass-card p-6 rounded-2xl border border-slate-800 space-y-4">
-          <h3 className="font-bold text-slate-100">Station Inventory Levels</h3>
-          <div className="space-y-2 text-xs">
-            <div className="p-3 bg-slate-900/60 rounded-xl flex justify-between items-center">
-              <span>Arctic High-Grade Diesel Reserve</span>
-              <span className="font-bold text-amber-400">{isMaitri ? "45,000 L" : "60,000 L"}</span>
+        <div className="bg-[#0F1722] p-4 rounded-sm border border-[#1E2C3D] space-y-3 font-mono">
+          <h2 className="font-semibold text-[17px] text-[#E2EAF4] uppercase tracking-wider border-b border-[#1E2C3D] pb-2 leading-snug">
+            Station Strategic Stock & Life-Support Reserves
+          </h2>
+          <div className="space-y-2">
+            <div className="p-3 bg-[#131D2B] rounded-sm border border-[#1E2C3D] flex justify-between items-center">
+              <span className="text-sm font-medium text-[#E2EAF4]">Arctic High-Grade ATF / Diesel Reserve</span>
+              <span className="text-base font-bold font-mono text-[#E2EAF4] tnum">{isMaitri ? "45,000 L" : "60,000 L"}</span>
             </div>
-            <div className="p-3 bg-slate-900/60 rounded-xl flex justify-between items-center">
-              <span>Food & Dry Ration Reserves</span>
-              <span className="font-bold text-emerald-400">{isMaitri ? "120 Days" : "180 Days"}</span>
+            <div className="p-3 bg-[#131D2B] rounded-sm border border-[#1E2C3D] flex justify-between items-center">
+              <span className="text-sm font-medium text-[#E2EAF4]">Food & Ration Endurance Window</span>
+              <span className="text-base font-bold font-mono text-[#34D399] tnum">{isMaitri ? "120 DAYS" : "180 DAYS"}</span>
             </div>
-            <div className="p-3 bg-slate-900/60 rounded-xl flex justify-between items-center">
-              <span>Medical Supplies & Trauma Kits</span>
-              <span className="font-bold text-emerald-400">100% Stock</span>
+            <div className="p-3 bg-[#131D2B] rounded-sm border border-[#1E2C3D] flex justify-between items-center">
+              <span className="text-sm font-medium text-[#E2EAF4]">Medical Trauma Reserves</span>
+              <span className="text-base font-bold font-mono text-[#34D399] tnum">100% NOMINAL</span>
             </div>
           </div>
         </div>

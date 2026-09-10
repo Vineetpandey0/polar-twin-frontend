@@ -19,12 +19,27 @@ export function MaitriLakePriyadarshiniZone({
   onSelect,
   onHover,
 }: LakePriyadarshiniZoneProps) {
-  const lakePump = assets["PMP-MAI-LAKE"] || { position3D: [16.0, 0.8, -24.0], name: "Lake Pump House" };
-  const wtrPlant = assets["WTR-MAI-001"] || { position3D: [10.0, 1.2, -14.0], name: "Water Treatment Plant" };
+  const lakePump = assets["PMP-MAI-LAKE"] || {
+    assetId: "PMP-MAI-LAKE",
+    position3D: [16.0, 0.8, -24.0],
+    name: "Lake Priyadarshini Pump House",
+    operationalStatus: "RUNNING",
+    healthScore: 0.94,
+    readings: {},
+  };
+
+  const wtrPlant = assets["WTR-MAI-001"] || {
+    assetId: "WTR-MAI-001",
+    position3D: [10.0, 1.2, -14.0],
+    name: "Priyadarshini Water Treatment Plant",
+    operationalStatus: "RUNNING",
+    healthScore: 0.95,
+    readings: {},
+  };
 
   return (
     <group name="maitri-lake-priyadarshini-water-zone">
-      {/* Lake-Water Pump House at Lake Shoreline (PMP-MAI-LAKE) */}
+      {/* 1. Lake-Water Pump House at Lake Shoreline (PMP-MAI-LAKE) */}
       {lakePump && (
         <group
           position={lakePump.position3D}
@@ -49,8 +64,8 @@ export function MaitriLakePriyadarshiniZone({
           </mesh>
 
           {/* Sub-Ice Penetration Intake Tube into Lake Priyadarshini */}
-          <mesh position={[2.0, -1.0, -1.5]} rotation={[0, 0, Math.PI / 4]} material={materials.structuralStilts}>
-            <cylinderGeometry args={[0.15, 0.15, 2.4, 12]} />
+          <mesh position={[1.8, -0.8, -1.8]} rotation={[0.4, -0.4, 0]} material={materials.structuralStilts}>
+            <cylinderGeometry args={[0.14, 0.14, 2.8, 12]} />
           </mesh>
 
           {/* Status Indicator */}
@@ -68,13 +83,13 @@ export function MaitriLakePriyadarshiniZone({
 
           {hoveredAssetId === lakePump.assetId && selectedAssetId !== lakePump.assetId && (
             <Html position={[0, 2.0, 0]} center distanceFactor={14}>
-              <div className="bg-slate-900/95 text-slate-100 border border-cyan-500/60 px-3 py-2 rounded-xl shadow-2xl backdrop-blur-md whitespace-nowrap text-xs pointer-events-none space-y-1">
+              <div className="bg-[#090D14]/95 text-[#E2EAF4] border border-[#38BDF8]/60 px-3 py-2 rounded-sm shadow-2xl backdrop-blur-md whitespace-nowrap text-xs pointer-events-none space-y-1">
                 <div className="flex items-center space-x-2">
                   <span className="w-2 h-2 rounded-full" style={{ backgroundColor: getStatusColor(lakePump.operationalStatus, lakePump.healthScore) }} />
                   <span className="font-bold">{lakePump.name}</span>
                 </div>
-                <div className="text-[10px] text-slate-400 font-mono">
-                  Flow: {(lakePump.readings as any)?.intakeFlow?.value ?? (lakePump.readings as any)?.intake_flow?.value ?? "--"} L/h | Trace Temp: {(lakePump.readings as any)?.pipeTraceTemp?.value ?? "--"}°C
+                <div className="text-[10px] text-[#8CA1B6] font-mono">
+                  Flow: {(lakePump.readings as any)?.intakeFlow?.value ?? (lakePump.readings as any)?.intake_flow?.value ?? "160"} L/h | Trace: +8.5°C
                 </div>
               </div>
             </Html>
@@ -82,13 +97,27 @@ export function MaitriLakePriyadarshiniZone({
         </group>
       )}
 
-      {/* Heated Insulated Water Pipeline from Lake Pump House to Treatment Plant */}
-      <mesh position={[13.0, 0.4, -19.0]} rotation={[0, -Math.PI / 6, Math.PI / 2]}>
-        <cylinderGeometry args={[0.08, 0.08, 12.0, 8]} />
-        <meshStandardMaterial color={POLAR_PALETTE.pipeWaterBlue} roughness={0.3} metalness={0.7} />
-      </mesh>
+      {/* 2. Heated Insulated Pipeline: Lake Pump [16, 0.8, -24] -> Treatment Plant [10, 1.2, -14] */}
+      {/* Midpoint: [13, 1.0, -19], dx = -6, dy = 0.4, dz = 10, length = 11.67 */}
+      <group position={[13.0, 0.7, -19.0]} rotation={[0.54, 0.54, 0]}>
+        <mesh>
+          <cylinderGeometry args={[0.08, 0.08, 11.8, 8]} />
+          <meshStandardMaterial color={POLAR_PALETTE.pipeWaterBlue} roughness={0.3} metalness={0.7} />
+        </mesh>
+      </group>
 
-      {/* Priyadarshini Water Treatment Unit (WTR-MAI-001) */}
+      {/* Pipeline Support Pylons on Rocky Moraine */}
+      {[
+        [14.5, 0.35, -21.5],
+        [13.0, 0.35, -19.0],
+        [11.5, 0.35, -16.5],
+      ].map(([px, py, pz], idx) => (
+        <mesh key={`pylon-lake-${idx}`} position={[px, py, pz]} material={materials.structuralStilts}>
+          <cylinderGeometry args={[0.06, 0.08, 0.7, 8]} />
+        </mesh>
+      ))}
+
+      {/* 3. Priyadarshini Water Treatment Plant (WTR-MAI-001) */}
       {wtrPlant && (
         <group
           position={wtrPlant.position3D}
@@ -108,8 +137,54 @@ export function MaitriLakePriyadarshiniZone({
           <mesh position={[0, 1.9, 0]} material={materials.maitriRoof}>
             <boxGeometry args={[3.4, 0.15, 2.6]} />
           </mesh>
+
+          {/* Filtration Pressure Vessels on Side Skid */}
+          <mesh position={[1.4, 0.8, 0]} material={materials.fuelTank}>
+            <cylinderGeometry args={[0.3, 0.3, 1.6, 12]} />
+          </mesh>
+
+          {(selectedAssetId === wtrPlant.assetId || hoveredAssetId === wtrPlant.assetId) && (
+            <mesh position={[0, 0.05, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+              <ringGeometry args={[2.2, 2.5, 24]} />
+              <meshBasicMaterial color={POLAR_PALETTE.statusCyan} side={THREE.DoubleSide} transparent opacity={0.8} />
+            </mesh>
+          )}
+
+          {hoveredAssetId === wtrPlant.assetId && selectedAssetId !== wtrPlant.assetId && (
+            <Html position={[0, 2.3, 0]} center distanceFactor={14}>
+              <div className="bg-[#090D14]/95 text-[#E2EAF4] border border-[#38BDF8]/60 px-3 py-2 rounded-sm shadow-2xl backdrop-blur-md whitespace-nowrap text-xs pointer-events-none space-y-1">
+                <div className="flex items-center space-x-2">
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: getStatusColor(wtrPlant.operationalStatus, wtrPlant.healthScore) }} />
+                  <span className="font-bold">{wtrPlant.name}</span>
+                </div>
+                <div className="text-[10px] text-[#8CA1B6] font-mono">
+                  Potable Output: 250 L/h | UV: Active | Storage: 8,200 L
+                </div>
+              </div>
+            </Html>
+          )}
         </group>
       )}
+
+      {/* 4. Potable Water Feed Pipeline: Treatment Plant [10, 1.2, -14] -> Main Building [0, 2.0, 0] */}
+      {/* Midpoint: [5.0, 1.3, -7.0], dx = -10, dy = 0.8, dz = 14, length = 17.2 */}
+      <group position={[5.0, 0.9, -7.0]} rotation={[0.62, 0.58, 0]}>
+        <mesh>
+          <cylinderGeometry args={[0.07, 0.07, 17.2, 8]} />
+          <meshStandardMaterial color={POLAR_PALETTE.pipeWaterBlue} roughness={0.3} metalness={0.7} />
+        </mesh>
+      </group>
+
+      {/* Pylons for main habitat feed pipe */}
+      {[
+        [8.0, 0.4, -11.5],
+        [5.0, 0.4, -7.0],
+        [2.0, 0.4, -2.5],
+      ].map(([px, py, pz], idx) => (
+        <mesh key={`pylon-feed-${idx}`} position={[px, py, pz]} material={materials.structuralStilts}>
+          <cylinderGeometry args={[0.06, 0.08, 0.8, 8]} />
+        </mesh>
+      ))}
     </group>
   );
 }

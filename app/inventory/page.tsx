@@ -170,80 +170,79 @@ export default function InventoryPage() {
     .reduce((acc, i) => acc + i.current_level, 0);
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-4 max-w-7xl mx-auto">
       {/* Header Bar */}
-      <div className="glass-panel p-6 rounded-2xl border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#0F1722] p-4 rounded-sm border border-[#1E2C3D] flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center space-x-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-              Logistics & Supply Chain
-            </span>
+          <div className="flex items-center space-x-2 font-mono text-xs mb-1">
+            <span className="text-[#38BDF8] font-bold">[LOGISTICS CONSOLE :: SUPPLY CHAIN]</span>
+            <span className="text-[#8CA1B6]">[NCPOR ANTARCTIC EXPEDITION 43]</span>
           </div>
-          <h1 className="text-2xl font-black text-slate-100 mt-1 flex items-center space-x-2.5">
-            <Box className="w-7 h-7 text-cyan-400" />
-            <span>Station Inventory & Stock Forecasting</span>
+          <h1 className="text-2xl lg:text-[28px] font-bold text-[#E2EAF4] uppercase tracking-wide leading-tight flex items-center space-x-2">
+            <Box className="w-6 h-6 text-[#38BDF8]" />
+            <span>Station Inventory & Strategic Stock Runway</span>
           </h1>
-          <p className="text-xs text-slate-400">
-            Automated consumption depletion projections and resupply planning
+          <p className="text-sm font-mono text-[#8CA1B6] mt-1 leading-relaxed">
+            Automated consumption projections, fuel depletion curves, and dispatch requisition planning
           </p>
         </div>
 
         {/* Global Summary Stats */}
-        <div className="flex items-center space-x-3">
-          <div className="bg-slate-900/80 border border-slate-800 px-4 py-2.5 rounded-xl">
-            <span className="text-[10px] text-slate-400 uppercase font-semibold block">Total Polar Diesel</span>
-            <span className="text-lg font-bold text-amber-400">{totalFuelLiters.toLocaleString()} L</span>
+        <div className="flex items-center space-x-2 font-mono">
+          <div className="bg-[#131D2B] border border-[#1E2C3D] px-3.5 py-2 rounded-sm text-left">
+            <span className="text-[10px] text-[#8CA1B6] uppercase tracking-wider block">Total Polar Diesel</span>
+            <span className="text-[22px] font-bold font-mono text-[#38BDF8] tnum leading-tight">{totalFuelLiters.toLocaleString()} L</span>
           </div>
 
-          <div className="bg-slate-900/80 border border-slate-800 px-4 py-2.5 rounded-xl">
-            <span className="text-[10px] text-slate-400 uppercase font-semibold block">Food Runway</span>
-            <span className="text-lg font-bold text-emerald-400">120 - 180 Days</span>
+          <div className="bg-[#131D2B] border border-[#1E2C3D] px-3.5 py-2 rounded-sm text-left">
+            <span className="text-[10px] text-[#8CA1B6] uppercase tracking-wider block">Food Runway</span>
+            <span className="text-[22px] font-bold font-mono text-[#34D399] tnum leading-tight">120 - 180 DAYS</span>
           </div>
 
-          <div className="bg-slate-900/80 border border-slate-800 px-4 py-2.5 rounded-xl">
-            <span className="text-[10px] text-slate-400 uppercase font-semibold block">Critical Deficits</span>
-            <span className="text-lg font-bold text-emerald-400">0 Items</span>
+          <div className="bg-[#131D2B] border border-[#1E2C3D] px-3.5 py-2 rounded-sm text-left">
+            <span className="text-[10px] text-[#8CA1B6] uppercase tracking-wider block">Critical Deficits</span>
+            <span className="text-[22px] font-bold font-mono text-[#34D399] tnum leading-tight">0 DEFICITS</span>
           </div>
         </div>
       </div>
 
       {requisitionSuccess && (
-        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center space-x-2 animate-fadeIn">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+        <div className="p-3 rounded-sm bg-[#10291D] border border-[#34D399] text-[#34D399] text-xs font-mono font-semibold flex items-center space-x-2">
+          <CheckCircle2 className="w-4 h-4 text-[#34D399] shrink-0" />
           <span>{requisitionSuccess}</span>
         </div>
       )}
 
       {/* Filter Bar */}
-      <div className="glass-card p-4 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-[#0F1722] p-3 rounded-sm border border-[#1E2C3D] flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
         <div className="flex flex-wrap items-center gap-2">
           {/* Station Selector */}
-          <div className="flex items-center bg-slate-900/80 p-1 rounded-xl border border-slate-800 space-x-1 text-xs">
+          <div className="flex items-center bg-[#131D2B] p-0.5 rounded-sm border border-[#1E2C3D] space-x-0.5">
             {(["ALL", "maitri", "bharati"] as const).map((st) => (
               <button
                 key={st}
                 onClick={() => setStationFilter(st)}
-                className={`px-3 py-1.5 rounded-lg font-semibold uppercase tracking-wider transition-all ${
+                className={`px-2.5 py-1 rounded-sm uppercase tracking-wider transition-colors text-[11px] ${
                   stationFilter === st
-                    ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
-                    : "text-slate-400 hover:text-slate-200"
+                    ? "bg-[#1E2C3D] text-[#E2EAF4] font-bold border border-[#38BDF8]"
+                    : "text-[#8CA1B6] hover:text-[#E2EAF4]"
                 }`}
               >
-                {st === "ALL" ? "All Stations" : st}
+                {st === "ALL" ? "ALL STATIONS" : st.toUpperCase()}
               </button>
             ))}
           </div>
 
           {/* Category Selector */}
-          <div className="flex items-center bg-slate-900/80 p-1 rounded-xl border border-slate-800 space-x-1 text-xs">
+          <div className="flex items-center bg-[#131D2B] p-0.5 rounded-sm border border-[#1E2C3D] space-x-0.5">
             {(["ALL", "FUEL", "FOOD", "MEDICAL", "SPARE_PARTS"] as const).map((cat) => (
               <button
                 key={cat}
                 onClick={() => setCategoryFilter(cat)}
-                className={`px-2.5 py-1.5 rounded-lg font-semibold uppercase tracking-wider transition-all ${
+                className={`px-2 py-1 rounded-sm uppercase tracking-wider transition-colors text-[11px] ${
                   categoryFilter === cat
-                    ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
-                    : "text-slate-400 hover:text-slate-200"
+                    ? "bg-[#1E2C3D] text-[#E2EAF4] font-bold border border-[#38BDF8]"
+                    : "text-[#8CA1B6] hover:text-[#E2EAF4]"
                 }`}
               >
                 {cat.replace("_", " ")}
@@ -254,19 +253,19 @@ export default function InventoryPage() {
 
         {/* Search Bar */}
         <div className="relative min-w-[220px]">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
+          <Search className="w-3.5 h-3.5 text-[#8CA1B6] absolute left-2.5 top-2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search inventory items..."
-            className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+            placeholder="Filter supply ID or item..."
+            className="w-full bg-[#131D2B] border border-[#1E2C3D] rounded-sm pl-8 pr-3 py-1 text-xs font-mono text-[#E2EAF4] placeholder-[#5B7086] focus:outline-none focus:border-[#38BDF8]"
           />
         </div>
       </div>
 
       {/* Inventory Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {filteredItems.map((item) => {
           const Icon = getCategoryIcon(item.category);
           const pct = Math.round((item.current_level / item.max_capacity) * 100);
@@ -275,49 +274,51 @@ export default function InventoryPage() {
           return (
             <div
               key={item.id}
-              className="p-5 rounded-2xl glass-card border border-slate-800 space-y-4 hover:border-slate-700 transition-all"
+              className="p-4 rounded-sm bg-[#0F1722] border border-[#1E2C3D] hover:border-[#2A3B4F] space-y-3 transition-colors font-mono"
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-start space-x-3">
-                  <div className="p-2.5 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-                    <Icon className="w-5 h-5" />
+                  <div className="p-2 rounded-sm bg-[#131D2B] border border-[#1E2C3D] text-[#38BDF8] shrink-0">
+                    <Icon className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-950/80 text-cyan-300 uppercase">
-                        {item.station_id}
+                    <div className="flex items-center space-x-2 text-xs">
+                      <span className="font-bold px-1.5 py-0.5 rounded-sm bg-[#131D2B] text-[#38BDF8] border border-[#1E2C3D] uppercase text-[10px]">
+                        [{item.station_id.toUpperCase()}]
                       </span>
-                      <span className="text-[10px] font-mono text-slate-400">{item.id}</span>
+                      <span className="text-[#8CA1B6]">[{item.id}]</span>
                     </div>
-                    <h3 className="font-bold text-slate-100 text-sm mt-0.5">{item.name}</h3>
+                    <h3 className="font-semibold text-[15.5px] text-[#E2EAF4] mt-1 uppercase tracking-wide leading-snug">
+                      {item.name}
+                    </h3>
                   </div>
                 </div>
 
                 <button
                   onClick={() => handleRequisition(item.name)}
-                  className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[11px] font-semibold text-cyan-400 flex items-center space-x-1 transition-all"
+                  className="px-2.5 py-1 rounded-sm bg-[#131D2B] hover:bg-[#1E2C3D] border border-[#1E2C3D] hover:border-[#38BDF8] text-[11px] font-semibold text-[#E2EAF4] flex items-center space-x-1 transition-colors"
                 >
-                  <PlusCircle className="w-3.5 h-3.5" />
-                  <span>Requisition</span>
+                  <PlusCircle className="w-3 h-3 text-[#38BDF8]" />
+                  <span>REQUISITION</span>
                 </button>
               </div>
 
               {/* Progress Meter */}
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Current Stock Level</span>
-                  <span className="font-bold text-slate-100">
+              <div className="space-y-1">
+                <div className="flex items-center justify-between text-xs text-[#8CA1B6]">
+                  <span>CURRENT STOCK CAPACITY</span>
+                  <span className="font-bold text-[#E2EAF4] tnum text-sm">
                     {item.current_level.toLocaleString()} {item.unit} ({pct}%)
                   </span>
                 </div>
-                <div className="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                <div className="w-full h-1.5 bg-[#131D2B] border border-[#1E2C3D] rounded-none overflow-hidden">
                   <div
-                    className={`h-full rounded-full transition-all duration-500 ${
+                    className={`h-full transition-all duration-300 ${
                       pct > 60
-                        ? "bg-gradient-to-r from-cyan-500 to-emerald-400"
+                        ? "bg-[#34D399]"
                         : pct > 30
-                        ? "bg-gradient-to-r from-amber-500 to-amber-400"
-                        : "bg-gradient-to-r from-rose-600 to-rose-400"
+                        ? "bg-[#FBBF24]"
+                        : "bg-[#F87171]"
                     }`}
                     style={{ width: `${pct}%` }}
                   />
@@ -325,24 +326,24 @@ export default function InventoryPage() {
               </div>
 
               {/* Depletion Forecast Metrics */}
-              <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/80 text-xs">
-                <div className="bg-slate-900/60 p-2 rounded-xl border border-slate-800/50">
-                  <span className="text-[10px] text-slate-400 block mb-0.5">Est. Runway</span>
-                  <span className="font-bold text-emerald-400 font-mono">
-                    {item.days_remaining} Days
+              <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[#1E2C3D] text-xs">
+                <div className="bg-[#131D2B] p-2 rounded-sm border border-[#1E2C3D]">
+                  <span className="text-[10px] text-[#8CA1B6] block mb-0.5 uppercase tracking-wider">EST. RUNWAY</span>
+                  <span className="font-bold text-[#34D399] tnum text-[18px] leading-none block">
+                    {item.days_remaining} DAYS
                   </span>
                 </div>
 
-                <div className="bg-slate-900/60 p-2 rounded-xl border border-slate-800/50">
-                  <span className="text-[10px] text-slate-400 block mb-0.5">Daily Burn</span>
-                  <span className="font-bold text-slate-200 font-mono">
-                    {item.burn_rate_daily} {item.unit}/d
+                <div className="bg-[#131D2B] p-2 rounded-sm border border-[#1E2C3D]">
+                  <span className="text-[10px] text-[#8CA1B6] block mb-0.5 uppercase tracking-wider">DAILY BURN</span>
+                  <span className="font-bold text-[#E2EAF4] tnum text-sm block">
+                    {item.burn_rate_daily} {item.unit}/D
                   </span>
                 </div>
 
-                <div className="bg-slate-900/60 p-2 rounded-xl border border-slate-800/50">
-                  <span className="text-[10px] text-slate-400 block mb-0.5">Reorder Point</span>
-                  <span className="font-bold text-slate-200 font-mono">
+                <div className="bg-[#131D2B] p-2 rounded-sm border border-[#1E2C3D]">
+                  <span className="text-[10px] text-[#8CA1B6] block mb-0.5">REORDER POINT</span>
+                  <span className="font-bold text-[#E2EAF4] tnum">
                     {item.reorder_threshold} {item.unit}
                   </span>
                 </div>

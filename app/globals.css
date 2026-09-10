@@ -3,38 +3,92 @@
 @tailwind utilities;
 
 :root {
-  --background: 11 17 32;
-  --foreground: 241 245 249;
+  --bg-abyssal: #090D14;
+  --panel-surface: #0F1722;
+  --panel-border: #1E2C3D;
+  --glacial-ice: #E2EAF4;
+  --glacial-steel: #8CA1B6;
 }
 
 body {
-  color: rgb(var(--foreground));
-  background: #0b1120;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  color: var(--glacial-ice);
+  background-color: var(--bg-abyssal);
+  font-family: var(--font-rajdhani), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
+  letter-spacing: 0.02em;
 }
 
-/* Glassmorphism utility */
+/* Tabular numbers for telemetry data streams */
+.tnum, [data-telemetry] {
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-feature-settings: "tnum" 1, "zero" 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Mission Control Console Panels (solid, high-contrast, zero-blur) */
+.console-panel,
 .glass-panel {
-  background: rgba(21, 32, 53, 0.75);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #0F1722;
+  border: 1px solid #1E2C3D;
+  border-radius: 2px;
 }
 
+.console-card,
 .glass-card {
-  background: rgba(30, 45, 74, 0.6);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(56, 189, 248, 0.15);
+  background-color: #0F1722;
+  border: 1px solid #1E2C3D;
+  border-radius: 2px;
 }
 
-.glow-blue {
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+.console-header {
+  background-color: #131D2B;
+  border-bottom: 1px solid #1E2C3D;
 }
 
-.glow-amber {
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.25);
+.console-row-hover:hover {
+  background-color: #131D2B;
 }
 
+/* Precision status indicators */
+.status-pip-nominal {
+  background-color: #34D399;
+}
+.status-pip-advisory {
+  background-color: #FBBF24;
+}
+.status-pip-critical {
+  background-color: #F87171;
+}
+
+/* Eliminated glows — replaced with functional border states */
+.glow-blue,
+.glow-amber,
 .glow-red {
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.35);
+  box-shadow: none !important;
 }
+
+/* Keyboard accessibility outline */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #38BDF8 !important;
+  outline-offset: 1px !important;
+}
+
+/* High-density dark scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #090D14;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E2C3D;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2A3B4F;
+}
+

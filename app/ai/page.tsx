@@ -165,93 +165,95 @@ export default function AIAssistantPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto h-[calc(100vh-6rem)] flex flex-col glass-panel rounded-2xl border border-slate-800 overflow-hidden shadow-2xl">
-      {/* Header Bar */}
-      <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/70 shrink-0">
-        <div className="flex items-center space-x-3">
-          <div className="p-2.5 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-            <Bot className="w-5 h-5" />
+    <div className="max-w-5xl mx-auto h-[calc(100vh-5.5rem)] flex flex-col bg-[#0F1722] rounded-sm border border-[#1E2C3D] overflow-hidden">
+      {/* Terminal Header Bar */}
+      <div className="p-3 border-b border-[#1E2C3D] flex items-center justify-between bg-[#131D2B] shrink-0 font-mono">
+        <div className="flex items-center space-x-2.5">
+          <div className="p-2 rounded-sm bg-[#0F1722] text-[#38BDF8] border border-[#1E2C3D]">
+            <Bot className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h2 className="font-bold text-slate-100 text-sm">PolarTwin AI Operations Assistant</h2>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">
-                Grounded Live
+              <h2 className="font-semibold text-[17px] text-[#E2EAF4] uppercase tracking-wider leading-snug">
+                PolarTwin Telemetry & Simulation AI
+              </h2>
+              <span className="text-[10px] px-1.5 py-0.5 rounded-sm bg-[#10291D] text-[#34D399] font-bold border border-[#34D399]">
+                GROUNDED LIVE
               </span>
             </div>
-            <p className="text-xs text-slate-400">
-              Context-aware tool-calling agent with scenario simulation & diagnostic reasoning
+            <p className="text-sm text-[#8CA1B6] mt-0.5">
+              Tool-calling agent with live SCADA telemetry & scenario simulation engine
             </p>
           </div>
         </div>
 
         {/* Station Switcher & Reset */}
-        <div className="flex items-center space-x-2">
-          <div className="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800 space-x-1 text-xs">
+        <div className="flex items-center space-x-2 text-xs font-mono">
+          <div className="flex items-center bg-[#0F1722] p-0.5 rounded-sm border border-[#1E2C3D] space-x-0.5">
             <button
               onClick={() => setStationContext("maitri")}
-              className={`px-3 py-1 rounded-lg font-semibold transition-all ${
+              className={`px-2.5 py-1 rounded-sm uppercase tracking-wider transition-colors text-[11px] ${
                 stationContext === "maitri"
-                  ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-[#1E2C3D] text-[#FBBF24] font-bold border border-[#FBBF24]"
+                  : "text-[#8CA1B6] hover:text-[#E2EAF4]"
               }`}
             >
-              Maitri Context
+              MAITRI
             </button>
             <button
               onClick={() => setStationContext("bharati")}
-              className={`px-3 py-1 rounded-lg font-semibold transition-all ${
+              className={`px-2.5 py-1 rounded-sm uppercase tracking-wider transition-colors text-[11px] ${
                 stationContext === "bharati"
-                  ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-[#1E2C3D] text-[#38BDF8] font-bold border border-[#38BDF8]"
+                  : "text-[#8CA1B6] hover:text-[#E2EAF4]"
               }`}
             >
-              Bharati Context
+              BHARATI
             </button>
           </div>
 
           <button
             onClick={handleClearHistory}
-            className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 transition-colors"
-            title="Reset Conversation"
+            className="p-1.5 rounded-sm bg-[#0F1722] border border-[#1E2C3D] text-[#8CA1B6] hover:text-[#E2EAF4] transition-colors"
+            title="Reset Terminal Session"
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
       {/* Message History Feed */}
-      <div className="flex-1 p-5 overflow-y-auto space-y-4">
+      <div className="flex-1 p-4 overflow-y-auto space-y-3 font-mono">
         {messages.map((m, idx) => {
           const isUser = m.role === "user";
 
           return (
             <div
               key={idx}
-              className={`flex items-start space-x-3 ${isUser ? "flex-row-reverse space-x-reverse" : ""}`}
+              className={`flex items-start space-x-2.5 ${isUser ? "flex-row-reverse space-x-reverse" : ""}`}
             >
               <div
-                className={`p-2 rounded-xl text-xs shrink-0 ${
+                className={`p-1.5 rounded-sm text-xs shrink-0 border ${
                   isUser
-                    ? "bg-cyan-500 text-slate-950 font-bold"
-                    : "bg-slate-900 text-cyan-400 border border-slate-800 shadow-md"
+                    ? "bg-[#131D2B] text-[#38BDF8] border-[#38BDF8]"
+                    : "bg-[#131D2B] text-[#34D399] border-[#1E2C3D]"
                 }`}
               >
-                {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                {isUser ? <User className="w-3.5 h-3.5" /> : <Bot className="w-3.5 h-3.5" />}
               </div>
 
-              <div className="space-y-1 max-w-[85%]">
+              <div className="space-y-0.5 max-w-[85%]">
                 <div
-                  className={`p-4 rounded-2xl text-xs leading-relaxed ${
+                  className={`p-3.5 rounded-sm text-sm leading-relaxed whitespace-pre-wrap border ${
                     isUser
-                      ? "bg-cyan-500/20 text-cyan-100 border border-cyan-500/30 rounded-tr-none"
-                      : "bg-slate-900/90 text-slate-200 border border-slate-800 rounded-tl-none shadow-xl whitespace-pre-wrap"
+                      ? "bg-[#131D2B] text-[#E2EAF4] border-[#38BDF8]"
+                      : "bg-[#131D2B] text-[#E2EAF4] border-[#1E2C3D]"
                   }`}
                 >
                   {m.content}
                 </div>
                 {m.timestamp && (
-                  <span className={`text-[10px] font-mono text-slate-500 block ${isUser ? "text-right" : "text-left"}`}>
+                  <span className={`text-[10px] text-[#8CA1B6] block tnum ${isUser ? "text-right" : "text-left"}`}>
                     {m.timestamp}
                   </span>
                 )}
@@ -261,13 +263,13 @@ export default function AIAssistantPage() {
         })}
 
         {loading && (
-          <div className="flex items-center space-x-3">
-            <div className="p-2 rounded-xl bg-slate-900 text-cyan-400 border border-slate-800 shrink-0">
-              <Bot className="w-4 h-4" />
+          <div className="flex items-center space-x-2.5 font-mono">
+            <div className="p-1.5 rounded-sm bg-[#131D2B] text-[#38BDF8] border border-[#1E2C3D] shrink-0">
+              <Bot className="w-3.5 h-3.5" />
             </div>
-            <div className="bg-slate-900/80 p-3.5 rounded-2xl rounded-tl-none border border-slate-800 flex items-center space-x-2 text-xs text-cyan-400">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-              <span>Querying live twin telemetry & running predictive simulation...</span>
+            <div className="bg-[#131D2B] p-2 rounded-sm border border-[#1E2C3D] flex items-center space-x-2 text-xs text-[#38BDF8]">
+              <span className="w-1.5 h-1.5 rounded-sm bg-[#38BDF8]" />
+              <span>Querying live SCADA telemetry & executing simulation pipeline...</span>
             </div>
           </div>
         )}
@@ -275,10 +277,9 @@ export default function AIAssistantPage() {
       </div>
 
       {/* Suggested Starter Questions Bar */}
-      <div className="px-4 py-2 border-t border-slate-800/80 bg-slate-950/40 flex items-center space-x-2 overflow-x-auto shrink-0">
-        <span className="text-[10px] text-slate-500 uppercase font-semibold flex items-center space-x-1 shrink-0">
-          <Sparkles className="w-3 h-3 text-cyan-400" />
-          <span>Quick Actions:</span>
+      <div className="px-3 py-1.5 border-t border-[#1E2C3D] bg-[#131D2B] flex items-center space-x-1.5 overflow-x-auto shrink-0 font-mono">
+        <span className="text-[10px] text-[#8CA1B6] uppercase tracking-wider flex items-center space-x-1 shrink-0">
+          <span>SOP QUICK-ACTIONS:</span>
         </span>
         {starterQuestions.map((q, idx) => {
           const Icon = q.icon;
@@ -286,9 +287,9 @@ export default function AIAssistantPage() {
             <button
               key={idx}
               onClick={() => handleSend(q.prompt)}
-              className="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 text-[11px] font-medium text-slate-300 hover:text-cyan-300 flex items-center space-x-1.5 whitespace-nowrap transition-all shadow-sm"
+              className="px-2 py-1 rounded-sm bg-[#0F1722] hover:bg-[#1E2C3D] border border-[#1E2C3D] hover:border-[#38BDF8] text-[11px] text-[#8CA1B6] hover:text-[#E2EAF4] flex items-center space-x-1.5 whitespace-nowrap transition-colors"
             >
-              <Icon className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+              <Icon className="w-3 h-3 text-[#38BDF8] shrink-0" />
               <span>{q.label}</span>
             </button>
           );
@@ -296,26 +297,27 @@ export default function AIAssistantPage() {
       </div>
 
       {/* Input Composer Bar */}
-      <div className="p-4 border-t border-slate-800 bg-slate-950/80 flex items-center space-x-3 shrink-0">
+      <div className="p-3 border-t border-[#1E2C3D] bg-[#0F1722] flex items-center space-x-2 shrink-0 font-mono">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder={`Ask AI about ${
+          placeholder={`Input query for ${
             stationContext === "maitri" ? "Maitri" : "Bharati"
-          } subsystems, emergency failure simulations, fuel forecasts...`}
-          className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors shadow-inner"
+          } telemetry, generator failure simulations, thermal reserves...`}
+          className="flex-1 bg-[#131D2B] border border-[#1E2C3D] rounded-sm px-3 py-2 text-sm text-[#E2EAF4] placeholder-[#5B7086] focus:outline-none focus:border-[#38BDF8] transition-colors font-mono"
         />
         <button
           onClick={() => handleSend()}
           disabled={loading || !input.trim()}
-          className="px-5 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl text-xs flex items-center space-x-2 transition-all shadow-lg glow-blue disabled:opacity-40 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-[#131D2B] hover:bg-[#1E2C3D] border border-[#38BDF8] text-[#38BDF8] hover:text-[#E2EAF4] font-bold rounded-sm text-xs flex items-center space-x-1.5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
         >
-          <span>Send</span>
-          <Send className="w-3.5 h-3.5" />
+          <span>SEND</span>
+          <Send className="w-3 h-3" />
         </button>
       </div>
     </div>
   );
 }
+

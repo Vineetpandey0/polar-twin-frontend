@@ -23,8 +23,22 @@ export function MaitriCommsAndWeatherZone({
   const anemometerRef = useRef<THREE.Group>(null);
   const beaconRef = useRef<THREE.Mesh>(null);
 
-  const radome = assets["COM-MAI-001"];
-  const aws = assets["AWS-MAI-001"];
+  const radome = assets["COM-MAI-001"] || {
+    assetId: "COM-MAI-001",
+    position3D: [12.0, 3.5, -7.0],
+    name: "Ku-Band Satellite Ground Station Radome",
+    operationalStatus: "RUNNING",
+    healthScore: 0.99,
+    readings: {},
+  };
+  const aws = assets["AWS-MAI-001"] || {
+    assetId: "AWS-MAI-001",
+    position3D: [8.0, 1.5, -12.0],
+    name: "Automatic Weather Station (AWS) & Radiosonde",
+    operationalStatus: "RUNNING",
+    healthScore: 0.99,
+    readings: {},
+  };
 
   useFrame((_, delta) => {
     // Spin anemometer proportional to wind speed (28.5 km/h)
