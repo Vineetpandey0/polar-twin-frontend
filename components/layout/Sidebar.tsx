@@ -18,7 +18,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Crosshair,
-  Globe,
 } from "lucide-react";
 
 interface NavItem {
@@ -41,7 +40,6 @@ const navSections: NavSection[] = [
     accentColor: "#38BDF8",
     items: [
       { name: "Operations Hub", href: "/", code: "HUB", icon: Gauge },
-      { name: "Live Operations Map", href: "/map", code: "MAP", icon: Globe },
     ],
   },
   {

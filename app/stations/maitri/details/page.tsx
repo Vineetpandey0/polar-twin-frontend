@@ -202,7 +202,7 @@ export default function MaitriDetailsPage() {
               <div className="flex items-center space-x-5 font-mono text-[11px]">
                 <div>
                   <span className="text-[#8CA1B6]">STATUS: </span>
-                  <span className={`font-semibold ${selectedAsset.operationalStatus === "NOMINAL" ? "text-[#34D399]" : "text-[#FBBF24]"}`}>
+                  <span className={`font-semibold ${selectedAsset.operationalStatus === "RUNNING" ? "text-[#34D399]" : "text-[#FBBF24]"}`}>
                     {selectedAsset.operationalStatus}
                   </span>
                 </div>
