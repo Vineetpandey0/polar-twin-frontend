@@ -27,8 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${rajdhani.variable} ${jetbrains.variable}`}>
-      <body className="bg-[#090D14] text-[#E2EAF4] font-sans antialiased overflow-x-hidden">
+    <html lang="en" className={`${rajdhani.variable} ${jetbrains.variable} h-screen overflow-hidden`}>
+      <body className="bg-[#090D14] text-[#E2EAF4] font-sans antialiased h-screen overflow-hidden">
         <AppShell>{children}</AppShell>
       </body>
     </html>

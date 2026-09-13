@@ -28,11 +28,11 @@ export default function HealthScoreGauge({ score }: HealthGaugeProps) {
           />
         </svg>
         <div className="absolute flex flex-col items-center text-center font-mono">
-          <span className="text-[26px] font-bold font-mono text-[#E2EAF4] tnum leading-none">{pct}%</span>
-          <span className="text-[10px] text-[#8CA1B6] uppercase tracking-wider mt-1">INDEX</span>
+          <span className="text-[28px] font-bold font-mono text-[#E2EAF4] tnum leading-none">{pct}%</span>
+          <span className="text-xs text-[#8CA1B6] uppercase font-semibold tracking-wider mt-1">INDEX</span>
         </div>
       </div>
-      <span className="text-[10px] font-mono text-[#5B7086] mt-2 uppercase tracking-wide">
+      <span className="text-xs font-mono text-[#5B7086] mt-2 uppercase tracking-wide font-medium">
         [SCADA CALIBRATED]
       </span>
     </div>

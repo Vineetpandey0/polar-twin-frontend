@@ -19,12 +19,16 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="flex min-h-screen bg-[#090D14] text-[#E2EAF4] w-full">
+    <div className="flex h-screen w-full bg-[#090D14] text-[#E2EAF4] overflow-hidden">
       <Sidebar />
-      <div className="flex-1 flex flex-col min-w-0">
-        <TelemetryBanner />
-        <Header />
-        <main className="flex-1 p-4 lg:p-6 overflow-y-auto bg-[#090D14]">{children}</main>
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+        <div className="shrink-0 z-40">
+          <TelemetryBanner />
+        </div>
+        <div className="flex-1 overflow-y-auto bg-[#090D14]">
+          <Header />
+          <main className="p-4 lg:p-6 bg-[#090D14]">{children}</main>
+        </div>
       </div>
     </div>
   );

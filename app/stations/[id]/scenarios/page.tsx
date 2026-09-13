@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import { runScenarioApi } from "@/lib/api";
 import {
   Sliders,
   Play,
@@ -57,12 +58,7 @@ export default function ScenarioRunnerPage() {
   const handleRunScenario = async () => {
     setRunning(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/stations/${stationId}/scenarios/run`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ scenario: selectedScenario }),
-      });
-      const data = await res.json();
+      const data = await runScenarioApi(stationId, selectedScenario);
       setResult(data);
     } catch (e) {
       // Local fallback diff generator

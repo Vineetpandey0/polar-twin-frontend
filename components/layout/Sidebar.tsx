@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTelemetry } from "@/lib/telemetry";
 import {
   Gauge,
   Radio,
@@ -77,26 +78,27 @@ const navSections: NavSection[] = [
 export default function Sidebar() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const telemetry = useTelemetry();
 
   return (
     <aside
-      className={`bg-[#0F1722] flex flex-col min-h-screen p-2 border-r border-[#1E293B] shrink-0 transition-all duration-150 select-none z-30 ${
-        isCollapsed ? "w-14" : "w-60"
+      className={`bg-[#0F1722] flex flex-col h-screen sticky top-0 overflow-hidden p-2.5 border-r border-[#1E293B] shrink-0 transition-all duration-150 select-none z-30 ${
+        isCollapsed ? "w-14" : "w-64"
       }`}
     >
       {/* Header Logo & Collapse Toggle */}
-      <div className="flex items-center justify-between px-1 py-2 mb-2 border-b border-[#1E293B] pb-2.5">
+      <div className="flex items-center justify-between px-1.5 py-2 mb-2 border-b border-[#1E293B] pb-3">
         <div className="flex items-center space-x-2.5 overflow-hidden">
           {/* Mission Console Station Monogram */}
-          <div className="w-7 h-7 rounded-sm bg-[#090D14] border border-[#1E293B] flex items-center justify-center font-mono font-bold text-[11px] text-[#8CA1B6] shrink-0">
+          <div className="w-8 h-8 rounded-sm bg-[#090D14] border border-[#1E293B] flex items-center justify-center font-mono font-bold text-xs text-[#8CA1B6] shrink-0">
             <Crosshair className="w-4 h-4 text-[#38BDF8]" />
           </div>
           {!isCollapsed && (
             <div className="leading-tight min-w-0">
-              <h1 className="font-bold text-sm text-[#E2EAF4] tracking-wider uppercase truncate">
+              <h1 className="font-bold text-base text-[#E2EAF4] tracking-wider uppercase truncate">
                 PolarTwin
               </h1>
-              <span className="text-[9px] font-mono text-[#5B7086] block tracking-tight">
+              <span className="text-[10px] font-mono text-[#5B7086] block tracking-wide">
                 ANTARCTIC DIGITAL TWIN
               </span>
             </div>
@@ -114,9 +116,9 @@ export default function Sidebar() {
       </div>
 
       {/* Grouped Navigation Sections */}
-      <nav className="flex-1 space-y-3 overflow-y-auto pr-0.5">
+      <nav className="flex-1 space-y-3.5 overflow-y-auto pr-0.5">
         {navSections.map((section, sectionIdx) => (
-          <div key={section.title} className="space-y-0.5">
+          <div key={section.title} className="space-y-1">
             {/* Section Header */}
             {isCollapsed ? (
               sectionIdx > 0 && <div className="border-t border-[#1E293B] my-2" />
@@ -128,7 +130,7 @@ export default function Sidebar() {
                     style={{ backgroundColor: section.stationIndicator }}
                   />
                 )}
-                <span className="text-[10px] font-mono tracking-wider text-[#5B7086] font-semibold uppercase">
+                <span className="text-[11px] font-mono tracking-wider text-[#8CA1B6] font-bold uppercase">
                   {section.title}
                 </span>
               </div>
@@ -148,21 +150,21 @@ export default function Sidebar() {
                     style={{
                       borderLeftColor: isActive ? section.accentColor : "transparent",
                     }}
-                    className={`flex items-center space-x-2 px-2 py-1.5 rounded-sm text-xs font-medium tracking-wide transition-colors ${
+                    className={`flex items-center space-x-2.5 px-2.5 py-2 rounded-sm text-sm font-semibold tracking-wide transition-colors ${
                       isActive
-                        ? "bg-[#131D2B] text-[#E2EAF4] border-l-[3px] border-y border-r border-[#1E293B]"
+                        ? "bg-[#131D2B] text-[#E2EAF4] border-l-[3px] border-y border-r border-[#1E2C3D]"
                         : "text-[#8CA1B6] hover:text-[#E2EAF4] hover:bg-[#131D2B]/50 border border-transparent border-l-[3px]"
                     } ${isCollapsed ? "justify-center px-0" : ""}`}
                   >
                     <Icon
-                      className={`w-3.5 h-3.5 shrink-0 transition-colors ${
+                      className={`w-4 h-4 shrink-0 transition-colors ${
                         isActive ? "text-[#E2EAF4]" : "text-[#8CA1B6]"
                       }`}
                     />
                     {!isCollapsed && (
                       <div className="flex items-center justify-between w-full min-w-0">
                         <span className="truncate">{item.name}</span>
-                        <span className="text-[9px] font-mono text-[#5B7086] ml-1.5">
+                        <span className="text-xs font-mono text-[#5B7086] ml-2">
                           {item.code}
                         </span>
                       </div>
@@ -177,26 +179,48 @@ export default function Sidebar() {
 
       {/* SCADA Telemetry Bus Footer */}
       <div
-        className={`p-2 bg-[#090D14] rounded-sm border border-[#1E293B] mt-auto ${
-          isCollapsed ? "text-center" : "space-y-1"
+        className={`p-2.5 bg-[#090D14] rounded-sm border border-[#1E293B] mt-auto ${
+          isCollapsed ? "text-center" : "space-y-1.5"
         }`}
       >
         <div
           className={`flex items-center text-xs text-[#E2EAF4] ${
-            isCollapsed ? "justify-center" : "space-x-1.5"
+            isCollapsed ? "justify-center" : "space-x-2"
           }`}
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-[#34D399] shrink-0 animate-pulse" />
+          <span
+            className={`w-2 h-2 rounded-full shrink-0 ${
+              telemetry.isConnected
+                ? "bg-[#34D399] animate-pulse"
+                : telemetry.isBackendAlive
+                ? "bg-[#FBBF24] animate-pulse"
+                : "bg-[#F87171]"
+            }`}
+          />
           {!isCollapsed && (
-            <span className="font-mono text-[9px] uppercase tracking-wider text-[#8CA1B6]">
-              SCADA BUS ACTIVE
+            <span className="font-mono text-xs uppercase tracking-wider text-[#8CA1B6] font-semibold">
+              {telemetry.isConnected
+                ? "SCADA BUS ACTIVE"
+                : telemetry.isBackendAlive
+                ? "SCADA BUS STANDBY"
+                : "SCADA BUS OFFLINE"}
             </span>
           )}
         </div>
         {!isCollapsed && (
-          <div className="text-[9px] font-mono text-[#5B7086] flex items-center justify-between pt-1 border-t border-[#1E293B]">
+          <div className="text-xs font-mono text-[#5B7086] flex items-center justify-between pt-1.5 border-t border-[#1E293B]">
             <span>ENGINE SYNC</span>
-            <span className="text-[#34D399] font-medium">5000ms</span>
+            <span
+              className={`font-medium ${
+                telemetry.isConnected
+                  ? "text-[#34D399]"
+                  : telemetry.isBackendAlive
+                  ? "text-[#FBBF24]"
+                  : "text-[#F87171]"
+              }`}
+            >
+              {telemetry.isConnected ? "LIVE STREAM" : telemetry.isBackendAlive ? "WAITING TICK" : "DISCONNECTED"}
+            </span>
           </div>
         )}
       </div>

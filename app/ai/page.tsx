@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { sendAiChatApi } from "@/lib/api";
 import {
   Bot,
   Send,
@@ -84,18 +85,8 @@ export default function AIAssistantPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/ai/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [...messages, userMsg],
-          station_id: stationContext,
-        }),
-      });
+      const data = await sendAiChatApi([...messages, userMsg], stationContext);
 
-      if (!res.ok) throw new Error("API call failed");
-
-      const data = await res.json();
       setMessages((prev) => [
         ...prev,
         {
@@ -104,7 +95,7 @@ export default function AIAssistantPage() {
           timestamp: new Date().toLocaleTimeString(),
         },
       ]);
-    } catch (e) {
+    } catch (err) {
       // Fallback local intelligent generator
       const isMaitri = stationContext === "maitri";
       const q = textToSend.toLowerCase();

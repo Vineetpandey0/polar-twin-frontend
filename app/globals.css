@@ -10,12 +10,20 @@
   --glacial-steel: #8CA1B6;
 }
 
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
 body {
   color: var(--glacial-ice);
   background-color: var(--bg-abyssal);
   font-family: var(--font-rajdhani), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.025em;
+  font-size: 1rem;
 }
 
 /* Tabular numbers for telemetry data streams */

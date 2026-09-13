@@ -42,7 +42,7 @@ export default function StationDetailPage() {
       }
     }
     loadDetail();
-    const interval = setInterval(loadDetail, 3500);
+    const interval = setInterval(loadDetail, 30000);
     return () => clearInterval(interval);
   }, [stationId]);
 
@@ -67,35 +67,35 @@ export default function StationDetailPage() {
   return (
     <div className="space-y-4 max-w-7xl mx-auto">
       {/* Station Command Console Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between bg-[#0F1722] p-4 rounded-sm border border-[#1E2C3D] gap-4">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between bg-[#0F1722] p-5 rounded-sm border border-[#1E2C3D] gap-4">
         <div>
-          <div className="flex items-center space-x-2 font-mono text-xs mb-1">
+          <div className="flex items-center space-x-2 font-mono text-xs sm:text-sm mb-1.5">
             <span className={`font-bold ${isMaitri ? "text-[#FBBF24]" : "text-[#38BDF8]"}`}>
               [{isMaitri ? "STATION: MAITRI // 70.76°S 11.73°E" : "STATION: BHARATI // 69.41°S 76.19°E"}]
             </span>
             <span className="text-[#8CA1B6]">[3D SPATIAL DIGITAL TWIN]</span>
           </div>
-          <h1 className="text-2xl lg:text-[28px] font-bold text-[#E2EAF4] tracking-wide uppercase leading-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#E2EAF4] tracking-wide uppercase leading-tight">
             {isMaitri ? "Maitri Station Operations Console" : "Bharati Station Operations Console"}
           </h1>
-          <p className="text-sm font-mono text-[#8CA1B6] mt-1">
+          <p className="text-sm sm:text-base font-mono text-[#8CA1B6] mt-1.5">
             {isMaitri ? "Schirmacher Oasis, Queen Maud Land (Established 1989)" : "Larsemann Hills, Ingrid Christensen Coast (Established 2012)"}
           </p>
         </div>
 
-        <div className="flex items-center space-x-2.5">
+        <div className="flex items-center space-x-3">
           <Link
             href={`/stations/${stationId}/details`}
-            className="px-3 py-1.5 rounded-sm text-xs font-mono font-semibold flex items-center space-x-1.5 bg-[#131D2B] hover:bg-[#1E2C3D] text-[#E2EAF4] border border-[#1E2C3D] hover:border-[#38BDF8] transition-colors"
+            className="px-3.5 py-2 rounded-sm text-sm font-mono font-semibold flex items-center space-x-2 bg-[#131D2B] hover:bg-[#1E2C3D] text-[#E2EAF4] border border-[#1E2C3D] hover:border-[#38BDF8] transition-colors"
           >
-            <Activity className="w-3.5 h-3.5 text-[#38BDF8]" />
+            <Activity className="w-4 h-4 text-[#38BDF8]" />
             <span>MACHINERY HUB</span>
           </Link>
           <Link
             href={`/stations/${stationId}/3d`}
-            className="px-3 py-1.5 rounded-sm bg-[#131D2B] hover:bg-[#1E2C3D] text-[#38BDF8] border border-[#1E2C3D] hover:border-[#38BDF8] text-xs font-mono font-semibold flex items-center space-x-1.5 transition-colors"
+            className="px-3.5 py-2 rounded-sm bg-[#131D2B] hover:bg-[#1E2C3D] text-[#38BDF8] border border-[#1E2C3D] hover:border-[#38BDF8] text-sm font-mono font-semibold flex items-center space-x-2 transition-colors"
           >
-            <Maximize2 className="w-3.5 h-3.5" />
+            <Maximize2 className="w-4 h-4" />
             <span>FULLSCREEN 3D</span>
           </Link>
           <HealthScoreGauge score={healthScore} />
@@ -103,19 +103,19 @@ export default function StationDetailPage() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex space-x-1 border-b border-[#1E2C3D] pb-1 font-mono text-xs">
+      <div className="flex space-x-1.5 border-b border-[#1E2C3D] pb-1 font-mono text-sm">
         {(["3d", "ml", "overview", "energy", "inventory"] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-3 py-1.5 rounded-sm font-semibold uppercase tracking-wider transition-colors flex items-center space-x-1.5 ${
+            className={`px-3.5 py-2 rounded-sm font-semibold uppercase tracking-wider transition-colors flex items-center space-x-2 ${
               activeTab === tab
                 ? "bg-[#131D2B] text-[#E2EAF4] border border-[#1E2C3D] border-b-2 border-b-[#38BDF8]"
                 : "text-[#8CA1B6] hover:text-[#E2EAF4] hover:bg-[#131D2B]/50"
             }`}
           >
-            {tab === "3d" && <Box className="w-3.5 h-3.5" />}
-            {tab === "ml" && <Brain className="w-3.5 h-3.5 text-[#38BDF8]" />}
+            {tab === "3d" && <Box className="w-4 h-4" />}
+            {tab === "ml" && <Brain className="w-4 h-4 text-[#38BDF8]" />}
             <span>
               {tab === "3d"
                 ? "3D Spatial Twin"
@@ -132,9 +132,9 @@ export default function StationDetailPage() {
         {isMaitri && (
           <Link
             href="/stations/maitri/details"
-            className="px-3 py-1.5 rounded-sm font-semibold uppercase tracking-wider transition-colors flex items-center space-x-1.5 text-[#FBBF24] hover:bg-[#131D2B] border border-transparent hover:border-[#1E2C3D]"
+            className="px-3.5 py-2 rounded-sm font-semibold uppercase tracking-wider transition-colors flex items-center space-x-2 text-[#FBBF24] hover:bg-[#131D2B] border border-transparent hover:border-[#1E2C3D]"
           >
-            <Sliders className="w-3.5 h-3.5" />
+            <Sliders className="w-4 h-4" />
             <span>Machinery Explorer</span>
           </Link>
         )}
