@@ -23,6 +23,13 @@ import {
   Maximize2,
   Minimize2,
   ShieldCheck,
+  ShieldAlert,
+  Gauge,
+  Grid,
+  GitBranch,
+  Package,
+  Terminal,
+  ArrowRight,
 } from "lucide-react";
 import { DigitalTwinAsset } from "@/lib/3d/assetRegistry";
 import { CameraPreset } from "./CameraController";
@@ -61,11 +68,12 @@ export function DigitalTwinHUD({
   const isMaitri = stationId === "maitri";
   const [layersOpen, setLayersOpen] = useState(true);
   const [cameraOpen, setCameraOpen] = useState(true);
+  const [quickMenuOpen, setQuickMenuOpen] = useState(false);
 
   return (
     <div className="absolute inset-0 pointer-events-none z-10 flex flex-col justify-between p-3 font-mono">
       {/* Top Header Bar */}
-      <div className="flex items-center justify-between pointer-events-auto">
+      <div className="flex items-center justify-between pointer-events-auto gap-2 flex-wrap">
         {/* Station Identity & Switcher */}
         <div className="bg-[#0F1722] p-2 rounded-sm border border-[#1E2C3D] flex items-center space-x-3">
           <div className="w-8 h-8 rounded-sm bg-[#131D2B] border border-[#38BDF8] flex items-center justify-center font-bold text-[#38BDF8] text-xs">
@@ -103,6 +111,19 @@ export function DigitalTwinHUD({
               BHARATI
             </button>
           </div>
+        </div>
+
+        {/* Center: Jump to 2D Telemetry Dashboard */}
+        <div className="flex items-center space-x-2">
+          <Link
+            href="/dashboard"
+            className="px-3.5 py-1.5 rounded-sm bg-[#131D2B] hover:bg-[#1E2C3D] border border-[#38BDF8] text-[#38BDF8] hover:text-[#E2EAF4] text-xs font-bold flex items-center space-x-2 transition-all shadow-[0_0_14px_rgba(56,189,248,0.25)] group"
+            title="Open Full 2D Operations Telemetry Dashboard"
+          >
+            <Gauge className="w-4 h-4 group-hover:scale-110 transition-transform" />
+            <span className="tracking-wider uppercase font-mono">GO TO 2D TELEMETRY DASHBOARD</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#38BDF8] group-hover:translate-x-0.5 transition-transform" />
+          </Link>
         </div>
 
         {/* Global Controls: Polar Lighting & Auto Tour */}
@@ -286,18 +307,106 @@ export function DigitalTwinHUD({
       </div>
 
       {/* Bottom Floating Bar */}
-      <div className="flex items-center justify-between pointer-events-auto">
+      <div className="flex items-center justify-between pointer-events-auto gap-3 flex-wrap">
         <div className="bg-[#0F1722] px-3 py-1.5 rounded-sm border border-[#1E2C3D] text-[11px] text-[#8CA1B6] flex items-center space-x-2">
-          <span className="w-1.5 h-1.5 rounded-sm bg-[#34D399]" />
+          <span className="w-1.5 h-1.5 rounded-sm bg-[#34D399] animate-pulse" />
           <span>INTERACTIVE 3D VIEWPORT // CLICK ANY ASSET OR TOWER TO PROBE SCADA TELEMETRY</span>
         </div>
 
-        <Link
-          href={`/stations/${stationId}`}
-          className="bg-[#0F1722] hover:bg-[#131D2B] px-3 py-1.5 rounded-sm border border-[#1E2C3D] hover:border-[#38BDF8] text-xs font-semibold text-[#E2EAF4] transition-colors"
-        >
-          OPEN 2D TELEMETRY CONSOLE
-        </Link>
+        <div className="flex items-center space-x-2 relative">
+          {/* Quick Modules Menu Popup */}
+          <div className="relative">
+            {quickMenuOpen && (
+              <div className="absolute bottom-full right-0 mb-2 w-64 bg-[#0F1722] border border-[#1E2C3D] rounded-sm p-2 shadow-2xl space-y-1 z-30 font-mono">
+                <div className="text-[10px] text-[#8CA1B6] px-2 py-1 font-bold uppercase border-b border-[#1E2C3D] flex justify-between items-center">
+                  <span>Mission Control Modules</span>
+                  <button onClick={() => setQuickMenuOpen(false)} className="text-[#8CA1B6] hover:text-[#E2EAF4]">✕</button>
+                </div>
+                <Link
+                  href="/dashboard"
+                  onClick={() => setQuickMenuOpen(false)}
+                  className="flex items-center space-x-2 px-2 py-1.5 rounded text-xs text-[#E2EAF4] hover:bg-[#131D2B] hover:text-[#38BDF8] transition-colors"
+                >
+                  <Gauge className="w-3.5 h-3.5 text-[#38BDF8]" />
+                  <span>2D Telemetry Dashboard</span>
+                </Link>
+                <Link
+                  href={`/stations/${stationId}`}
+                  onClick={() => setQuickMenuOpen(false)}
+                  className="flex items-center space-x-2 px-2 py-1.5 rounded text-xs text-[#E2EAF4] hover:bg-[#131D2B] hover:text-[#FBBF24] transition-colors"
+                >
+                  <Radio className="w-3.5 h-3.5 text-[#FBBF24]" />
+                  <span className="capitalize">{stationId} 2D Console</span>
+                </Link>
+                <Link
+                  href={`/stations/${stationId}/details`}
+                  onClick={() => setQuickMenuOpen(false)}
+                  className="flex items-center space-x-2 px-2 py-1.5 rounded text-xs text-[#E2EAF4] hover:bg-[#131D2B] hover:text-[#38BDF8] transition-colors"
+                >
+                  <Wrench className="w-3.5 h-3.5 text-[#8CA1B6]" />
+                  <span>Machinery Hub</span>
+                </Link>
+                <Link
+                  href={`/stations/${stationId}/scenarios`}
+                  onClick={() => setQuickMenuOpen(false)}
+                  className="flex items-center space-x-2 px-2 py-1.5 rounded text-xs text-[#E2EAF4] hover:bg-[#131D2B] hover:text-[#38BDF8] transition-colors"
+                >
+                  <GitBranch className="w-3.5 h-3.5 text-[#8CA1B6]" />
+                  <span>Scenario Simulator</span>
+                </Link>
+                <Link
+                  href="/alerts"
+                  onClick={() => setQuickMenuOpen(false)}
+                  className="flex items-center space-x-2 px-2 py-1.5 rounded text-xs text-[#E2EAF4] hover:bg-[#131D2B] hover:text-[#FBBF24] transition-colors"
+                >
+                  <ShieldAlert className="w-3.5 h-3.5 text-[#FBBF24]" />
+                  <span>Alert Center</span>
+                </Link>
+                <Link
+                  href="/inventory"
+                  onClick={() => setQuickMenuOpen(false)}
+                  className="flex items-center space-x-2 px-2 py-1.5 rounded text-xs text-[#E2EAF4] hover:bg-[#131D2B] hover:text-[#38BDF8] transition-colors"
+                >
+                  <Package className="w-3.5 h-3.5 text-[#8CA1B6]" />
+                  <span>Inventory & Logistics</span>
+                </Link>
+                <Link
+                  href="/ai"
+                  onClick={() => setQuickMenuOpen(false)}
+                  className="flex items-center space-x-2 px-2 py-1.5 rounded text-xs text-[#E2EAF4] hover:bg-[#131D2B] hover:text-[#34D399] transition-colors"
+                >
+                  <Terminal className="w-3.5 h-3.5 text-[#34D399]" />
+                  <span>AI Diagnostics CLI</span>
+                </Link>
+              </div>
+            )}
+
+            <button
+              onClick={() => setQuickMenuOpen(!quickMenuOpen)}
+              className="px-2.5 py-1.5 rounded-sm bg-[#0F1722] hover:bg-[#131D2B] border border-[#1E2C3D] hover:border-[#8CA1B6] text-[#8CA1B6] hover:text-[#E2EAF4] text-xs font-semibold flex items-center space-x-1.5 transition-colors"
+              title="Quick navigation to other modules"
+            >
+              <Grid className="w-3.5 h-3.5 text-[#8CA1B6]" />
+              <span>MODULES</span>
+            </button>
+          </div>
+
+          <Link
+            href={`/stations/${stationId}`}
+            className="bg-[#0F1722] hover:bg-[#131D2B] px-3 py-1.5 rounded-sm border border-[#1E2C3D] hover:border-[#FBBF24] text-xs font-semibold text-[#E2EAF4] flex items-center space-x-1.5 transition-colors"
+          >
+            <Radio className="w-3.5 h-3.5 text-[#FBBF24]" />
+            <span className="uppercase">{stationId} 2D CONSOLE</span>
+          </Link>
+
+          <Link
+            href="/dashboard"
+            className="bg-[#131D2B] hover:bg-[#1E2C3D] px-3.5 py-1.5 rounded-sm border border-[#38BDF8] text-xs font-bold text-[#38BDF8] hover:text-[#E2EAF4] flex items-center space-x-2 transition-all shadow-[0_0_12px_rgba(56,189,248,0.2)]"
+          >
+            <Gauge className="w-3.5 h-3.5 text-[#38BDF8]" />
+            <span>OPEN 2D TELEMETRY DASHBOARD</span>
+          </Link>
+        </div>
       </div>
     </div>
   );

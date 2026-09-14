@@ -40,7 +40,8 @@ const navSections: NavSection[] = [
     title: "OVERVIEW",
     accentColor: "#38BDF8",
     items: [
-      { name: "Operations Hub", href: "/", code: "HUB", icon: Gauge },
+      { name: "3D Spatial Twin", href: "/", code: "3D", icon: Box },
+      { name: "2D Telemetry Dashboard", href: "/dashboard", code: "HUB", icon: Gauge },
     ],
   },
   {
@@ -50,7 +51,7 @@ const navSections: NavSection[] = [
     items: [
       { name: "Station Overview", href: "/stations/maitri", code: "MAI", icon: Radio },
       { name: "Machinery Hub", href: "/stations/maitri/details", code: "M-MC", icon: Wrench },
-      { name: "3D Digital Twin", href: "/stations/maitri/3d", code: "3D-M", icon: Compass },
+      { name: "3D Digital Twin", href: "/?station=maitri", code: "3D-M", icon: Compass },
     ],
   },
   {
@@ -60,7 +61,7 @@ const navSections: NavSection[] = [
     items: [
       { name: "Station Overview", href: "/stations/bharati", code: "BHA", icon: Building2 },
       { name: "Machinery Hub", href: "/stations/bharati/details", code: "B-MC", icon: Zap },
-      { name: "3D Digital Twin", href: "/stations/bharati/3d", code: "3D-B", icon: Box },
+      { name: "3D Digital Twin", href: "/?station=bharati", code: "3D-B", icon: Box },
     ],
   },
   {
@@ -88,14 +89,14 @@ export default function Sidebar() {
     >
       {/* Header Logo & Collapse Toggle */}
       <div className="flex items-center justify-between px-1.5 py-2 mb-2 border-b border-[#1E293B] pb-3">
-        <div className="flex items-center space-x-2.5 overflow-hidden">
+        <Link href="/" className="flex items-center space-x-2.5 overflow-hidden group">
           {/* Mission Console Station Monogram */}
-          <div className="w-8 h-8 rounded-sm bg-[#090D14] border border-[#1E293B] flex items-center justify-center font-mono font-bold text-xs text-[#8CA1B6] shrink-0">
+          <div className="w-8 h-8 rounded-sm bg-[#090D14] border border-[#1E293B] group-hover:border-[#38BDF8] flex items-center justify-center font-mono font-bold text-xs text-[#8CA1B6] group-hover:text-[#38BDF8] shrink-0 transition-colors">
             <Crosshair className="w-4 h-4 text-[#38BDF8]" />
           </div>
           {!isCollapsed && (
             <div className="leading-tight min-w-0">
-              <h1 className="font-bold text-base text-[#E2EAF4] tracking-wider uppercase truncate">
+              <h1 className="font-bold text-base text-[#E2EAF4] group-hover:text-[#38BDF8] tracking-wider uppercase truncate transition-colors">
                 PolarTwin
               </h1>
               <span className="text-[10px] font-mono text-[#5B7086] block tracking-wide">
@@ -103,7 +104,7 @@ export default function Sidebar() {
               </span>
             </div>
           )}
-        </div>
+        </Link>
 
         {/* Collapse Toggle Button */}
         <button

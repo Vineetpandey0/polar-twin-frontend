@@ -124,7 +124,7 @@ export default function StationCanvas({
             <>
               <PowerFlowLayer stationId={currentStation} active={activeLayer === "POWER" || activeLayer === "ALL"} />
               <WaterFlowLayer stationId={currentStation} active={activeLayer === "WATER" || activeLayer === "ALL"} />
-              <ThermalLayer stationId={currentStation} active={activeLayer === "THERMAL" || activeLayer === "ALL"} />
+              <ThermalLayer stationId={currentStation} active={activeLayer === "THERMAL"} />
               <CommunicationsLayer stationId={currentStation} active={activeLayer === "COMMS" || activeLayer === "ALL"} />
               <WeatherLayer windSpeed={isMaitri ? 28.5 : 34.1} active={activeLayer === "WEATHER" || activeLayer === "ALL"} />
             </>

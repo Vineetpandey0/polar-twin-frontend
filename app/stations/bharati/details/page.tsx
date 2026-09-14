@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { BHARATI_ASSET_REGISTRY, DigitalTwinAsset } from "@/lib/3d/assetRegistry";
 import { getStatusColor } from "@/lib/3d/materials";
+import { fetchMaintenanceRecords } from "@/lib/api";
 import {
   Radio,
   Truck,
@@ -23,6 +24,7 @@ import {
   Box,
   Layers,
   Database,
+  Wrench,
 } from "lucide-react";
 
 // WebGL Canvas (client-only)
@@ -46,6 +48,15 @@ export default function BharatiDetailsPage() {
   const [downlinkRate, setDownlinkRate] = useState<number>(105);
   const [roSalinity, setRoSalinity] = useState<number>(34500);
   const [chpLoadKw, setChpLoadKw] = useState<number>(135);
+  const [maintenanceRecords, setMaintenanceRecords] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchMaintenanceRecords("bharati")
+      .then((records) => {
+        if (Array.isArray(records)) setMaintenanceRecords(records);
+      })
+      .catch(() => {});
+  }, []);
 
   const assetsList = useMemo(() => Object.values(BHARATI_ASSET_REGISTRY), []);
 
@@ -576,6 +587,46 @@ export default function BharatiDetailsPage() {
               })}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Live Maintenance & Overhaul Schedule from Database */}
+      <div className="bg-[#0F1722] rounded-sm p-4 border border-[#1E293B] space-y-3 font-mono">
+        <div className="flex items-center justify-between border-b border-[#1E293B] pb-2">
+          <div className="flex items-center space-x-2">
+            <Wrench className="w-4 h-4 text-[#FBBF24]" />
+            <h3 className="font-bold text-sm text-[#E2EAF4] uppercase tracking-wide">
+              Live Machinery Maintenance & Overhaul Schedule
+            </h3>
+          </div>
+          <span className="text-[10px] text-[#34D399] px-1.5 py-0.5 rounded bg-[#10291D] border border-[#34D399]/40">
+            [SUPABASE DB CONNECTED]
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+          {maintenanceRecords.map((m) => (
+            <div key={m.id} className="p-3 bg-[#131D2B] rounded-sm border border-[#1E293B] space-y-2">
+              <div className="flex justify-between items-start text-xs">
+                <span className="font-bold text-[#38BDF8]">{m.asset_id}</span>
+                <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${
+                  m.status === "COMPLETED"
+                    ? "bg-[#10291D] text-[#34D399] border border-[#34D399]/40"
+                    : m.status === "IN_PROGRESS"
+                    ? "bg-[#292010] text-[#FBBF24] border border-[#FBBF24]/40"
+                    : "bg-[#2D1217] text-[#F87171] border border-[#F87171]/40"
+                }`}>
+                  [{m.status}]
+                </span>
+              </div>
+              <h4 className="font-semibold text-xs text-[#E2EAF4]">{m.title}</h4>
+              <p className="text-[11px] text-[#8CA1B6] leading-relaxed line-clamp-2">{m.description}</p>
+              <div className="text-[10px] text-[#5B7086] pt-1 border-t border-[#1E293B] flex justify-between">
+                <span>Priority: {m.priority}</span>
+                <span>{m.scheduled_date ? new Date(m.scheduled_date).toLocaleDateString() : "Scheduled"}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

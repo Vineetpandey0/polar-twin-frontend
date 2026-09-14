@@ -92,7 +92,7 @@ export default function StationDetailPage() {
             <span>MACHINERY HUB</span>
           </Link>
           <Link
-            href={`/stations/${stationId}/3d`}
+            href={`/?station=${stationId}`}
             className="px-3.5 py-2 rounded-sm bg-[#131D2B] hover:bg-[#1E2C3D] text-[#38BDF8] border border-[#1E2C3D] hover:border-[#38BDF8] text-sm font-mono font-semibold flex items-center space-x-2 transition-colors"
           >
             <Maximize2 className="w-4 h-4" />

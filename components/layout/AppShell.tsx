@@ -7,7 +7,7 @@ import { TelemetryBanner } from "@/components/telemetry/TelemetryBanner";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isFullscreen3D = pathname.endsWith("/3d");
+  const isFullscreen3D = pathname === "/" || pathname.endsWith("/3d");
 
   if (isFullscreen3D) {
     return (

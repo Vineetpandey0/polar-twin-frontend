@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   ShieldAlert,
   AlertTriangle,
@@ -14,7 +14,10 @@ import {
   Clock,
   Wrench,
   AlertOctagon,
+  RefreshCw,
+  Database,
 } from "lucide-react";
+import { fetchAllAlerts, acknowledgeAlert } from "@/lib/api";
 
 interface AlertItem {
   id: number;
@@ -35,75 +38,64 @@ export default function AlertCenterPage() {
   const [statusFilter, setStatusFilter] = useState<"ACTIVE" | "ACKNOWLEDGED" | "ALL">("ACTIVE");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [alerts, setAlerts] = useState<AlertItem[]>([
-    {
-      id: 1,
-      station_id: "maitri",
-      asset_id: "HVC-MAI-001",
-      severity: "WARNING",
-      title: "HVAC Thermal Load Delta Exceeded",
-      message: "Central HVAC heating load at 92% due to -25.2°C ambient blizzard conditions",
-      reason: "Intake duct air temperature dropped below -24°C, increasing auxiliary heating element duty cycle.",
-      remedy: "Inspect thermal intake dampers and enable secondary zone circulation fan.",
-      created_at: new Date(Date.now() - 1000 * 60 * 12).toISOString(),
-      acknowledged: false,
-    },
-    {
-      id: 2,
-      station_id: "maitri",
-      asset_id: "GEN-MAI-002",
-      severity: "WARNING",
-      title: "Primary Generator Coolant Temp Warning",
-      message: "GEN-MAI-002 coolant temperature operating at 82.1°C (Threshold: 80°C)",
-      reason: "Continuous 67 kW active load under restricted intake radiator airflow.",
-      remedy: "Clear snow accumulation around radiator intake louvers.",
-      created_at: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
-      acknowledged: false,
-    },
-    {
-      id: 3,
-      station_id: "bharati",
-      asset_id: "BAT-BHA-001",
-      severity: "INFO",
-      title: "Battery Storage Bank Floating Charge Mode",
-      message: "Main Energy Storage Bank reached 94% SOC. Switch to float charging.",
-      reason: "CHP Generator output surplus currently balancing base load.",
-      remedy: "No action required. Automatic BESS BMS power management active.",
-      created_at: new Date(Date.now() - 1000 * 60 * 110).toISOString(),
-      acknowledged: true,
-    },
-    {
-      id: 4,
-      station_id: "maitri",
-      asset_id: "WTR-MAI-001",
-      severity: "INFO",
-      title: "Priyadarshini Water Unit Nominal Filtration",
-      message: "Daily meltwater filtration batch completed: 8,200 L reserve maintained.",
-      reason: "Thermal heating line operational, pump pressure stable at 3.8 bar.",
-      remedy: "Standard routine inspection on next scheduled cycle.",
-      created_at: new Date(Date.now() - 1000 * 60 * 240).toISOString(),
-      acknowledged: true,
-    },
-  ]);
+  const [alerts, setAlerts] = useState<AlertItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleAcknowledge = (id: number) => {
-    setAlerts((prev) =>
-      prev.map((a) => (a.id === id ? { ...a, acknowledged: true } : a))
-    );
+  const loadAlerts = useCallback(async (isRefresh = false) => {
+    if (isRefresh) setRefreshing(true);
+    else setLoading(true);
+    setError(null);
+
+    try {
+      const data = await fetchAllAlerts(
+        stationFilter !== "ALL" ? stationFilter : undefined,
+        severityFilter !== "ALL" ? severityFilter : undefined,
+        statusFilter !== "ALL" ? statusFilter : undefined
+      );
+      if (Array.isArray(data)) {
+        setAlerts(data);
+      } else {
+        setAlerts([]);
+      }
+    } catch (err: any) {
+      console.error("Failed to load alerts from database:", err);
+      setError("Unable to sync alerts directly from the database server. Check backend connection.");
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  }, [stationFilter, severityFilter, statusFilter]);
+
+  useEffect(() => {
+    loadAlerts();
+    const timer = setInterval(() => loadAlerts(true), 25000);
+    return () => clearInterval(timer);
+  }, [loadAlerts]);
+
+  const handleAcknowledge = async (id: number) => {
+    try {
+      // Optimistic update
+      setAlerts((prev) =>
+        prev.map((a) => (a.id === id ? { ...a, acknowledged: true } : a))
+      );
+      await acknowledgeAlert(id);
+    } catch (err) {
+      console.error("Failed to acknowledge alert in database:", err);
+      loadAlerts();
+    }
   };
 
   const filteredAlerts = alerts.filter((a) => {
-    if (stationFilter !== "ALL" && a.station_id !== stationFilter) return false;
-    if (severityFilter !== "ALL" && a.severity !== severityFilter) return false;
-    if (statusFilter === "ACTIVE" && a.acknowledged) return false;
-    if (statusFilter === "ACKNOWLEDGED" && !a.acknowledged) return false;
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       return (
-        a.title.toLowerCase().includes(q) ||
-        a.message.toLowerCase().includes(q) ||
-        a.asset_id.toLowerCase().includes(q) ||
-        a.reason.toLowerCase().includes(q)
+        (a.title && a.title.toLowerCase().includes(q)) ||
+        (a.message && a.message.toLowerCase().includes(q)) ||
+        (a.asset_id && a.asset_id.toLowerCase().includes(q)) ||
+        (a.reason && a.reason.toLowerCase().includes(q)) ||
+        (a.station_id && a.station_id.toLowerCase().includes(q))
       );
     }
     return true;
@@ -121,6 +113,10 @@ export default function AlertCenterPage() {
           <div className="flex items-center space-x-2 font-mono text-xs mb-1">
             <span className="text-[#38BDF8] font-bold">[OPERATIONS CENTER :: FAULT MONITOR]</span>
             <span className="text-[#8CA1B6]">[NCPOR TELEMETRY BUS]</span>
+            <span className="flex items-center space-x-1 px-1.5 py-0.5 rounded bg-[#10291D] text-[#34D399] border border-[#34D399]/40 text-[10px]">
+              <Database className="w-3 h-3" />
+              <span>LIVE DB DATA</span>
+            </span>
           </div>
           <h1 className="text-2xl lg:text-[28px] font-bold text-[#E2EAF4] uppercase tracking-wide leading-tight flex items-center space-x-2">
             <ShieldAlert className="w-6 h-6 text-[#FBBF24]" />
@@ -131,7 +127,7 @@ export default function AlertCenterPage() {
           </p>
         </div>
 
-        {/* Stats Metrics */}
+        {/* Stats Metrics & Manual Refresh */}
         <div className="flex items-center space-x-2 font-mono">
           <div className="bg-[#180D11] border border-[#F87171] px-3.5 py-2 rounded-sm flex items-center space-x-2.5">
             <span className="w-2.5 h-2.5 rounded-sm bg-[#F87171]" />
@@ -156,8 +152,23 @@ export default function AlertCenterPage() {
               <span className="text-[22px] font-bold font-mono text-[#38BDF8] tnum leading-tight">{activeTotal} EVENTS</span>
             </div>
           </div>
+
+          <button
+            onClick={() => loadAlerts(true)}
+            disabled={refreshing}
+            className="p-3 bg-[#131D2B] hover:bg-[#1E2C3D] border border-[#1E2C3D] text-[#8CA1B6] hover:text-[#38BDF8] rounded-sm transition-colors"
+            title="Refresh alerts from database"
+          >
+            <RefreshCw className={`w-4 h-4 ${refreshing ? "animate-spin text-[#38BDF8]" : ""}`} />
+          </button>
         </div>
       </div>
+
+      {error && (
+        <div className="p-3 rounded-sm bg-[#2D1217] border border-[#F87171] text-[#F87171] text-xs font-mono">
+          {error}
+        </div>
+      )}
 
       {/* Filter Controls Bar */}
       <div className="bg-[#0F1722] p-3 rounded-sm border border-[#1E2C3D] flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
@@ -229,7 +240,12 @@ export default function AlertCenterPage() {
 
       {/* Alert Feed Cards */}
       <div className="space-y-2.5">
-        {filteredAlerts.length === 0 ? (
+        {loading ? (
+          <div className="bg-[#0F1722] p-10 rounded-sm border border-[#1E2C3D] text-center flex flex-col items-center justify-center space-y-3 font-mono">
+            <div className="w-8 h-8 rounded-full border-2 border-[#1E2C3D] border-t-[#38BDF8] animate-spin" />
+            <span className="text-xs text-[#8CA1B6]">QUERYING SUPABASE DATABASE ALERTS STREAM...</span>
+          </div>
+        ) : filteredAlerts.length === 0 ? (
           <div className="bg-[#0F1722] p-10 rounded-sm border border-[#1E2C3D] text-center flex flex-col items-center space-y-2 font-mono">
             <CheckCircle2 className="w-8 h-8 text-[#34D399]" />
             <h3 className="font-bold text-sm text-[#E2EAF4] uppercase">[TELEMETRY NOMINAL]</h3>

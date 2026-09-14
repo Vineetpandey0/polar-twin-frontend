@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { AlertTriangle, Battery, Zap, Radio } from "lucide-react";
+import { AlertTriangle, Battery, Zap, Radio, Box } from "lucide-react";
 
 interface StationCardProps {
   stationId: string;
@@ -77,18 +77,28 @@ export default function StationCard({
       </div>
 
       {/* Telemetry Actions & Link Status */}
-      <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-[#1E2C3D] font-mono text-xs sm:text-sm">
+      <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-[#1E2C3D] font-mono text-xs sm:text-sm flex-wrap gap-2">
         <div className="flex items-center space-x-2.5">
           <span className="w-2.5 h-2.5 rounded-sm bg-[#34D399]"></span>
           <span className="text-[#8CA1B6] font-medium">{connectivity} GROUND-LINK ACTIVE</span>
         </div>
 
-        <Link
-          href={`/stations/${stationId}`}
-          className="inline-flex items-center text-sm font-semibold px-4 py-2 rounded-sm bg-[#131D2B] hover:bg-[#1E2C3D] text-[#E2EAF4] border border-[#1E2C3D] hover:border-[#38BDF8] transition-colors"
-        >
-          INSPECT DIGITAL TWIN
-        </Link>
+        <div className="flex items-center space-x-2">
+          <Link
+            href={`/?station=${stationId}`}
+            className="inline-flex items-center space-x-1.5 text-xs font-semibold px-3 py-1.5 rounded-sm bg-[#131D2B] hover:bg-[#1E2C3D] text-[#38BDF8] border border-[#1E2C3D] hover:border-[#38BDF8] transition-colors"
+          >
+            <Box className="w-3.5 h-3.5" />
+            <span>3D MODEL</span>
+          </Link>
+          <Link
+            href={`/stations/${stationId}`}
+            className="inline-flex items-center space-x-1.5 text-xs font-semibold px-3 py-1.5 rounded-sm bg-[#131D2B] hover:bg-[#1E2C3D] text-[#E2EAF4] border border-[#1E2C3D] hover:border-[#38BDF8] transition-colors"
+          >
+            <Radio className="w-3.5 h-3.5 text-[#8CA1B6]" />
+            <span>2D CONSOLE</span>
+          </Link>
+        </div>
       </div>
     </div>
   );

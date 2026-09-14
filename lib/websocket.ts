@@ -96,7 +96,7 @@ export class StationWebSocket {
         try {
           const parsed = new URL(targetUrl);
           lastWorkingWsBase = `${parsed.protocol}//${parsed.host}/ws/stations`;
-        } catch {}
+        } catch { }
         this.onStatusCallback?.("OPEN");
       };
 
